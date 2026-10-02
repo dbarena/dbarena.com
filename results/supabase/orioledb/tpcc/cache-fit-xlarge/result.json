@@ -1,0 +1,2004 @@
+{
+  "schema_version": "2.0.0",
+  "provider": "supabase",
+  "product": "orioledb",
+  "workload": "tpcc",
+  "scenario": "cache-fit-xlarge",
+  "tier": "xlarge",
+  "bound_type": "cache-fit",
+  "variant": null,
+  "instance": {
+    "instance_type": "xlarge",
+    "vcpu": 4,
+    "ram_gb": 16,
+    "disk_gb": 24,
+    "iops": 3000,
+    "throughput_mbps": 125,
+    "disk_type": "gp3",
+    "cpu_arch": "aarch64",
+    "engine_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+    "pg_settings": "checkpoint_completion_target=0.9, effective_cache_size=1572864, max_connections=240, max_wal_size=4096, shared_buffers=204800, synchronous_commit=on, work_mem=16384",
+    "orioledb_version": "OrioleDB beta 17"
+  },
+  "measured_from": "2026-09-30T11:55:02Z",
+  "measured_to": "2026-10-01T17:02:48Z",
+  "reproducibility": {
+    "benchctl_version": "0.1.0+20261001-7595bf1",
+    "dbarenactl_version": "dev+20261001-6183329",
+    "load_generator": {
+      "name": "https://github.com/supabase/go-tpc/",
+      "version": "latest-SNAPSHOT-f4fce76"
+    },
+    "command": "dbarenactl run --candidate candidates/supabase/orioledb/tpcc/manifest.yaml --test-point xlarge/cache-fit"
+  },
+  "pricing": {
+    "monthly_usd": 237,
+    "hours_per_month": 730,
+    "pricing_model": "on-demand-list-price",
+    "fetched_at": "2026-09-28T13:20:26Z",
+    "components": [
+      {
+        "name": "pro_plan_base_fee",
+        "amount_usd": 25,
+        "detail": "sku=plan-pro $25.000/month"
+      },
+      {
+        "name": "compute",
+        "amount_usd": 210,
+        "detail": "sku=XL project_size=xlarge $210.000/month"
+      },
+      {
+        "name": "disk_size_overage",
+        "amount_usd": 2,
+        "detail": "sku=disk-gp3-size included=8 GB provisioned=24 overage=16 rate=$0.125000/GB-mo = $2.000"
+      },
+      {
+        "name": "disk_iops_overage",
+        "amount_usd": 0,
+        "detail": "sku=disk-gp3-iops included=3000 IOPS provisioned=3000 overage=0 rate=$0.024000/IOPS-mo = $0.000"
+      },
+      {
+        "name": "disk_throughput_overage",
+        "amount_usd": 0,
+        "detail": "sku=disk-gp3-throughput included=125 MB/s provisioned=125 overage=0 rate=$0.095000/MBps-mo = $0.000"
+      }
+    ]
+  },
+  "sweep": [
+    {
+      "concurrency": 4,
+      "peak": false,
+      "workload_parameters": {
+        "warehouses": 32
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": true,
+          "started_at": "2026-09-30T12:32:11Z",
+          "completed_at": "2026-09-30T13:32:12Z",
+          "tpm_per_dollar_month": 44.71,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 56236,
+                "tpm": 937,
+                "latency_ms": {
+                  "p50": 19.92,
+                  "p90": 20.97,
+                  "p95": 21.5,
+                  "p99": 24.64,
+                  "p99_9": 36.18,
+                  "avg": 19.5,
+                  "max": 228.07
+                }
+              },
+              "NEW_ORDER": {
+                "count": 635783,
+                "tpm": 10596,
+                "latency_ms": {
+                  "p50": 13.63,
+                  "p90": 16.78,
+                  "p95": 17.3,
+                  "p99": 19.4,
+                  "p99_9": 25.17,
+                  "avg": 13.59,
+                  "max": 230.16
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 56861,
+                "tpm": 948,
+                "latency_ms": {
+                  "p50": 3.67,
+                  "p90": 4.19,
+                  "p95": 4.19,
+                  "p99": 4.72,
+                  "p99_9": 5.24,
+                  "avg": 3.34,
+                  "max": 210.76
+                }
+              },
+              "PAYMENT": {
+                "count": 606968,
+                "tpm": 10116,
+                "latency_ms": {
+                  "p50": 7.34,
+                  "p90": 7.86,
+                  "p95": 8.39,
+                  "p99": 11.01,
+                  "p99_9": 17.83,
+                  "avg": 7.07,
+                  "max": 219.15
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 56973,
+                "tpm": 950,
+                "latency_ms": {
+                  "p50": 3.15,
+                  "p90": 3.67,
+                  "p95": 3.67,
+                  "p99": 4.19,
+                  "p99_9": 4.72,
+                  "avg": 3.08,
+                  "max": 7.34
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 6126459595,
+              "undo_bytes": 160579584,
+              "waldir_bytes": 2147484012
+            },
+            "db_size_before": {
+              "db_bytes": 5155258403,
+              "undo_bytes": 190136320,
+              "waldir_bytes": 2667577708
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.0835,
+              "0.999": 0.0954,
+              "0.9999": 0.0964
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 1759293,
+                "0.999": 1775278,
+                "0.9999": 1779551
+              },
+              "transmit": {
+                "0.99": 24183046,
+                "0.999": 29883232,
+                "0.9999": 29934124
+              }
+            },
+            "network_rtt": {
+              "max_us": 556,
+              "median_us": 482,
+              "min_us": 472,
+              "p99_us": 503,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 195,
+              "catalog_dirty": 1,
+              "catalog_free": 32573,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 125923,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 195,
+              "catalog_dirty": 1,
+              "catalog_free": 32573,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 466944,
+              "main_dirty": 126197,
+              "main_free": 57344
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 9394587910
+            },
+            "wal_size_before": {
+              "wal_bytes": 4928624432
+            }
+          },
+          "raw_metrics_file": "raw-clients-4-iteration-1.csv"
+        },
+        {
+          "iteration": 2,
+          "median": false,
+          "started_at": "2026-10-01T03:57:45Z",
+          "completed_at": "2026-10-01T04:57:47Z",
+          "tpm_per_dollar_month": 35.4,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 45235,
+                "tpm": 754,
+                "latency_ms": {
+                  "p50": 24.64,
+                  "p90": 25.69,
+                  "p95": 26.21,
+                  "p99": 29.36,
+                  "p99_9": 45.61,
+                  "avg": 24.38,
+                  "max": 240.65
+                }
+              },
+              "NEW_ORDER": {
+                "count": 503394,
+                "tpm": 8390,
+                "latency_ms": {
+                  "p50": 17.3,
+                  "p90": 20.97,
+                  "p95": 22.02,
+                  "p99": 23.59,
+                  "p99_9": 33.03,
+                  "avg": 17.24,
+                  "max": 236.98
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 44744,
+                "tpm": 746,
+                "latency_ms": {
+                  "p50": 4.72,
+                  "p90": 5.24,
+                  "p95": 5.24,
+                  "p99": 5.24,
+                  "p99_9": 6.29,
+                  "avg": 4.36,
+                  "max": 9.44
+                }
+              },
+              "PAYMENT": {
+                "count": 481977,
+                "tpm": 8033,
+                "latency_ms": {
+                  "p50": 8.91,
+                  "p90": 9.96,
+                  "p95": 10.49,
+                  "p99": 14.16,
+                  "p99_9": 23.59,
+                  "avg": 8.82,
+                  "max": 225.44
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 45064,
+                "tpm": 751,
+                "latency_ms": {
+                  "p50": 4.19,
+                  "p90": 4.19,
+                  "p95": 4.19,
+                  "p99": 4.72,
+                  "p99_9": 5.24,
+                  "avg": 3.8,
+                  "max": 209.72
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 5694381227,
+              "undo_bytes": 126935040,
+              "waldir_bytes": 2147484012
+            },
+            "db_size_before": {
+              "db_bytes": 4896281615,
+              "undo_bytes": 177463296,
+              "waldir_bytes": 2634023276
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.0825,
+              "0.999": 0.0969,
+              "0.9999": 0.0974
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 1323612,
+                "0.999": 1374340,
+                "0.9999": 1405169
+              },
+              "transmit": {
+                "0.99": 24579769,
+                "0.999": 30248929,
+                "0.9999": 30455799
+              }
+            },
+            "network_rtt": {
+              "max_us": 768,
+              "median_us": 700,
+              "min_us": 685,
+              "p99_us": 750,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 195,
+              "catalog_dirty": 1,
+              "catalog_free": 32573,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 114074,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 195,
+              "catalog_dirty": 1,
+              "catalog_free": 32573,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 451334,
+              "main_dirty": 111171,
+              "main_free": 72954
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 7876259748
+            },
+            "wal_size_before": {
+              "wal_bytes": 4326132112
+            }
+          },
+          "raw_metrics_file": "raw-clients-4-iteration-2.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-10-01T10:34:54Z",
+          "completed_at": "2026-10-01T11:34:56Z",
+          "tpm_per_dollar_month": 49.45,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 62170,
+                "tpm": 1036,
+                "latency_ms": {
+                  "p50": 17.83,
+                  "p90": 18.87,
+                  "p95": 19.4,
+                  "p99": 22.54,
+                  "p99_9": 31.98,
+                  "avg": 17.71,
+                  "max": 84.41
+                }
+              },
+              "NEW_ORDER": {
+                "count": 703142,
+                "tpm": 11719,
+                "latency_ms": {
+                  "p50": 12.58,
+                  "p90": 15.2,
+                  "p95": 15.73,
+                  "p99": 17.3,
+                  "p99_9": 23.07,
+                  "avg": 12.27,
+                  "max": 217.58
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 62355,
+                "tpm": 1039,
+                "latency_ms": {
+                  "p50": 3.15,
+                  "p90": 3.67,
+                  "p95": 3.67,
+                  "p99": 4.19,
+                  "p99_9": 4.72,
+                  "avg": 2.94,
+                  "max": 7.86
+                }
+              },
+              "PAYMENT": {
+                "count": 671843,
+                "tpm": 11197,
+                "latency_ms": {
+                  "p50": 6.29,
+                  "p90": 7.34,
+                  "p95": 7.86,
+                  "p99": 10.49,
+                  "p99_9": 16.25,
+                  "avg": 6.4,
+                  "max": 81.26
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 62474,
+                "tpm": 1041,
+                "latency_ms": {
+                  "p50": 3.15,
+                  "p90": 3.15,
+                  "p95": 3.15,
+                  "p99": 3.67,
+                  "p99_9": 4.72,
+                  "avg": 2.86,
+                  "max": 5.77
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 6251673539,
+              "undo_bytes": 210903040,
+              "waldir_bytes": 2147484015
+            },
+            "db_size_before": {
+              "db_bytes": 5161242763,
+              "undo_bytes": 164618240,
+              "waldir_bytes": 2667577708
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.0825,
+              "0.999": 0.0987,
+              "0.9999": 0.1021
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 1798938,
+                "0.999": 1836575,
+                "0.9999": 1850868
+              },
+              "transmit": {
+                "0.99": 23924151,
+                "0.999": 29237387,
+                "0.9999": 29468959
+              }
+            },
+            "network_rtt": {
+              "max_us": 613,
+              "median_us": 473,
+              "min_us": 459,
+              "p99_us": 552,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 195,
+              "catalog_dirty": 0,
+              "catalog_free": 32573,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 146080,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 195,
+              "catalog_dirty": 1,
+              "catalog_free": 32573,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 467253,
+              "main_dirty": 125138,
+              "main_free": 57035
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 9895488498
+            },
+            "wal_size_before": {
+              "wal_bytes": 4956458301
+            }
+          },
+          "raw_metrics_file": "raw-clients-4-iteration-3.csv"
+        }
+      ]
+    },
+    {
+      "concurrency": 8,
+      "peak": false,
+      "workload_parameters": {
+        "warehouses": 32
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": true,
+          "started_at": "2026-09-30T14:04:05Z",
+          "completed_at": "2026-09-30T15:04:06Z",
+          "tpm_per_dollar_month": 86.59,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 109843,
+                "tpm": 1831,
+                "latency_ms": {
+                  "p50": 19.92,
+                  "p90": 22.54,
+                  "p95": 23.59,
+                  "p99": 28.31,
+                  "p99_9": 40.89,
+                  "avg": 20.04,
+                  "max": 230.16
+                }
+              },
+              "NEW_ORDER": {
+                "count": 1231302,
+                "tpm": 20522,
+                "latency_ms": {
+                  "p50": 14.16,
+                  "p90": 17.83,
+                  "p95": 18.87,
+                  "p99": 20.97,
+                  "p99_9": 30.41,
+                  "avg": 13.92,
+                  "max": 229.11
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 109945,
+                "tpm": 1832,
+                "latency_ms": {
+                  "p50": 3.67,
+                  "p90": 4.19,
+                  "p95": 4.72,
+                  "p99": 5.24,
+                  "p99_9": 6.29,
+                  "avg": 3.41,
+                  "max": 210.24
+                }
+              },
+              "PAYMENT": {
+                "count": 1174580,
+                "tpm": 19576,
+                "latency_ms": {
+                  "p50": 7.34,
+                  "p90": 8.91,
+                  "p95": 9.96,
+                  "p99": 13.63,
+                  "p99_9": 23.59,
+                  "avg": 7.44,
+                  "max": 261.62
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 109613,
+                "tpm": 1827,
+                "latency_ms": {
+                  "p50": 3.15,
+                  "p90": 3.67,
+                  "p95": 3.67,
+                  "p99": 4.19,
+                  "p99_9": 5.24,
+                  "avg": 3.12,
+                  "max": 209.72
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 7672327591,
+              "undo_bytes": 315760640,
+              "waldir_bytes": 2147484012
+            },
+            "db_size_before": {
+              "db_bytes": 5801035299,
+              "undo_bytes": 323452928,
+              "waldir_bytes": 2717909356
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.0887,
+              "0.999": 0.0999,
+              "0.9999": 0.0999
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 3176452,
+                "0.999": 3193655,
+                "0.9999": 3207685
+              },
+              "transmit": {
+                "0.99": 24495470,
+                "0.999": 30101962,
+                "0.9999": 30161792
+              }
+            },
+            "network_rtt": {
+              "max_us": 521,
+              "median_us": 481,
+              "min_us": 469,
+              "p99_us": 502,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 166527,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 157949,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 24897300409
+            },
+            "wal_size_before": {
+              "wal_bytes": 16234268347
+            }
+          },
+          "raw_metrics_file": "raw-clients-8-iteration-1.csv"
+        },
+        {
+          "iteration": 2,
+          "median": false,
+          "started_at": "2026-10-01T05:29:37Z",
+          "completed_at": "2026-10-01T06:29:39Z",
+          "tpm_per_dollar_month": 69.95,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 88784,
+                "tpm": 1480,
+                "latency_ms": {
+                  "p50": 24.64,
+                  "p90": 26.21,
+                  "p95": 27.26,
+                  "p99": 34.6,
+                  "p99_9": 47.71,
+                  "avg": 24.61,
+                  "max": 238.03
+                }
+              },
+              "NEW_ORDER": {
+                "count": 994712,
+                "tpm": 16579,
+                "latency_ms": {
+                  "p50": 17.3,
+                  "p90": 21.5,
+                  "p95": 22.54,
+                  "p99": 25.69,
+                  "p99_9": 36.18,
+                  "avg": 17.35,
+                  "max": 238.55
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 88458,
+                "tpm": 1474,
+                "latency_ms": {
+                  "p50": 4.72,
+                  "p90": 5.24,
+                  "p95": 5.77,
+                  "p99": 6.29,
+                  "p99_9": 7.34,
+                  "avg": 4.38,
+                  "max": 210.76
+                }
+              },
+              "PAYMENT": {
+                "count": 951134,
+                "tpm": 15852,
+                "latency_ms": {
+                  "p50": 8.91,
+                  "p90": 10.49,
+                  "p95": 11.53,
+                  "p99": 16.78,
+                  "p99_9": 26.74,
+                  "avg": 9.07,
+                  "max": 220.2
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 88376,
+                "tpm": 1473,
+                "latency_ms": {
+                  "p50": 4.19,
+                  "p90": 4.19,
+                  "p95": 4.72,
+                  "p99": 4.72,
+                  "p99_9": 5.77,
+                  "avg": 3.79,
+                  "max": 211.81
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 7055531339,
+              "undo_bytes": 263815168,
+              "waldir_bytes": 2147484012
+            },
+            "db_size_before": {
+              "db_bytes": 5519265967,
+              "undo_bytes": 246751232,
+              "waldir_bytes": 2684354924
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.0866,
+              "0.999": 0.0995,
+              "0.9999": 0.0997
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 2543527,
+                "0.999": 2561019,
+                "0.9999": 2595123
+              },
+              "transmit": {
+                "0.99": 24744154,
+                "0.999": 30523633,
+                "0.9999": 30606160
+              }
+            },
+            "network_rtt": {
+              "max_us": 880,
+              "median_us": 796,
+              "min_us": 780,
+              "p99_us": 849,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 151789,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 492197,
+              "main_dirty": 144166,
+              "main_free": 32091
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 20806265137
+            },
+            "wal_size_before": {
+              "wal_bytes": 13808566926
+            }
+          },
+          "raw_metrics_file": "raw-clients-8-iteration-2.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-10-01T12:06:59Z",
+          "completed_at": "2026-10-01T13:07:01Z",
+          "tpm_per_dollar_month": 88.5,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 111545,
+                "tpm": 1859,
+                "latency_ms": {
+                  "p50": 19.4,
+                  "p90": 21.5,
+                  "p95": 22.54,
+                  "p99": 27.26,
+                  "p99_9": 38.8,
+                  "avg": 19.61,
+                  "max": 106.43
+                }
+              },
+              "NEW_ORDER": {
+                "count": 1258509,
+                "tpm": 20975,
+                "latency_ms": {
+                  "p50": 13.63,
+                  "p90": 16.78,
+                  "p95": 17.83,
+                  "p99": 20.45,
+                  "p99_9": 28.31,
+                  "avg": 13.61,
+                  "max": 219.15
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 112312,
+                "tpm": 1872,
+                "latency_ms": {
+                  "p50": 3.67,
+                  "p90": 4.19,
+                  "p95": 4.72,
+                  "p99": 5.24,
+                  "p99_9": 6.29,
+                  "avg": 3.33,
+                  "max": 52.95
+                }
+              },
+              "PAYMENT": {
+                "count": 1204316,
+                "tpm": 20072,
+                "latency_ms": {
+                  "p50": 7.34,
+                  "p90": 8.39,
+                  "p95": 9.44,
+                  "p99": 13.11,
+                  "p99_9": 21.5,
+                  "avg": 7.27,
+                  "max": 178.78
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 112083,
+                "tpm": 1868,
+                "latency_ms": {
+                  "p50": 3.15,
+                  "p90": 3.67,
+                  "p95": 3.67,
+                  "p99": 4.19,
+                  "p99_9": 5.24,
+                  "avg": 3.07,
+                  "max": 7.34
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 7825319123,
+              "undo_bytes": 297009152,
+              "waldir_bytes": 2147484015
+            },
+            "db_size_before": {
+              "db_bytes": 5959023743,
+              "undo_bytes": 320331776,
+              "waldir_bytes": 2835349871
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.0919,
+              "0.999": 0.0994,
+              "0.9999": 0.1004
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 3259160,
+                "0.999": 3280310,
+                "0.9999": 3294020
+              },
+              "transmit": {
+                "0.99": 24246604,
+                "0.999": 30023337,
+                "0.9999": 30038041
+              }
+            },
+            "network_rtt": {
+              "max_us": 618,
+              "median_us": 472,
+              "min_us": 457,
+              "p99_us": 556,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 224,
+              "catalog_dirty": 1,
+              "catalog_free": 32544,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 57385,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 224,
+              "catalog_dirty": 1,
+              "catalog_free": 32544,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 41730,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 25734942952
+            },
+            "wal_size_before": {
+              "wal_bytes": 16886667577
+            }
+          },
+          "raw_metrics_file": "raw-clients-8-iteration-3.csv"
+        }
+      ]
+    },
+    {
+      "concurrency": 16,
+      "peak": false,
+      "workload_parameters": {
+        "warehouses": 32
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": false,
+          "started_at": "2026-09-30T15:36:00Z",
+          "completed_at": "2026-09-30T16:36:01Z",
+          "tpm_per_dollar_month": 147.31,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 186021,
+                "tpm": 3100,
+                "latency_ms": {
+                  "p50": 23.59,
+                  "p90": 27.26,
+                  "p95": 28.84,
+                  "p99": 40.37,
+                  "p99_9": 55.05,
+                  "avg": 23.89,
+                  "max": 240.12
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2094769,
+                "tpm": 34913,
+                "latency_ms": {
+                  "p50": 16.25,
+                  "p90": 20.45,
+                  "p95": 22.02,
+                  "p99": 27.26,
+                  "p99_9": 49.28,
+                  "avg": 16.18,
+                  "max": 251.13
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 186026,
+                "tpm": 3100,
+                "latency_ms": {
+                  "p50": 4.19,
+                  "p90": 5.24,
+                  "p95": 5.77,
+                  "p99": 6.82,
+                  "p99_9": 8.91,
+                  "avg": 3.94,
+                  "max": 212.34
+                }
+              },
+              "PAYMENT": {
+                "count": 2001368,
+                "tpm": 33356,
+                "latency_ms": {
+                  "p50": 8.39,
+                  "p90": 11.01,
+                  "p95": 13.11,
+                  "p99": 19.4,
+                  "p99_9": 46.66,
+                  "avg": 8.91,
+                  "max": 251.13
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 186297,
+                "tpm": 3105,
+                "latency_ms": {
+                  "p50": 3.67,
+                  "p90": 4.72,
+                  "p95": 5.24,
+                  "p99": 6.29,
+                  "p99_9": 7.34,
+                  "avg": 3.63,
+                  "max": 212.86
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 9586649007,
+              "undo_bytes": 480468992,
+              "waldir_bytes": 2818572652
+            },
+            "db_size_before": {
+              "db_bytes": 6466386295,
+              "undo_bytes": 452763648,
+              "waldir_bytes": 2818572652
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.133,
+              "0.999": 0.1347,
+              "0.9999": 0.1371
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 5356747,
+                "0.999": 5382997,
+                "0.9999": 5390193
+              },
+              "transmit": {
+                "0.99": 24452608,
+                "0.999": 29893567,
+                "0.9999": 30317952
+              }
+            },
+            "network_rtt": {
+              "max_us": 578,
+              "median_us": 483,
+              "min_us": 466,
+              "p99_us": 548,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 210005,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 193853,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 49078552288
+            },
+            "wal_size_before": {
+              "wal_bytes": 34357934548
+            }
+          },
+          "raw_metrics_file": "raw-clients-16-iteration-1.csv"
+        },
+        {
+          "iteration": 2,
+          "median": false,
+          "started_at": "2026-10-01T07:01:32Z",
+          "completed_at": "2026-10-01T08:01:34Z",
+          "tpm_per_dollar_month": 124.74,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 157485,
+                "tpm": 2625,
+                "latency_ms": {
+                  "p50": 27.26,
+                  "p90": 30.41,
+                  "p95": 31.98,
+                  "p99": 46.66,
+                  "p99_9": 58.72,
+                  "avg": 27.61,
+                  "max": 255.33
+                }
+              },
+              "NEW_ORDER": {
+                "count": 1773802,
+                "tpm": 29564,
+                "latency_ms": {
+                  "p50": 19.4,
+                  "p90": 24.12,
+                  "p95": 25.17,
+                  "p99": 31.46,
+                  "p99_9": 49.28,
+                  "avg": 19.26,
+                  "max": 339.21
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 157269,
+                "tpm": 2621,
+                "latency_ms": {
+                  "p50": 5.24,
+                  "p90": 6.29,
+                  "p95": 6.29,
+                  "p99": 7.34,
+                  "p99_9": 8.91,
+                  "avg": 4.87,
+                  "max": 213.39
+                }
+              },
+              "PAYMENT": {
+                "count": 1693326,
+                "tpm": 28222,
+                "latency_ms": {
+                  "p50": 9.96,
+                  "p90": 12.58,
+                  "p95": 15.2,
+                  "p99": 22.54,
+                  "p99_9": 42.99,
+                  "avg": 10.42,
+                  "max": 335.54
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 157727,
+                "tpm": 2629,
+                "latency_ms": {
+                  "p50": 4.19,
+                  "p90": 4.72,
+                  "p95": 5.24,
+                  "p99": 6.29,
+                  "p99_9": 7.34,
+                  "avg": 4.17,
+                  "max": 214.96
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 8990195555,
+              "undo_bytes": 409518080,
+              "waldir_bytes": 2650800492
+            },
+            "db_size_before": {
+              "db_bytes": 6297307827,
+              "undo_bytes": 461225984,
+              "waldir_bytes": 2801795436
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1156,
+              "0.999": 0.1171,
+              "0.9999": 0.1184
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 4568301,
+                "0.999": 4593730,
+                "0.9999": 4595020
+              },
+              "transmit": {
+                "0.99": 24858828,
+                "0.999": 29804059,
+                "0.9999": 30217348
+              }
+            },
+            "network_rtt": {
+              "max_us": 981,
+              "median_us": 682,
+              "min_us": 664,
+              "p99_us": 854,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 195449,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 184585,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 42011029088
+            },
+            "wal_size_before": {
+              "wal_bytes": 29546511950
+            }
+          },
+          "raw_metrics_file": "raw-clients-16-iteration-2.csv"
+        },
+        {
+          "iteration": 3,
+          "median": true,
+          "started_at": "2026-10-01T13:38:56Z",
+          "completed_at": "2026-10-01T14:38:58Z",
+          "tpm_per_dollar_month": 146.91,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 184989,
+                "tpm": 3083,
+                "latency_ms": {
+                  "p50": 23.59,
+                  "p90": 27.26,
+                  "p95": 29.36,
+                  "p99": 40.89,
+                  "p99_9": 55.05,
+                  "avg": 24.1,
+                  "max": 132.64
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2089014,
+                "tpm": 34817,
+                "latency_ms": {
+                  "p50": 16.25,
+                  "p90": 20.45,
+                  "p95": 22.02,
+                  "p99": 27.26,
+                  "p99_9": 42.99,
+                  "avg": 16.21,
+                  "max": 1019.22
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 185428,
+                "tpm": 3091,
+                "latency_ms": {
+                  "p50": 4.19,
+                  "p90": 5.24,
+                  "p95": 5.77,
+                  "p99": 6.82,
+                  "p99_9": 8.91,
+                  "avg": 3.95,
+                  "max": 89.65
+                }
+              },
+              "PAYMENT": {
+                "count": 1995210,
+                "tpm": 33254,
+                "latency_ms": {
+                  "p50": 8.39,
+                  "p90": 11.53,
+                  "p95": 13.11,
+                  "p99": 19.4,
+                  "p99_9": 39.32,
+                  "avg": 8.94,
+                  "max": 977.8
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 185932,
+                "tpm": 3099,
+                "latency_ms": {
+                  "p50": 3.67,
+                  "p90": 4.72,
+                  "p95": 5.24,
+                  "p99": 6.29,
+                  "p99_9": 7.86,
+                  "avg": 3.67,
+                  "max": 12.06
+                }
+              }
+            },
+            "errors": {
+              "NEW_ORDER": 0.016666861124213242
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 9669783963,
+              "undo_bytes": 507133952,
+              "waldir_bytes": 2952790383
+            },
+            "db_size_before": {
+              "db_bytes": 6536819711,
+              "undo_bytes": 495296512,
+              "waldir_bytes": 2952790383
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1389,
+              "0.999": 0.1407,
+              "0.9999": 0.1427
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 5359724,
+                "0.999": 5377608,
+                "0.9999": 5392406
+              },
+              "transmit": {
+                "0.99": 24377798,
+                "0.999": 29659154,
+                "0.9999": 29887852
+              }
+            },
+            "network_rtt": {
+              "max_us": 580,
+              "median_us": 487,
+              "min_us": 471,
+              "p99_us": 561,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 224,
+              "catalog_dirty": 1,
+              "catalog_free": 32544,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 497600,
+              "main_dirty": 208084,
+              "main_free": 26688
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 224,
+              "catalog_dirty": 1,
+              "catalog_free": 32544,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 200050,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 50195232249
+            },
+            "wal_size_before": {
+              "wal_bytes": 35513518045
+            }
+          },
+          "raw_metrics_file": "raw-clients-16-iteration-3.csv"
+        }
+      ]
+    },
+    {
+      "concurrency": 24,
+      "peak": true,
+      "workload_parameters": {
+        "warehouses": 32
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": false,
+          "started_at": "2026-09-30T17:07:55Z",
+          "completed_at": "2026-09-30T18:07:57Z",
+          "tpm_per_dollar_month": 174.13,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 220354,
+                "tpm": 3673,
+                "latency_ms": {
+                  "p50": 29.88,
+                  "p90": 36.18,
+                  "p95": 39.85,
+                  "p99": 54.53,
+                  "p99_9": 73.4,
+                  "avg": 30.76,
+                  "max": 318.77
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2476051,
+                "tpm": 41268,
+                "latency_ms": {
+                  "p50": 19.92,
+                  "p90": 26.21,
+                  "p95": 28.31,
+                  "p99": 36.18,
+                  "p99_9": 51.38,
+                  "avg": 20.36,
+                  "max": 272.11
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 220426,
+                "tpm": 3674,
+                "latency_ms": {
+                  "p50": 5.24,
+                  "p90": 6.82,
+                  "p95": 7.34,
+                  "p99": 8.91,
+                  "p99_9": 11.01,
+                  "avg": 4.95,
+                  "max": 213.39
+                }
+              },
+              "PAYMENT": {
+                "count": 2366633,
+                "tpm": 39445,
+                "latency_ms": {
+                  "p50": 10.49,
+                  "p90": 15.2,
+                  "p95": 18.35,
+                  "p99": 26.74,
+                  "p99_9": 46.66,
+                  "avg": 11.42,
+                  "max": 239.6
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 220079,
+                "tpm": 3668,
+                "latency_ms": {
+                  "p50": 4.72,
+                  "p90": 6.82,
+                  "p95": 7.34,
+                  "p99": 8.91,
+                  "p99_9": 11.01,
+                  "avg": 4.77,
+                  "max": 216.01
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 10571590391,
+              "undo_bytes": 563658752,
+              "waldir_bytes": 2936013164
+            },
+            "db_size_before": {
+              "db_bytes": 6852228255,
+              "undo_bytes": 582230016,
+              "waldir_bytes": 2936013164
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1572,
+              "0.999": 0.1593,
+              "0.9999": 0.16
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 6434456,
+                "0.999": 6484105,
+                "0.9999": 6493656
+              },
+              "transmit": {
+                "0.99": 24457772,
+                "0.999": 29964745,
+                "0.9999": 30014838
+              }
+            },
+            "network_rtt": {
+              "max_us": 670,
+              "median_us": 555,
+              "min_us": 542,
+              "p99_us": 636,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 497553,
+              "main_dirty": 218793,
+              "main_free": 26735
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 210829,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 77633524345
+            },
+            "wal_size_before": {
+              "wal_bytes": 60216107906
+            }
+          },
+          "raw_metrics_file": "raw-clients-24-iteration-1.csv"
+        },
+        {
+          "iteration": 2,
+          "median": false,
+          "started_at": "2026-10-01T08:33:26Z",
+          "completed_at": "2026-10-01T09:33:27Z",
+          "tpm_per_dollar_month": 162.85,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 204694,
+                "tpm": 3412,
+                "latency_ms": {
+                  "p50": 31.46,
+                  "p90": 36.7,
+                  "p95": 40.89,
+                  "p99": 56.62,
+                  "p99_9": 74.45,
+                  "avg": 32.16,
+                  "max": 245.37
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2315756,
+                "tpm": 38596,
+                "latency_ms": {
+                  "p50": 22.02,
+                  "p90": 27.79,
+                  "p95": 29.88,
+                  "p99": 38.8,
+                  "p99_9": 53.48,
+                  "avg": 21.95,
+                  "max": 267.39
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 206158,
+                "tpm": 3436,
+                "latency_ms": {
+                  "p50": 5.77,
+                  "p90": 7.34,
+                  "p95": 7.86,
+                  "p99": 8.91,
+                  "p99_9": 11.53,
+                  "avg": 5.5,
+                  "max": 213.91
+                }
+              },
+              "PAYMENT": {
+                "count": 2208789,
+                "tpm": 36813,
+                "latency_ms": {
+                  "p50": 11.53,
+                  "p90": 16.25,
+                  "p95": 18.87,
+                  "p99": 28.31,
+                  "p99_9": 45.09,
+                  "avg": 12.16,
+                  "max": 239.08
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 205676,
+                "tpm": 3428,
+                "latency_ms": {
+                  "p50": 4.72,
+                  "p90": 6.29,
+                  "p95": 6.82,
+                  "p99": 8.39,
+                  "p99_9": 10.49,
+                  "avg": 4.75,
+                  "max": 22.54
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 10420096823,
+              "undo_bytes": 551018496,
+              "waldir_bytes": 2885681519
+            },
+            "db_size_before": {
+              "db_bytes": 6731256259,
+              "undo_bytes": 568721408,
+              "waldir_bytes": 2885681516
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1439,
+              "0.999": 0.1457,
+              "0.9999": 0.1463
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 5988006,
+                "0.999": 6024103,
+                "0.9999": 6059050
+              },
+              "transmit": {
+                "0.99": 24882146,
+                "0.999": 30329925,
+                "0.9999": 30649209
+              }
+            },
+            "network_rtt": {
+              "max_us": 1111,
+              "median_us": 739,
+              "min_us": 723,
+              "p99_us": 951,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 0,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 149409,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 223,
+              "catalog_dirty": 1,
+              "catalog_free": 32545,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 207403,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 68860950833
+            },
+            "wal_size_before": {
+              "wal_bytes": 52594891807
+            }
+          },
+          "raw_metrics_file": "raw-clients-24-iteration-2.csv"
+        },
+        {
+          "iteration": 3,
+          "median": true,
+          "started_at": "2026-10-01T15:10:56Z",
+          "completed_at": "2026-10-01T16:10:58Z",
+          "tpm_per_dollar_month": 171.96,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 216406,
+                "tpm": 3607,
+                "latency_ms": {
+                  "p50": 30.93,
+                  "p90": 37.75,
+                  "p95": 41.94,
+                  "p99": 56.62,
+                  "p99_9": 76.02,
+                  "avg": 31.75,
+                  "max": 233.83
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2445256,
+                "tpm": 40755,
+                "latency_ms": {
+                  "p50": 20.45,
+                  "p90": 26.74,
+                  "p95": 28.84,
+                  "p99": 36.7,
+                  "p99_9": 51.38,
+                  "avg": 20.6,
+                  "max": 235.41
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 217567,
+                "tpm": 3626,
+                "latency_ms": {
+                  "p50": 5.24,
+                  "p90": 6.82,
+                  "p95": 7.34,
+                  "p99": 8.91,
+                  "p99_9": 11.53,
+                  "avg": 4.98,
+                  "max": 81.26
+                }
+              },
+              "PAYMENT": {
+                "count": 2334648,
+                "tpm": 38911,
+                "latency_ms": {
+                  "p50": 11.01,
+                  "p90": 15.73,
+                  "p95": 18.35,
+                  "p99": 27.26,
+                  "p99_9": 44.56,
+                  "avg": 11.55,
+                  "max": 331.87
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 216521,
+                "tpm": 3609,
+                "latency_ms": {
+                  "p50": 5.24,
+                  "p90": 6.82,
+                  "p95": 7.34,
+                  "p99": 8.91,
+                  "p99_9": 11.01,
+                  "avg": 4.97,
+                  "max": 28.31
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "db_bytes": 10456766279,
+              "undo_bytes": 575455232,
+              "waldir_bytes": 2936013167
+            },
+            "db_size_before": {
+              "db_bytes": 6824198319,
+              "undo_bytes": 614187008,
+              "waldir_bytes": 2936013167
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1605,
+              "0.999": 0.1634,
+              "0.9999": 0.1653
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 6361146,
+                "0.999": 6389838,
+                "0.9999": 6393843
+              },
+              "transmit": {
+                "0.99": 24023636,
+                "0.999": 29776031,
+                "0.9999": 29783292
+              }
+            },
+            "network_rtt": {
+              "max_us": 536,
+              "median_us": 470,
+              "min_us": 450,
+              "p99_us": 533,
+              "samples": 200
+            },
+            "orioledb_page_stats_after": {
+              "catalog_all": 32768,
+              "catalog_busy": 224,
+              "catalog_dirty": 1,
+              "catalog_free": 32544,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 220623,
+              "main_free": 26214
+            },
+            "orioledb_page_stats_before": {
+              "catalog_all": 32768,
+              "catalog_busy": 224,
+              "catalog_dirty": 1,
+              "catalog_free": 32544,
+              "free_tree_all": 32768,
+              "free_tree_busy": 14,
+              "free_tree_dirty": 0,
+              "free_tree_free": 32754,
+              "main_all": 524288,
+              "main_busy": 498074,
+              "main_dirty": 210225,
+              "main_free": 26214
+            },
+            "orioledb_version": "OrioleDB beta 17",
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 1572864,
+              "max_connections": 240,
+              "max_wal_size": 4096,
+              "shared_buffers": 204800,
+              "synchronous_commit": "on",
+              "work_mem": 16384
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 78392472388
+            },
+            "wal_size_before": {
+              "wal_bytes": 61216050182
+            }
+          },
+          "raw_metrics_file": "raw-clients-24-iteration-3.csv"
+        }
+      ]
+    }
+  ]
+}

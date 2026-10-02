@@ -1,0 +1,1599 @@
+{
+  "schema_version": "2.0.0",
+  "provider": "aws",
+  "product": "rds",
+  "workload": "tpcc",
+  "scenario": "cache-exceeding-8xlarge",
+  "tier": "8xlarge",
+  "bound_type": "cache-exceeding",
+  "variant": null,
+  "instance": {
+    "instance_type": "db.m9g.8xlarge",
+    "vcpu": 32,
+    "ram_gb": 128,
+    "disk_gb": 1024,
+    "iops": 40000,
+    "throughput_mbps": 1200,
+    "disk_type": "gp3",
+    "cpu_arch": "aarch64",
+    "engine_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+    "pg_settings": "checkpoint_completion_target=0.9, effective_cache_size=8082303, max_connections=5000, max_wal_size=6144, shared_buffers=4041151, synchronous_commit=on, work_mem=4096"
+  },
+  "measured_from": "2026-09-24T16:18:19Z",
+  "measured_to": "2026-09-26T20:04:32Z",
+  "reproducibility": {
+    "benchctl_version": "0.1.0+20260925-1da79ab",
+    "dbarenactl_version": "dev+20261001-9484226",
+    "load_generator": {
+      "name": "https://github.com/supabase/go-tpc/",
+      "version": "latest-SNAPSHOT-3c7a7e8"
+    },
+    "command": "dbarenactl run --candidate candidates/aws/rds/tpcc/manifest.yaml --test-point 8xlarge/cache-exceeding"
+  },
+  "pricing": {
+    "monthly_usd": 2872.66,
+    "hours_per_month": 730,
+    "pricing_model": "on-demand-list-price",
+    "fetched_at": "2026-09-28T13:19:17Z",
+    "components": [
+      {
+        "name": "compute",
+        "amount_usd": 2138.9,
+        "detail": "sku=68VTPV989ZW67ACU instance_type=db.m9g.8xlarge rate=$2.930000/hr x 730 hr = $2138.900"
+      },
+      {
+        "name": "storage",
+        "amount_usd": 117.76,
+        "detail": "sku=KYVYY29G957PKY3B disk_type=gp3 rate=$0.115000/GB-mo x 1024 GB = $117.760"
+      },
+      {
+        "name": "iops_overage",
+        "amount_usd": 560,
+        "detail": "sku=B8T8RGQTMJBCQQY7 baseline=12000 (pricing.disk_baseline_iops) provisioned=40000 overage=28000 rate=$0.020000/IOPS-mo = $560.000"
+      },
+      {
+        "name": "throughput_overage",
+        "amount_usd": 56,
+        "detail": "sku=YYUFWT2G8KKJQXV2 baseline=500 MiB/s (pricing.disk_baseline_throughput_mibps) provisioned=1200 overage=700 rate=$0.080000/MiBps-mo = $56.000"
+      }
+    ]
+  },
+  "sweep": [
+    {
+      "concurrency": 32,
+      "peak": false,
+      "workload_parameters": {
+        "warehouses": 5120
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": false,
+          "started_at": "2026-09-24T16:18:19Z",
+          "completed_at": "2026-09-25T01:09:33Z",
+          "tpm_per_dollar_month": 17.23,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 264264,
+                "tpm": 4404,
+                "latency_ms": {
+                  "p50": 25.69,
+                  "p90": 67.63,
+                  "p95": 78.64,
+                  "p99": 110.62,
+                  "p99_9": 165.15,
+                  "avg": 36.82,
+                  "max": 250.09
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2968948,
+                "tpm": 49482,
+                "latency_ms": {
+                  "p50": 14.68,
+                  "p90": 38.27,
+                  "p95": 42.47,
+                  "p99": 56.1,
+                  "p99_9": 72.35,
+                  "avg": 19.49,
+                  "max": 128.97
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 264303,
+                "tpm": 4405,
+                "latency_ms": {
+                  "p50": 5.24,
+                  "p90": 16.78,
+                  "p95": 22.02,
+                  "p99": 36.7,
+                  "p99_9": 67.11,
+                  "avg": 7.84,
+                  "max": 148.9
+                }
+              },
+              "PAYMENT": {
+                "count": 2838899,
+                "tpm": 47314,
+                "latency_ms": {
+                  "p50": 7.86,
+                  "p90": 22.02,
+                  "p95": 29.36,
+                  "p99": 42.47,
+                  "p99_9": 73.4,
+                  "avg": 11.97,
+                  "max": 200.8
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 263846,
+                "tpm": 4397,
+                "latency_ms": {
+                  "p50": 33.55,
+                  "p90": 104.86,
+                  "p95": 131.07,
+                  "p99": 174.06,
+                  "p99_9": 217.58,
+                  "avg": 43.68,
+                  "max": 343.93
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 565308823219
+            },
+            "db_size_before": {
+              "total_bytes": 554302060211
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1153,
+              "0.999": 0.1303,
+              "0.9999": 0.1317
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 8611100,
+                "0.999": 8889433,
+                "0.9999": 8914675
+              },
+              "transmit": {
+                "0.99": 269686589,
+                "0.999": 301248127,
+                "0.9999": 303383697
+              }
+            },
+            "network_rtt": {
+              "max_us": 234,
+              "median_us": 211,
+              "min_us": 204,
+              "p99_us": 228,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 1465660557077
+            },
+            "wal_size_before": {
+              "wal_bytes": 1052920247404
+            }
+          },
+          "raw_metrics_file": "raw-clients-32-iteration-1.csv"
+        },
+        {
+          "iteration": 3,
+          "median": true,
+          "started_at": "2026-09-25T10:13:47Z",
+          "completed_at": "2026-09-25T19:04:34Z",
+          "tpm_per_dollar_month": 17.39,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 266090,
+                "tpm": 4435,
+                "latency_ms": {
+                  "p50": 26.74,
+                  "p90": 67.63,
+                  "p95": 78.64,
+                  "p99": 105.91,
+                  "p99_9": 152.04,
+                  "avg": 37.28,
+                  "max": 221.25
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2996590,
+                "tpm": 49943,
+                "latency_ms": {
+                  "p50": 15.73,
+                  "p90": 37.75,
+                  "p95": 42.47,
+                  "p99": 56.1,
+                  "p99_9": 72.35,
+                  "avg": 19.86,
+                  "max": 164.63
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 267571,
+                "tpm": 4459,
+                "latency_ms": {
+                  "p50": 5.77,
+                  "p90": 15.73,
+                  "p95": 20.45,
+                  "p99": 33.03,
+                  "p99_9": 64.49,
+                  "avg": 7.73,
+                  "max": 189.79
+                }
+              },
+              "PAYMENT": {
+                "count": 2866173,
+                "tpm": 47769,
+                "latency_ms": {
+                  "p50": 7.86,
+                  "p90": 22.02,
+                  "p95": 27.79,
+                  "p99": 39.32,
+                  "p99_9": 71.83,
+                  "avg": 11.5,
+                  "max": 192.41
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 266592,
+                "tpm": 4443,
+                "latency_ms": {
+                  "p50": 31.46,
+                  "p90": 94.9,
+                  "p95": 119.54,
+                  "p99": 159.38,
+                  "p99_9": 197.66,
+                  "avg": 40.17,
+                  "max": 411.04
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 565597755059
+            },
+            "db_size_before": {
+              "total_bytes": 554699978419
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1165,
+              "0.999": 0.1324,
+              "0.9999": 0.1325
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 8457871,
+                "0.999": 8697235,
+                "0.9999": 8775873
+              },
+              "transmit": {
+                "0.99": 270944747,
+                "0.999": 307670934,
+                "0.9999": 307699766
+              }
+            },
+            "network_rtt": {
+              "max_us": 307,
+              "median_us": 291,
+              "min_us": 288,
+              "p99_us": 303,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 1459965001586
+            },
+            "wal_size_before": {
+              "wal_bytes": 1046650653084
+            }
+          },
+          "raw_metrics_file": "raw-clients-32-iteration-3.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-09-26T11:11:40Z",
+          "completed_at": "2026-09-26T20:04:32Z",
+          "tpm_per_dollar_month": 17.87,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 273072,
+                "tpm": 4551,
+                "latency_ms": {
+                  "p50": 28.31,
+                  "p90": 64.49,
+                  "p95": 75.5,
+                  "p99": 102.24,
+                  "p99_9": 144.7,
+                  "avg": 37.14,
+                  "max": 214.96
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3079578,
+                "tpm": 51327,
+                "latency_ms": {
+                  "p50": 16.25,
+                  "p90": 34.6,
+                  "p95": 41.42,
+                  "p99": 54,
+                  "p99_9": 71.3,
+                  "avg": 19.42,
+                  "max": 230.16
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 272703,
+                "tpm": 4545,
+                "latency_ms": {
+                  "p50": 5.77,
+                  "p90": 14.68,
+                  "p95": 19.4,
+                  "p99": 30.41,
+                  "p99_9": 53.48,
+                  "avg": 7.69,
+                  "max": 116.39
+                }
+              },
+              "PAYMENT": {
+                "count": 2941087,
+                "tpm": 49018,
+                "latency_ms": {
+                  "p50": 7.86,
+                  "p90": 20.97,
+                  "p95": 25.69,
+                  "p99": 35.13,
+                  "p99_9": 58.2,
+                  "avg": 10.81,
+                  "max": 234.88
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 273564,
+                "tpm": 4559,
+                "latency_ms": {
+                  "p50": 34.6,
+                  "p90": 91.75,
+                  "p95": 114.29,
+                  "p99": 150.47,
+                  "p99_9": 186.12,
+                  "avg": 41.4,
+                  "max": 288.88
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 565155477171
+            },
+            "db_size_before": {
+              "total_bytes": 554188084915
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1193,
+              "0.999": 0.1311,
+              "0.9999": 0.1312
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 8546651,
+                "0.999": 8727710,
+                "0.9999": 8755810
+              },
+              "transmit": {
+                "0.99": 275696777,
+                "0.999": 301680388,
+                "0.9999": 303283231
+              }
+            },
+            "network_rtt": {
+              "max_us": 319,
+              "median_us": 311,
+              "min_us": 309,
+              "p99_us": 316,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 1483683808373
+            },
+            "wal_size_before": {
+              "wal_bytes": 1069508398996
+            }
+          },
+          "raw_metrics_file": "raw-clients-32-iteration-3.csv"
+        }
+      ]
+    },
+    {
+      "concurrency": 64,
+      "peak": false,
+      "workload_parameters": {
+        "warehouses": 5120
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": true,
+          "started_at": "2026-09-24T16:18:19Z",
+          "completed_at": "2026-09-25T01:09:33Z",
+          "tpm_per_dollar_month": 17.82,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 272518,
+                "tpm": 4542,
+                "latency_ms": {
+                  "p50": 60.29,
+                  "p90": 93.85,
+                  "p95": 131.6,
+                  "p99": 229.11,
+                  "p99_9": 299.89,
+                  "avg": 66.86,
+                  "max": 453.51
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3070709,
+                "tpm": 51178,
+                "latency_ms": {
+                  "p50": 33.55,
+                  "p90": 51.38,
+                  "p95": 59.24,
+                  "p99": 180.88,
+                  "p99_9": 261.62,
+                  "avg": 36.78,
+                  "max": 393.74
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 273391,
+                "tpm": 4556,
+                "latency_ms": {
+                  "p50": 11.01,
+                  "p90": 23.59,
+                  "p95": 28.31,
+                  "p99": 42.99,
+                  "p99_9": 68.68,
+                  "avg": 12.35,
+                  "max": 144.7
+                }
+              },
+              "PAYMENT": {
+                "count": 2933288,
+                "tpm": 48888,
+                "latency_ms": {
+                  "p50": 21.5,
+                  "p90": 35.13,
+                  "p95": 40.89,
+                  "p99": 147.85,
+                  "p99_9": 245.37,
+                  "avg": 25.55,
+                  "max": 355.47
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 272631,
+                "tpm": 4544,
+                "latency_ms": {
+                  "p50": 67.63,
+                  "p90": 162,
+                  "p95": 187.17,
+                  "p99": 234.36,
+                  "p99_9": 293.08,
+                  "avg": 76.6,
+                  "max": 494.93
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 566192633523
+            },
+            "db_size_before": {
+              "total_bytes": 554375116467
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1223,
+              "0.999": 0.1369,
+              "0.9999": 0.1402
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 9404527,
+                "0.999": 16768089,
+                "0.9999": 17191069
+              },
+              "transmit": {
+                "0.99": 281438466,
+                "0.999": 309111787,
+                "0.9999": 318898101
+              }
+            },
+            "network_rtt": {
+              "max_us": 256,
+              "median_us": 244,
+              "min_us": 240,
+              "p99_us": 253,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 2962710369448
+            },
+            "wal_size_before": {
+              "wal_bytes": 2547423427383
+            }
+          },
+          "raw_metrics_file": "raw-clients-64-iteration-1.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-09-25T10:13:47Z",
+          "completed_at": "2026-09-25T19:04:34Z",
+          "tpm_per_dollar_month": 18.04,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 275734,
+                "tpm": 4596,
+                "latency_ms": {
+                  "p50": 61.87,
+                  "p90": 92.27,
+                  "p95": 117.96,
+                  "p99": 223.35,
+                  "p99_9": 310.38,
+                  "avg": 67.12,
+                  "max": 466.09
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3110019,
+                "tpm": 51833,
+                "latency_ms": {
+                  "p50": 35.13,
+                  "p90": 51.38,
+                  "p95": 58.72,
+                  "p99": 145.23,
+                  "p99_9": 271.58,
+                  "avg": 37.03,
+                  "max": 382.21
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 276037,
+                "tpm": 4601,
+                "latency_ms": {
+                  "p50": 11.01,
+                  "p90": 22.02,
+                  "p95": 26.21,
+                  "p99": 37.75,
+                  "p99_9": 63.44,
+                  "avg": 12.11,
+                  "max": 180.88
+                }
+              },
+              "PAYMENT": {
+                "count": 2976423,
+                "tpm": 49606,
+                "latency_ms": {
+                  "p50": 20.97,
+                  "p90": 33.03,
+                  "p95": 38.27,
+                  "p99": 76.02,
+                  "p99_9": 250.61,
+                  "avg": 24.34,
+                  "max": 359.66
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 277283,
+                "tpm": 4621,
+                "latency_ms": {
+                  "p50": 67.63,
+                  "p90": 156.76,
+                  "p95": 178.78,
+                  "p99": 221.77,
+                  "p99_9": 272.11,
+                  "avg": 75.47,
+                  "max": 394.79
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 566217250483
+            },
+            "db_size_before": {
+              "total_bytes": 554906801843
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1229,
+              "0.999": 0.1355,
+              "0.9999": 0.1366
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 9279001,
+                "0.999": 16946038,
+                "0.9999": 17241260
+              },
+              "transmit": {
+                "0.99": 287760282,
+                "0.999": 306621097,
+                "0.9999": 321366380
+              }
+            },
+            "network_rtt": {
+              "max_us": 334,
+              "median_us": 299,
+              "min_us": 296,
+              "p99_us": 331,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 2956471718218
+            },
+            "wal_size_before": {
+              "wal_bytes": 2537640942034
+            }
+          },
+          "raw_metrics_file": "raw-clients-64-iteration-3.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-09-26T11:11:40Z",
+          "completed_at": "2026-09-26T20:04:32Z",
+          "tpm_per_dollar_month": 16.77,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 257165,
+                "tpm": 4286,
+                "latency_ms": {
+                  "p50": 65.01,
+                  "p90": 95.42,
+                  "p95": 118.49,
+                  "p99": 203.42,
+                  "p99_9": 294.13,
+                  "avg": 69.36,
+                  "max": 698.88
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2890414,
+                "tpm": 48173,
+                "latency_ms": {
+                  "p50": 35.65,
+                  "p90": 52.95,
+                  "p95": 59.77,
+                  "p99": 80.22,
+                  "p99_9": 243.79,
+                  "avg": 37.34,
+                  "max": 593.49
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 257406,
+                "tpm": 4290,
+                "latency_ms": {
+                  "p50": 13.63,
+                  "p90": 33.55,
+                  "p95": 42.99,
+                  "p99": 63.96,
+                  "p99_9": 93.85,
+                  "avg": 17.12,
+                  "max": 597.16
+                }
+              },
+              "PAYMENT": {
+                "count": 2765018,
+                "tpm": 46082,
+                "latency_ms": {
+                  "p50": 25.17,
+                  "p90": 44.56,
+                  "p95": 55.05,
+                  "p99": 82.31,
+                  "p99_9": 227.54,
+                  "avg": 28.28,
+                  "max": 615.51
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 257015,
+                "tpm": 4283,
+                "latency_ms": {
+                  "p50": 78.64,
+                  "p90": 174.59,
+                  "p95": 198.18,
+                  "p99": 242.75,
+                  "p99_9": 297.8,
+                  "avg": 85.56,
+                  "max": 714.08
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 565297378995
+            },
+            "db_size_before": {
+              "total_bytes": 554870486707
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1176,
+              "0.999": 0.1405,
+              "0.9999": 0.1416
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 8866964,
+                "0.999": 12740928,
+                "0.9999": 14279038
+              },
+              "transmit": {
+                "0.99": 276218335,
+                "0.999": 317225051,
+                "0.9999": 320275741
+              }
+            },
+            "network_rtt": {
+              "max_us": 311,
+              "median_us": 298,
+              "min_us": 295,
+              "p99_us": 305,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 2959125935432
+            },
+            "wal_size_before": {
+              "wal_bytes": 2556454598702
+            }
+          },
+          "raw_metrics_file": "raw-clients-64-iteration-3.csv"
+        }
+      ]
+    },
+    {
+      "concurrency": 128,
+      "peak": true,
+      "workload_parameters": {
+        "warehouses": 5120
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": false,
+          "started_at": "2026-09-24T16:18:19Z",
+          "completed_at": "2026-09-25T01:09:33Z",
+          "tpm_per_dollar_month": 18.59,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 285616,
+                "tpm": 4760,
+                "latency_ms": {
+                  "p50": 87.56,
+                  "p90": 246.42,
+                  "p95": 305.14,
+                  "p99": 423.62,
+                  "p99_9": 562.04,
+                  "avg": 116.27,
+                  "max": 838.34
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3204510,
+                "tpm": 53408,
+                "latency_ms": {
+                  "p50": 48.23,
+                  "p90": 125.3,
+                  "p95": 236.45,
+                  "p99": 342.88,
+                  "p99_9": 491.26,
+                  "avg": 68.13,
+                  "max": 851.44
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 285052,
+                "tpm": 4751,
+                "latency_ms": {
+                  "p50": 15.2,
+                  "p90": 39.85,
+                  "p95": 55.57,
+                  "p99": 109.58,
+                  "p99_9": 184.03,
+                  "avg": 20.06,
+                  "max": 396.89
+                }
+              },
+              "PAYMENT": {
+                "count": 3065334,
+                "tpm": 51088,
+                "latency_ms": {
+                  "p50": 35.65,
+                  "p90": 110.1,
+                  "p95": 216.53,
+                  "p99": 331.87,
+                  "p99_9": 485.49,
+                  "avg": 56.11,
+                  "max": 813.17
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 285614,
+                "tpm": 4760,
+                "latency_ms": {
+                  "p50": 101.71,
+                  "p90": 224.92,
+                  "p95": 263.72,
+                  "p99": 347.08,
+                  "p99_9": 457.18,
+                  "avg": 110.39,
+                  "max": 675.28
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 577001084595
+            },
+            "db_size_before": {
+              "total_bytes": 568313845427
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1194,
+              "0.999": 0.1328,
+              "0.9999": 0.1359
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 12838540,
+                "0.999": 16179067,
+                "0.9999": 16199100
+              },
+              "transmit": {
+                "0.99": 277893550,
+                "0.999": 306314322,
+                "0.9999": 309856762
+              }
+            },
+            "network_rtt": {
+              "max_us": 218,
+              "median_us": 205,
+              "min_us": 201,
+              "p99_us": 216,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 4409212235723
+            },
+            "wal_size_before": {
+              "wal_bytes": 4022013487837
+            }
+          },
+          "raw_metrics_file": "raw-clients-128-iteration-1.csv"
+        },
+        {
+          "iteration": 3,
+          "median": true,
+          "started_at": "2026-09-25T10:13:47Z",
+          "completed_at": "2026-09-25T19:04:34Z",
+          "tpm_per_dollar_month": 20.17,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 309542,
+                "tpm": 5159,
+                "latency_ms": {
+                  "p50": 84.93,
+                  "p90": 238.03,
+                  "p95": 295.17,
+                  "p99": 402.65,
+                  "p99_9": 542.11,
+                  "avg": 113.49,
+                  "max": 879.76
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3476622,
+                "tpm": 57942,
+                "latency_ms": {
+                  "p50": 46.66,
+                  "p90": 122.68,
+                  "p95": 228.59,
+                  "p99": 328.2,
+                  "p99_9": 481.82,
+                  "avg": 66.3,
+                  "max": 788.53
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 309479,
+                "tpm": 5158,
+                "latency_ms": {
+                  "p50": 13.63,
+                  "p90": 30.41,
+                  "p95": 37.22,
+                  "p99": 56.62,
+                  "p99_9": 92.8,
+                  "avg": 15.9,
+                  "max": 218.63
+                }
+              },
+              "PAYMENT": {
+                "count": 3314643,
+                "tpm": 55242,
+                "latency_ms": {
+                  "p50": 31.46,
+                  "p90": 76.55,
+                  "p95": 189.79,
+                  "p99": 302.51,
+                  "p99_9": 452.46,
+                  "avg": 47.96,
+                  "max": 749.73
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 309654,
+                "tpm": 5161,
+                "latency_ms": {
+                  "p50": 93.32,
+                  "p90": 202.9,
+                  "p95": 239.08,
+                  "p99": 319.82,
+                  "p99_9": 424.67,
+                  "avg": 100.95,
+                  "max": 650.12
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 580945335987
+            },
+            "db_size_before": {
+              "total_bytes": 571058788019
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1207,
+              "0.999": 0.1351,
+              "0.9999": 0.1382
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 13262843,
+                "0.999": 14791912,
+                "0.9999": 15043295
+              },
+              "transmit": {
+                "0.99": 284952766,
+                "0.999": 306249729,
+                "0.9999": 322207340
+              }
+            },
+            "network_rtt": {
+              "max_us": 281,
+              "median_us": 274,
+              "min_us": 270,
+              "p99_us": 279,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 4444746018676
+            },
+            "wal_size_before": {
+              "wal_bytes": 4039478764586
+            }
+          },
+          "raw_metrics_file": "raw-clients-128-iteration-3.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-09-26T11:11:40Z",
+          "completed_at": "2026-09-26T20:04:32Z",
+          "tpm_per_dollar_month": 20.25,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 310994,
+                "tpm": 5183,
+                "latency_ms": {
+                  "p50": 86.51,
+                  "p90": 235.93,
+                  "p95": 292.55,
+                  "p99": 405.27,
+                  "p99_9": 558.37,
+                  "avg": 114.38,
+                  "max": 787.48
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3491049,
+                "tpm": 58184,
+                "latency_ms": {
+                  "p50": 47.19,
+                  "p90": 122.68,
+                  "p95": 224.4,
+                  "p99": 327.16,
+                  "p99_9": 482.34,
+                  "avg": 66.08,
+                  "max": 698.35
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 309943,
+                "tpm": 5166,
+                "latency_ms": {
+                  "p50": 14.16,
+                  "p90": 29.88,
+                  "p95": 36.18,
+                  "p99": 54,
+                  "p99_9": 84.93,
+                  "avg": 15.97,
+                  "max": 228.59
+                }
+              },
+              "PAYMENT": {
+                "count": 3335376,
+                "tpm": 55590,
+                "latency_ms": {
+                  "p50": 31.46,
+                  "p90": 74.45,
+                  "p95": 183.5,
+                  "p99": 298.32,
+                  "p99_9": 453.51,
+                  "avg": 47.22,
+                  "max": 682.1
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 310701,
+                "tpm": 5178,
+                "latency_ms": {
+                  "p50": 95.42,
+                  "p90": 209.19,
+                  "p95": 245.89,
+                  "p99": 326.63,
+                  "p99_9": 435.68,
+                  "avg": 103.24,
+                  "max": 640.68
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 576004806323
+            },
+            "db_size_before": {
+              "total_bytes": 569868949171
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1234,
+              "0.999": 0.138,
+              "0.9999": 0.1422
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 13467889,
+                "0.999": 14824444,
+                "0.9999": 15163973
+              },
+              "transmit": {
+                "0.99": 285457206,
+                "0.999": 313573069,
+                "0.9999": 329615029
+              }
+            },
+            "network_rtt": {
+              "max_us": 325,
+              "median_us": 317,
+              "min_us": 314,
+              "p99_us": 322,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 4441241689692
+            },
+            "wal_size_before": {
+              "wal_bytes": 4031709745732
+            }
+          },
+          "raw_metrics_file": "raw-clients-128-iteration-3.csv"
+        }
+      ]
+    },
+    {
+      "concurrency": 256,
+      "peak": false,
+      "workload_parameters": {
+        "warehouses": 5120
+      },
+      "iterations": [
+        {
+          "iteration": 1,
+          "median": false,
+          "started_at": "2026-09-24T16:18:19Z",
+          "completed_at": "2026-09-25T01:09:33Z",
+          "tpm_per_dollar_month": 17.11,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 261888,
+                "tpm": 4365,
+                "latency_ms": {
+                  "p50": 175.64,
+                  "p90": 374.87,
+                  "p95": 438.3,
+                  "p99": 589.82,
+                  "p99_9": 769.65,
+                  "avg": 211.37,
+                  "max": 1129.32
+                }
+              },
+              "NEW_ORDER": {
+                "count": 2949736,
+                "tpm": 49161,
+                "latency_ms": {
+                  "p50": 116.39,
+                  "p90": 299.37,
+                  "p95": 359.66,
+                  "p99": 504.89,
+                  "p99_9": 686.29,
+                  "avg": 146.54,
+                  "max": 952.63
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 261814,
+                "tpm": 4363,
+                "latency_ms": {
+                  "p50": 24.12,
+                  "p90": 53.48,
+                  "p95": 65.01,
+                  "p99": 91.75,
+                  "p99_9": 137.89,
+                  "avg": 27.27,
+                  "max": 267.39
+                }
+              },
+              "PAYMENT": {
+                "count": 2818775,
+                "tpm": 46978,
+                "latency_ms": {
+                  "p50": 102.24,
+                  "p90": 279.97,
+                  "p95": 341.31,
+                  "p99": 486.01,
+                  "p99_9": 665.32,
+                  "avg": 130.64,
+                  "max": 934.81
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 261537,
+                "tpm": 4359,
+                "latency_ms": {
+                  "p50": 229.64,
+                  "p90": 393.22,
+                  "p95": 444.6,
+                  "p99": 544.21,
+                  "p99_9": 664.8,
+                  "avg": 223.86,
+                  "max": 988.81
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 713870087859
+            },
+            "db_size_before": {
+              "total_bytes": 631837202099
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1228,
+              "0.999": 0.1335,
+              "0.9999": 0.1356
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 9581479,
+                "0.999": 10240445,
+                "0.9999": 10253560
+              },
+              "transmit": {
+                "0.99": 284969215,
+                "0.999": 305124062,
+                "0.9999": 306295544
+              }
+            },
+            "network_rtt": {
+              "max_us": 201,
+              "median_us": 193,
+              "min_us": 190,
+              "p99_us": 200,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 5681731693603
+            },
+            "wal_size_before": {
+              "wal_bytes": 5438087451650
+            }
+          },
+          "raw_metrics_file": "raw-clients-256-iteration-1.csv"
+        },
+        {
+          "iteration": 3,
+          "median": true,
+          "started_at": "2026-09-25T10:13:47Z",
+          "completed_at": "2026-09-25T19:04:34Z",
+          "tpm_per_dollar_month": 17.64,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 269422,
+                "tpm": 4490,
+                "latency_ms": {
+                  "p50": 171.44,
+                  "p90": 375.39,
+                  "p95": 446.17,
+                  "p99": 604.5,
+                  "p99_9": 759.17,
+                  "avg": 209,
+                  "max": 1047.53
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3039923,
+                "tpm": 50664,
+                "latency_ms": {
+                  "p50": 112.72,
+                  "p90": 296.75,
+                  "p95": 362.28,
+                  "p99": 526.39,
+                  "p99_9": 675.28,
+                  "avg": 143.89,
+                  "max": 1047.53
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 270867,
+                "tpm": 4514,
+                "latency_ms": {
+                  "p50": 24.12,
+                  "p90": 52.43,
+                  "p95": 63.44,
+                  "p99": 87.03,
+                  "p99_9": 121.11,
+                  "avg": 27.09,
+                  "max": 220.73
+                }
+              },
+              "PAYMENT": {
+                "count": 2906436,
+                "tpm": 48438,
+                "latency_ms": {
+                  "p50": 95.42,
+                  "p90": 272.63,
+                  "p95": 340.26,
+                  "p99": 502.79,
+                  "p99_9": 654.84,
+                  "avg": 124.76,
+                  "max": 1047
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 270366,
+                "tpm": 4506,
+                "latency_ms": {
+                  "p50": 219.15,
+                  "p90": 383.78,
+                  "p95": 435.16,
+                  "p99": 538.44,
+                  "p99_9": 667.42,
+                  "avg": 214.19,
+                  "max": 988.81
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 728992380595
+            },
+            "db_size_before": {
+              "total_bytes": 651877414579
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1171,
+              "0.999": 0.1344,
+              "0.9999": 0.1347
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 10084522,
+                "0.999": 10592882,
+                "0.9999": 10946207
+              },
+              "transmit": {
+                "0.99": 275677692,
+                "0.999": 309022898,
+                "0.9999": 314116666
+              }
+            },
+            "network_rtt": {
+              "max_us": 346,
+              "median_us": 332,
+              "min_us": 328,
+              "p99_us": 344,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 5694598885870
+            },
+            "wal_size_before": {
+              "wal_bytes": 5443067873925
+            }
+          },
+          "raw_metrics_file": "raw-clients-256-iteration-3.csv"
+        },
+        {
+          "iteration": 3,
+          "median": false,
+          "started_at": "2026-09-26T11:11:40Z",
+          "completed_at": "2026-09-26T20:04:32Z",
+          "tpm_per_dollar_month": 20.64,
+          "workload_metrics": {
+            "transactions": {
+              "DELIVERY": {
+                "count": 317114,
+                "tpm": 5285,
+                "latency_ms": {
+                  "p50": 150.47,
+                  "p90": 359.14,
+                  "p95": 416.28,
+                  "p99": 533.73,
+                  "p99_9": 676.33,
+                  "avg": 190.14,
+                  "max": 881.33
+                }
+              },
+              "NEW_ORDER": {
+                "count": 3557567,
+                "tpm": 59291,
+                "latency_ms": {
+                  "p50": 93.32,
+                  "p90": 285.21,
+                  "p95": 344.46,
+                  "p99": 455.08,
+                  "p99_9": 588.25,
+                  "avg": 125.46,
+                  "max": 816.32
+                }
+              },
+              "ORDER_STATUS": {
+                "count": 317864,
+                "tpm": 5298,
+                "latency_ms": {
+                  "p50": 20.45,
+                  "p90": 43.52,
+                  "p95": 52.95,
+                  "p99": 74.45,
+                  "p99_9": 130.55,
+                  "avg": 22.93,
+                  "max": 316.15
+                }
+              },
+              "PAYMENT": {
+                "count": 3401255,
+                "tpm": 56686,
+                "latency_ms": {
+                  "p50": 75.5,
+                  "p90": 256.9,
+                  "p95": 322.44,
+                  "p99": 434.63,
+                  "p99_9": 573.57,
+                  "avg": 105.11,
+                  "max": 837.81
+                }
+              },
+              "STOCK_LEVEL": {
+                "count": 317273,
+                "tpm": 5288,
+                "latency_ms": {
+                  "p50": 155.19,
+                  "p90": 307.76,
+                  "p95": 354.42,
+                  "p99": 449.84,
+                  "p99_9": 567.8,
+                  "avg": 157.98,
+                  "max": 824.71
+                }
+              }
+            }
+          },
+          "metadata": {
+            "db_size_after": {
+              "total_bytes": 631683987123
+            },
+            "db_size_before": {
+              "total_bytes": 585526466227
+            },
+            "driver_cpu_utilization": {
+              "0.99": 0.1234,
+              "0.999": 0.1329,
+              "0.9999": 0.1413
+            },
+            "driver_network_throughput_bytes_per_sec": {
+              "receive": {
+                "0.99": 11711661,
+                "0.999": 14721220,
+                "0.9999": 16205673
+              },
+              "transmit": {
+                "0.99": 285338983,
+                "0.999": 307311347,
+                "0.9999": 326733302
+              }
+            },
+            "network_rtt": {
+              "max_us": 309,
+              "median_us": 299,
+              "min_us": 295,
+              "p99_us": 306,
+              "samples": 200
+            },
+            "pg_settings": {
+              "checkpoint_completion_target": 0.9,
+              "effective_cache_size": 8082303,
+              "max_connections": 5000,
+              "max_wal_size": 6144,
+              "shared_buffers": 4041151,
+              "synchronous_commit": "on",
+              "work_mem": 4096
+            },
+            "pg_version": "PostgreSQL 17.11 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 12.4.0, 64-bit",
+            "wal_size_after": {
+              "wal_bytes": 5765955226362
+            },
+            "wal_size_before": {
+              "wal_bytes": 5466458225789
+            }
+          },
+          "raw_metrics_file": "raw-clients-256-iteration-3.csv"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,207 @@
+/* A shared material and line language for the homepage's seven schematics. */
+.ranking-card,
+.protocol-card {
+  --diagram-line: color-mix(in oklab, var(--muted-foreground) var(--diagram-ink), var(--surface-subtle));
+  --diagram-face: color-mix(in oklab, var(--surface-subtle) 75%, var(--card));
+  --diagram-highlight: color-mix(in oklab, var(--primary) var(--diagram-accent-tint), var(--diagram-face));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+  /* `clip`, not `hidden`: the corner ticks (globals.css) sit 1px outside the
+     padding edge, flush on the border itself, and `overflow-clip-margin`
+     only takes effect on `overflow: clip` — on `hidden` it's a no-op and
+     that 1px line gets clipped away entirely, which is why the ticks
+     vanished here while staying visible on panels that don't clip. */
+  overflow: clip;
+  overflow-clip-margin: 1px;
+  border: 1px solid var(--panel-border);
+  background: var(--surface-subtle);
+  box-shadow: inset 0 1px 0 var(--panel-inset), var(--panel-shadow);
+}
+
+.ranking-card-range { padding: 20px 24px 0; }
+.ranking-card-art { display: grid; place-items: center; height: 220px; padding: 0 16px; }
+/* One machine is four SVGs on one viewBox, stacked by depth. The sheet
+   (guides) never moves; base, middle and top are the layers that live. */
+.machine-illustration { position: relative; width: 100%; height: 210px; max-width: 340px; }
+.machine-layer { position: absolute; inset: 0; }
+.machine-layer-art { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* Idle life. The plates levitate on a slow breath — top 3px, middle 1.5px,
+   the middle trailing the top by a beat so the stack reads as one lift in
+   sequence, not two things wobbling. A near-sine curve, not the UI ease-out:
+   nothing here is responding to anyone, so nothing should snap. The three
+   cards start a third of a cycle apart so the row never moves in lockstep. */
+.machine-layer[data-depth="top"] .machine-layer-art { animation: machine-levitate 5.6s cubic-bezier(.45, 0, .55, 1) infinite alternate; --lift: -3px; }
+.machine-layer[data-depth="middle"] .machine-layer-art { animation: machine-levitate 5.6s cubic-bezier(.45, 0, .55, 1) .45s infinite alternate; --lift: -1.5px; }
+.ranking-card:nth-child(2) .machine-layer-art { animation-delay: -1.9s; }
+.ranking-card:nth-child(2) .machine-layer[data-depth="middle"] .machine-layer-art { animation-delay: -1.45s; }
+.ranking-card:nth-child(3) .machine-layer-art { animation-delay: -3.8s; }
+.ranking-card:nth-child(3) .machine-layer[data-depth="middle"] .machine-layer-art { animation-delay: -3.35s; }
+/* The accent plate's three LEDs tick in order, on/off with no fade — that is
+   what hardware does, and a stepped curve repaints the layer twice per blink
+   rather than every frame. */
+.machine-led-accent { animation: machine-led-tick 2.4s steps(1, end) infinite; }
+.machine-led-1 { animation-delay: .4s; }
+.machine-led-2 { animation-delay: .8s; }
+
+@keyframes machine-levitate { from { transform: translateY(0); } to { transform: translateY(var(--lift)); } }
+@keyframes machine-led-tick { 0%, 34%, 100% { opacity: .4; } 8%, 33.9% { opacity: 1; } }
+/* The ranking card's hover is material only — see the block at the bottom of
+   this file. Arriving is the deliberate half, so it takes 200ms there and
+   snaps back in 140ms; every rest value lives here and every hover value
+   lives in the one hover rule, so the asymmetry is readable in one place. */
+.ranking-card { transition: border-color 140ms var(--ease-out); }
+.ranking-card::after { opacity: var(--panel-tick-rest); transition: opacity 140ms var(--ease-out); }
+.ranking-card-copy { padding: 6px 24px 0; }
+.ranking-card-action,
+.protocol-card-action { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+.ranking-card-action { padding: 20px 24px; }
+.schematic-arrow { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--panel-border); border-radius: 50%; color: var(--muted-foreground); }
+
+.machine-guides { stroke: var(--muted-foreground); stroke-opacity: .17; stroke-width: .75; }
+.machine-datum-line { stroke-opacity: .13; transition: stroke-opacity 140ms var(--ease-out); }
+.machine-face { fill: var(--diagram-face); stroke: var(--diagram-line); stroke-width: 1; }
+.machine-face-accent { fill: var(--diagram-highlight); stroke: color-mix(in oklab, var(--primary) var(--diagram-accent-stroke), var(--diagram-line)); }
+.machine-side { fill: var(--background); stroke: var(--diagram-line); stroke-width: 1; }
+.machine-edge { stroke: var(--diagram-line); stroke-width: .8; }
+.machine-circuit { stroke: var(--muted-foreground); stroke-width: .9; stroke-opacity: .48; }
+.machine-chip { fill: color-mix(in oklab, var(--primary) 8%, var(--diagram-face)); stroke: var(--primary); stroke-width: 1; }
+.machine-chip-detail { stroke: var(--primary); stroke-width: .9; }
+.machine-pin { stroke: var(--diagram-line); stroke-width: 1; }
+.machine-led { stroke: var(--muted-foreground); stroke-width: 1.5; stroke-linecap: round; }
+.machine-led-accent { stroke: var(--primary); }
+.machine-signal { stroke: var(--primary); stroke-width: 1; opacity: .15; transition: opacity 140ms var(--ease-out); }
+
+.protocol-sequence { scroll-margin-top: calc(var(--site-header-h) + 16px); }
+.protocol-track { display: flex; gap: 4px; width: 92px; margin-bottom: 12px; }
+.protocol-track span { position: relative; overflow: hidden; flex: 1; height: 2px; background: var(--panel-border); }
+/* The fill is the clock, driven from protocol-run.tsx: the playhead advances
+   when the fill finishes, so the track reads as time remaining rather than as
+   four lamps flipping on, and the two can never disagree. */
+.protocol-track i { position: absolute; inset: 0; transform: scaleX(0); transform-origin: left center; background: var(--primary); will-change: transform; }
+.protocol-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.protocol-card { height: 100%; transition: border-color 260ms var(--ease-out); }
+.protocol-card-art { display: grid; place-items: center; height: 148px; padding: 14px 28px; border-bottom: 1px solid var(--panel-art-rule); background: linear-gradient(180deg, color-mix(in oklab, var(--foreground) 1.5%, transparent), transparent); }
+/* A 280×100 sheet scaled to fill the padded art area, capped to line up with
+   the ranking cards' illustration scale rather than running edge to edge. */
+.protocol-illustration { display: block; width: 100%; height: 100%; max-width: 340px; }
+.protocol-card-copy { padding: 17px 18px 0; }
+.protocol-step { color: var(--muted-foreground); transition: color 260ms var(--ease-out); }
+.protocol-card-action { padding: 16px 18px; color: var(--muted-foreground); }
+.protocol-card[data-current] { border-color: color-mix(in oklab, var(--primary) 45%, var(--panel-border)); }
+.protocol-card[data-current] .protocol-step { color: var(--primary); }
+/* A station that has not played yet rests in the pose its animation starts
+   from: chips unmatched, layers unstacked, chart untraced, result unpublished.
+   Playback then begins in place — nothing slides in, nothing fades up. */
+.protocol-match-node { transform: translateY(var(--align-from)); transition: transform 300ms var(--ease-out); }
+.protocol-match-dot { fill: var(--muted-foreground); opacity: .6; transition: fill 300ms var(--ease-out), opacity 300ms var(--ease-out); }
+.protocol-load-layer { opacity: .2; transform: translateY(9px); transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+.protocol-spark, .protocol-spark-fill { clip-path: inset(0 100% 0 0); transition: clip-path 300ms var(--ease-out); }
+.protocol-document { opacity: .3; transform: translate(5px, 5px); transition: opacity 300ms var(--ease-out), transform 300ms var(--ease-out); }
+.protocol-status-dot { fill: var(--muted-foreground); opacity: .6; }
+.protocol-core { fill: var(--diagram-highlight); stroke: var(--primary); stroke-width: .7; }
+.protocol-run-number { fill: var(--muted-foreground); font: 9px var(--font-geist-mono), monospace; }
+.protocol-run-ring { stroke: var(--diagram-line); stroke-width: .8; transition: stroke 300ms var(--ease-out); }
+.protocol-run-check,
+.protocol-document-check { stroke: var(--primary); stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.protocol-run-check { opacity: .2; transition: opacity 300ms var(--ease-out); }
+.protocol-run-abort { stroke: var(--muted-foreground); stroke-width: 1.3; stroke-linecap: round; opacity: 0; }
+.protocol-spark { stroke: var(--primary); stroke-width: 1.4; stroke-linejoin: round; stroke-linecap: round; }
+.protocol-spark-fill { fill: var(--primary); opacity: .06; }
+.protocol-document-check { opacity: .3; transition: opacity 300ms var(--ease-out); }
+/* Every station's animation ends on exactly these values, so the swap from
+   playing to done is a no-op frame rather than a cut. The ring is the one
+   value the animations do not land on themselves: it is the outgoing
+   station's settle during the out beat. */
+.protocol-illustration[data-done] .protocol-match-node { transform: translateY(0); }
+.protocol-illustration[data-done] .protocol-match-dot { fill: var(--primary); opacity: 1; }
+.protocol-illustration[data-done] .protocol-run-check,
+.protocol-illustration[data-done] .protocol-document-check { opacity: 1; }
+.protocol-illustration[data-done] .protocol-run-ring { stroke: var(--primary); }
+.protocol-illustration[data-done] .protocol-load-layer { opacity: 1; transform: translateY(0); }
+.protocol-illustration[data-done] .protocol-spark,
+.protocol-illustration[data-done] .protocol-spark-fill { clip-path: inset(0); }
+.protocol-illustration[data-done] .protocol-document { opacity: 1; transform: translate(0, 0); }
+
+/* Explanatory animation only runs at the active, visible station. */
+.protocol-illustration[data-playing] .protocol-match-node { animation: protocol-align 700ms var(--ease-out) both; }
+.protocol-match-node-0 { --align-from: 10px; }
+.protocol-match-node-1 { --align-from: -6px; }
+.protocol-match-node-2 { --align-from: 7px; }
+.protocol-match-node-3 { --align-from: -4px; }
+.protocol-illustration[data-playing] .protocol-match-dot { animation: protocol-light 240ms ease 550ms both; }
+.protocol-illustration[data-playing] .protocol-load-layer { animation: protocol-layer 600ms var(--ease-out) both; }
+.protocol-illustration[data-playing] .protocol-run-check { animation: protocol-check-in 200ms ease 350ms both; }
+.protocol-illustration[data-playing] .protocol-run-row-1 .protocol-run-check { animation-delay: 750ms; }
+.protocol-illustration[data-playing] .protocol-run-row-2 .protocol-run-check { animation-delay: 1800ms; }
+.protocol-illustration[data-playing] .protocol-run-row-2 .protocol-run-abort { animation: protocol-abort 1800ms ease both; }
+.protocol-illustration[data-playing] .protocol-run-row-2 { animation: protocol-rebuild 2000ms var(--ease-out) both; }
+.protocol-illustration[data-playing] .protocol-spark,
+.protocol-illustration[data-playing] .protocol-spark-fill { animation: protocol-trace 900ms var(--ease-out) both; }
+.protocol-illustration[data-playing] .protocol-document { animation: protocol-document 650ms var(--ease-out) 400ms both; }
+.protocol-illustration[data-playing] .protocol-document-check { animation: protocol-check-in 200ms ease 950ms both; }
+.protocol-sequence[data-paused] .protocol-illustration,
+.protocol-sequence[data-paused] .protocol-illustration * { animation-play-state: paused; }
+.protocol-sequence[data-motion="false"] .protocol-illustration,
+.protocol-sequence[data-motion="false"] .protocol-illustration * { animation: none; }
+.protocol-sequence[data-motion="false"] .protocol-track i { transform: scaleX(1); animation: none; }
+
+@keyframes protocol-align { from { transform: translateY(var(--align-from)); } to { transform: translateY(0); } }
+@keyframes protocol-light { to { fill: var(--primary); opacity: 1; } }
+@keyframes protocol-check-in { to { opacity: 1; } }
+@keyframes protocol-trace { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0); } }
+@keyframes protocol-layer { from { opacity: .2; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes protocol-abort { 0%, 45% { opacity: 0; } 55%, 78% { opacity: 1; } 90%, 100% { opacity: 0; } }
+@keyframes protocol-rebuild { 0%, 50%, 100% { opacity: 1; transform: translateX(0); } 67%, 75% { opacity: .35; transform: translateX(4px); } }
+@keyframes protocol-document { from { opacity: .3; transform: translate(5px, 5px); } to { opacity: 1; transform: translate(0, 0); } }
+
+.ranking-card:focus-visible,
+.protocol-card:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+
+@media (hover: hover) and (pointer: fine) {
+  .ranking-card:hover, .protocol-card:hover { border-color: color-mix(in oklab, var(--primary) 38%, var(--panel-border)); }
+  /* The sheet comes up in place: corner frame, then the datum lines, then the
+     wires. The sheet itself never translates, scales or tilts — only the
+     machine on it leans (below), which is what keeps this an instrument. */
+  .ranking-card:hover::after { opacity: 1; }
+  /* Pointer follow. `size-path-card.tsx` writes each plate's own transform —
+     top 5px, middle 3px, base 1.5px, the sheet not at all — so the stack
+     leans toward the cursor as one object seen from a slightly different
+     angle. Only the settle is CSS: the pointer sets a target and this
+     transition retargets toward it, so the plates trail the hand with weight
+     instead of sticking to it, and the return on leave (the script clears the
+     inline transform) is the same settle, a touch slower. */
+  .machine-layer { transition: transform 600ms var(--ease-out); }
+  .ranking-card:hover .machine-layer { transition-duration: 420ms; }
+  .ranking-card:hover .machine-datum-line { stroke-opacity: .3; }
+  /* 60ms apart, so the two construction lines read as drawn in sequence
+     rather than switched on together. No delay on the way out. */
+  .ranking-card:hover .machine-datum-line-low { transition-delay: 60ms; }
+  .ranking-card:hover .machine-signal { opacity: .52; }
+  .ranking-card:hover, .ranking-card:hover::after,
+  .ranking-card:hover .machine-datum-line,
+  .ranking-card:hover .machine-signal { transition-duration: 200ms; }
+  .ranking-card:hover .ranking-card-action, .protocol-card:hover .protocol-card-action { color: var(--foreground); }
+  .ranking-card:hover .schematic-arrow, .protocol-card:hover .schematic-arrow { color: var(--primary); border-color: color-mix(in oklab, var(--primary) 40%, var(--border)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* The machines stand still and their LEDs stay lit. The hover recolouring
+     is opacity and colour only, so it stays. */
+  .machine-layer, .machine-layer-art, .machine-led-accent { animation: none !important; transition: none !important; transform: none !important; }
+  .protocol-illustration, .protocol-illustration * { animation: none !important; transition: none !important; }
+  .protocol-card, .protocol-step { transition: none !important; }
+  .protocol-track i { transform: scaleX(1) !important; animation: none !important; }
+}
+
+@media (max-width: 639px) {
+  .protocol-grid { grid-template-columns: minmax(0, 1fr); }
+  .ranking-card-art { height: 190px; }
+  .machine-illustration { height: 190px; }
+  .ranking-card-range { padding: 18px 20px 0; }
+  .ranking-card-copy { padding-inline: 20px; }
+  .ranking-card-action { padding: 18px 20px; }
+  .protocol-card-art { height: 136px; }
+}

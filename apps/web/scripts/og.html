@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: Geist;
+        font-style: normal;
+        font-weight: 100 900;
+        src: url("Geist-Variable.woff2") format("woff2");
+      }
+      :root {
+        --paper: #f7f7f5;
+        --ink: #171717;
+        --cobalt: #2626ff;
+        --card-surface: #ffffff;
+        --card-shadow:
+          0 0 0 1px rgba(23, 23, 23, 0.04),
+          0 1px 2px rgba(23, 23, 23, 0.08),
+          0 10px 20px -6px rgba(23, 23, 23, 0.14),
+          0 28px 48px -16px rgba(23, 23, 23, 0.18);
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--paper);
+      }
+      .stage {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: Geist, Arial, sans-serif;
+      }
+      .lockup {
+        position: absolute;
+        top: 64px;
+        left: 72px;
+        z-index: 10;
+      }
+      .lockup svg {
+        display: block;
+        color: var(--cobalt);
+      }
+      .lede {
+        margin: 18px 0 0 1px;
+        font-size: 27px;
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        line-height: 1.2;
+        white-space: nowrap;
+      }
+      .card {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 250px;
+        height: 250px;
+        border-radius: 22px;
+        background: var(--card-surface);
+        box-shadow: var(--card-shadow);
+      }
+      .c-google {
+        top: -64px;
+        right: -56px;
+        transform: rotate(11deg);
+      }
+      .c-azure {
+        top: 306px;
+        right: -34px;
+        transform: rotate(-9deg);
+      }
+      .c-supabase {
+        left: 256px;
+        bottom: -52px;
+        background: var(--ink);
+        transform: rotate(-7deg);
+      }
+      .c-rds {
+        left: 486px;
+        bottom: -30px;
+        z-index: 2;
+        transform: rotate(4deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="lockup">
+        <svg
+          width="500"
+          height="88"
+          viewBox="0 0 499 88"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g transform="translate(20.11 5.54) scale(0.76923) skewX(-13) scale(0.98 1)">
+            <defs>
+              <mask
+                id="og-cut"
+                maskUnits="userSpaceOnUse"
+                x="-8"
+                y="-8"
+                width="648.25"
+                height="116"
+              >
+                <rect x="-8" y="-8" width="648.25" height="116" fill="white" />
+                <path d="M-3 47H178.35V52H-3Z" fill="black" />
+              </mask>
+            </defs>
+            <g mask="url(#og-cut)">
+              <path
+                transform="translate(-8.73 0)"
+                d="M8.73 100L8.73 0L45.49 0Q70.70 0 84.23 13.03Q97.75 26.06 97.75 50.14Q97.75 74.08 84.44 87.04Q71.13 100 46.34 100ZM36.34 77.89L45.49 77.89Q58.03 77.89 63.73 71.13Q69.44 64.37 69.44 50Q69.44 35.63 63.73 28.87Q58.03 22.11 45.49 22.11L36.34 22.11Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                transform="translate(82.28 0)"
+                d="M8.73 100L8.73 0L50.70 0Q69.86 0 80.35 6.55Q90.85 13.10 90.85 27.32Q90.85 33.38 88.52 37.75Q86.20 42.11 81.55 44.72Q76.90 47.32 70.14 48.17L70.14 48.45Q82.68 49.72 88.87 55.85Q95.07 61.97 95.07 72.39Q95.07 86.48 84.65 93.24Q74.23 100 54.93 100ZM36.34 78.87L53.10 78.87Q59.15 78.87 63.31 76.41Q67.46 73.94 67.46 68.59Q67.46 63.24 63.38 60.70Q59.30 58.17 53.10 58.17L36.34 58.17ZM36.34 40.14L49.58 40.14Q55.49 40.14 59.37 37.82Q63.24 35.49 63.24 30.70Q63.24 25.63 59.44 23.38Q55.63 21.13 49.58 21.13L36.34 21.13Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                transform="translate(172.82 0)"
+                d="M2.54 100L38.59 0L70 0L106.06 100L77.89 100L72.25 83.52L36.20 83.52L30.56 100ZM43.52 62.11L65.07 62.11L54.37 30.42Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                transform="translate(268.14 0)"
+                d="M8.73 100L8.73 0L56.48 0Q67.75 0 76.13 3.66Q84.51 7.32 89.08 13.94Q93.66 20.56 93.66 29.58Q93.66 36.62 90.99 42.04Q88.31 47.46 83.24 50.99Q78.17 54.51 70.99 55.77L70.70 54.37Q81.27 54.37 86.48 58.80Q91.69 63.24 92.25 71.83L94.51 100L66.34 100L64.93 76.62Q64.65 71.13 61.97 68.52Q59.30 65.92 52.54 65.92L36.34 65.92L36.34 100ZM36.34 43.80L51.41 43.80Q58.31 43.80 61.90 40.92Q65.49 38.03 65.49 32.82Q65.49 27.46 61.90 24.79Q58.31 22.11 51.41 22.11L36.34 22.11Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                transform="translate(355.92 0)"
+                d="M8.73 100L8.73 0L82.82 0L82.82 22.11L36.34 22.11L36.34 38.87L81.13 38.87L81.13 60.85L36.34 60.85L36.34 77.89L83.94 77.89L83.94 100Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                transform="translate(433.13 0)"
+                d="M8.73 100L8.73 0L36.62 0L70 56.34L70 0L97.61 0L97.61 100L69.72 100L36.34 46.48L36.34 100Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+              <path
+                transform="translate(526.20 0)"
+                d="M2.54 100L38.59 0L70 0L106.06 100L77.89 100L72.25 83.52L36.20 83.52L30.56 100ZM43.52 62.11L65.07 62.11L54.37 30.42Z"
+                fill="currentColor"
+                fill-rule="evenodd"
+              />
+            </g>
+          </g>
+        </svg>
+        <p class="lede">Open database benchmarks for PostgreSQL</p>
+      </div>
+
+      <div class="card c-google">
+        <svg width="132" height="132" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M7.5 18.5h9.1a4.4 4.4 0 0 0 .7-8.74A6.2 6.2 0 0 0 5.55 8.2 5.18 5.18 0 0 0 7.5 18.5Z"
+            fill="#4285F4"
+          />
+          <path d="M5.08 15.9A5.15 5.15 0 0 1 5.55 8.2" stroke="#34A853" stroke-width="2.6" />
+          <path d="M5.55 8.2A6.2 6.2 0 0 1 10.8 5.5" stroke="#FBBC04" stroke-width="2.6" />
+          <path d="M10.8 5.5a6.2 6.2 0 0 1 5.88 4.05" stroke="#EA4335" stroke-width="2.6" />
+          <path d="M9 12.2h6M9 14.9h6" stroke="#fff" stroke-linecap="round" stroke-width="1.25" />
+        </svg>
+      </div>
+
+      <div class="card c-azure">
+        <svg
+          width="106"
+          height="106"
+          overflow="visible"
+          viewBox="-1.5 -0.5 27 25"
+        >
+          <path
+            fill="#0078D4"
+            fill-rule="evenodd"
+            d="M22.379 23.343a1.62 1.62 0 0 0 1.536-2.14v.002L17.35 1.76A1.62 1.62 0 0 0 15.816.657H8.184A1.62 1.62 0 0 0 6.65 1.76L.086 21.204a1.62 1.62 0 0 0 1.536 2.139h4.741a1.62 1.62 0 0 0 1.535-1.103l.977-2.892 4.947 3.675c.28.208.618.32.966.32m-3.084-12.531 3.624 10.739a.54.54 0 0 1-.51.713v-.001h-.03a.54.54 0 0 1-.322-.106l-9.287-6.9h4.853m6.313 7.006c.116-.326.13-.694.007-1.058L9.79 1.76a1.722 1.722 0 0 0-.007-.02h6.034a.54.54 0 0 1 .512.366l6.562 19.445a.54.54 0 0 1-.338.684"
+          />
+        </svg>
+      </div>
+
+      <div class="card c-supabase">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642L11.9 1.036Z"
+            fill="#3FCF8E"
+          />
+        </svg>
+      </div>
+
+      <div class="card c-rds">
+        <svg width="144" height="144" viewBox="0 0 80 80" fill="none">
+          <defs>
+            <linearGradient id="rds" x1="0" x2="1" y1="1" y2="0">
+              <stop offset="0" stop-color="#2E27AD" />
+              <stop offset="1" stop-color="#527FFF" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M15.414 14 24.707 23.293 23.293 24.707 14 15.414V23h-2V13c0-.552.447-1 1-1h10v2h-7.586ZM68 13v10h-2v-7.586l-9.293 9.293-1.414-1.414L64.586 14H57v-2h10c.553 0 1 .448 1 1Zm-2 44h2v10c0 .552-.447 1-1 1H57v-2h7.586l-9.293-9.293 1.414-1.414L66 64.586V57Zm-.5-17.787c0-3.319-3.832-6.598-10.25-8.771l.641-1.894C63.268 31.045 67.5 34.932 67.5 39.213c0 4.282-4.232 8.17-11.61 10.666l-.641-1.895C61.668 45.812 65.5 42.534 65.5 39.213Zm-50.944 0c0 3.18 3.587 6.372 9.596 8.54l-.679 1.881c-6.938-2.503-10.917-6.301-10.917-10.421 0-4.119 3.979-7.917 10.917-10.421l.679 1.881c-6.009 2.169-9.596 5.361-9.596 8.54Zm10.151 17.494L15.414 66H23v2H13c-.553 0-1-.448-1-1V57h2v7.586l-9.293-9.293 1.414 1.414ZM40 31.286c-7.146 0-11-1.846-11-2.6 0-.755 3.854-2.6 11-2.6 7.145 0 11 1.845 11 2.6 0 .754-3.855 2.6-11 2.6Zm.029 7.745C33.187 39.031 29 37.162 29 36.145v-4.861c2.463 1.359 6.832 2.002 11 2.002s8.537-.643 11-2.002v4.861c0 1.018-4.165 2.886-10.971 2.886Zm0 7.636C33.187 46.667 29 44.798 29 43.781v-4.919c2.431 1.429 6.742 2.169 11.029 2.169 4.263 0 8.549-.739 10.971-2.164v4.914c0 1.018-4.165 2.886-10.971 2.886ZM40 53.518c-7.117 0-11-1.913-11-2.896v-4.124c2.431 1.429 6.742 2.169 11.029 2.169 4.263 0 8.549-.738 10.971-2.164v4.119c0 .983-3.883 2.896-11 2.896Zm0-29.432c-6.261 0-13 1.439-13 4.6v21.936c0 3.214 6.54 4.896 13 4.896s13-1.682 13-4.896V28.686c0-3.161-6.739-4.6-13-4.6Z"
+            fill="url(#rds)"
+          />
+        </svg>
+      </div>
+    </div>
+  </body>
+</html>

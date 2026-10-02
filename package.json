@@ -1,0 +1,17 @@
+{
+  "name": "dbarena",
+  "private": true,
+  "packageManager": "pnpm@12.5.1",
+  "scripts": {
+    "dev": "pnpm --filter @dbarena/web dev",
+    "build": "pnpm --filter @dbarena/web build",
+    "lint": "pnpm --filter @dbarena/web lint",
+    "typecheck": "pnpm --filter @dbarena/web typecheck"
+  },
+  "pnpm": {
+    "overrides": {
+      "js-yaml": ">=4.3.2",
+      "nanoid": ">=3.3.18"
+    }
+  }
+}

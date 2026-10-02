@@ -1,0 +1,452 @@
+[
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-2xlarge",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-exceeding-2xlarge/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-2xlarge",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-2xlarge/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-4xlarge",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-exceeding-4xlarge/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-4xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-4xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-8xlarge",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-exceeding-8xlarge/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-8xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-8xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-large",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-exceeding-large/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-large",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-large/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-medium",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-exceeding-medium/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-medium",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-medium/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-xlarge",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-exceeding-xlarge/result.json"
+  },
+  {
+    "provider": "gcp",
+    "product": "cloud-sql-for-postgres",
+    "workload": "tpcc",
+    "scenario": "cache-fit-xlarge",
+    "path": "gcp/cloud-sql-for-postgres/tpcc/cache-fit-xlarge/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-2xlarge",
+    "path": "aws/rds/tpcc/cache-exceeding-2xlarge/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-2xlarge",
+    "path": "aws/rds/tpcc/cache-fit-2xlarge/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-4xlarge",
+    "path": "aws/rds/tpcc/cache-exceeding-4xlarge/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "aws/rds/tpcc/cache-fit-4xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "aws/rds/tpcc/cache-fit-4xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-8xlarge",
+    "path": "aws/rds/tpcc/cache-exceeding-8xlarge/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "aws/rds/tpcc/cache-fit-8xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "aws/rds/tpcc/cache-fit-8xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-large",
+    "path": "aws/rds/tpcc/cache-exceeding-large/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-large",
+    "path": "aws/rds/tpcc/cache-fit-large/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-medium",
+    "path": "aws/rds/tpcc/cache-exceeding-medium/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-medium",
+    "path": "aws/rds/tpcc/cache-fit-medium/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-small",
+    "path": "aws/rds/tpcc/cache-exceeding-small/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-small",
+    "path": "aws/rds/tpcc/cache-fit-small/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-xlarge",
+    "path": "aws/rds/tpcc/cache-exceeding-xlarge/result.json"
+  },
+  {
+    "provider": "aws",
+    "product": "rds",
+    "workload": "tpcc",
+    "scenario": "cache-fit-xlarge",
+    "path": "aws/rds/tpcc/cache-fit-xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-2xlarge",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-2xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-2xlarge",
+    "path": "supabase/orioledb/tpcc/cache-fit-2xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-4xlarge",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-4xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "supabase/orioledb/tpcc/cache-fit-4xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "supabase/orioledb/tpcc/cache-fit-4xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-8xlarge",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-8xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "supabase/orioledb/tpcc/cache-fit-8xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "supabase/orioledb/tpcc/cache-fit-8xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-large",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-large/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-large",
+    "path": "supabase/orioledb/tpcc/cache-fit-large/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-medium",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-medium/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-medium",
+    "path": "supabase/orioledb/tpcc/cache-fit-medium/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-small",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-small/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-small",
+    "path": "supabase/orioledb/tpcc/cache-fit-small/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-xlarge",
+    "path": "supabase/orioledb/tpcc/cache-exceeding-xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "orioledb",
+    "workload": "tpcc",
+    "scenario": "cache-fit-xlarge",
+    "path": "supabase/orioledb/tpcc/cache-fit-xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-2xlarge",
+    "path": "supabase/supabase/tpcc/cache-fit-2xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "supabase/supabase/tpcc/cache-fit-4xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-4xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "supabase/supabase/tpcc/cache-fit-4xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-cost-optimized",
+    "variant": "cost-optimized",
+    "path": "supabase/supabase/tpcc/cache-fit-8xlarge-cost-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-8xlarge-performance-optimized",
+    "variant": "performance-optimized",
+    "path": "supabase/supabase/tpcc/cache-fit-8xlarge-performance-optimized/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-large",
+    "path": "supabase/supabase/tpcc/cache-fit-large/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-medium",
+    "path": "supabase/supabase/tpcc/cache-fit-medium/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-small",
+    "path": "supabase/supabase/tpcc/cache-fit-small/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-fit-xlarge",
+    "path": "supabase/supabase/tpcc/cache-fit-xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-2xlarge",
+    "path": "supabase/supabase/tpcc/cache-exceeding-2xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-4xlarge",
+    "path": "supabase/supabase/tpcc/cache-exceeding-4xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-8xlarge",
+    "path": "supabase/supabase/tpcc/cache-exceeding-8xlarge/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-large",
+    "path": "supabase/supabase/tpcc/cache-exceeding-large/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-medium",
+    "path": "supabase/supabase/tpcc/cache-exceeding-medium/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-small",
+    "path": "supabase/supabase/tpcc/cache-exceeding-small/result.json"
+  },
+  {
+    "provider": "supabase",
+    "product": "supabase",
+    "workload": "tpcc",
+    "scenario": "cache-exceeding-xlarge",
+    "path": "supabase/supabase/tpcc/cache-exceeding-xlarge/result.json"
+  }
+]

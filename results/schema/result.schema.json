@@ -1,0 +1,253 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dbarena.io/schema/result.schema.json",
+  "title": "dbarena benchmark result",
+  "description": "One scenario's benchmark result: provider identity, reproducibility info, pricing, and a concurrency sweep with per-iteration measurements. Heavy per-second raw metrics live in separate CSV files referenced from sweep[].iterations[].raw_metrics_file, never inlined here.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "provider",
+    "product",
+    "workload",
+    "scenario",
+    "tier",
+    "bound_type",
+    "measured_from",
+    "measured_to",
+    "reproducibility",
+    "pricing",
+    "sweep"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Version of this JSON Schema the file conforms to, e.g. \"1.0.0\".",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Slug for the cloud/platform provider under test, e.g. \"aws\", \"gcp\", \"supabase\". Also encoded in the directory path ($provider/$product/$workload/$scenario/result.json); repeated here so the file is self-contained.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "product": {
+      "type": "string",
+      "description": "Slug for the managed database product under test, e.g. \"rds\", \"cloud-sql-for-postgres\", \"supabase\", \"orioledb\". Distinguishes multiple products under the same provider (e.g. Supabase's vanilla Postgres vs. OrioleDB). Also encoded in the directory path; repeated here so the file is self-contained.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "workload": {
+      "type": "string",
+      "description": "Slug for the benchmark workload, e.g. \"tpcc\", \"tpce\". Also encoded in the directory path; repeated here so the file is self-contained.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "scenario": {
+      "type": "string",
+      "description": "Slug identifying this specific scenario, folding in bound-type + size tier + config variant (e.g. \"cache-exceeding-small\", \"cache-fit-2xlarge-performance-optimized\"). Matches the directory name this file lives in.",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "tier": {
+      "type": ["string", "null"],
+      "description": "Size tier label, e.g. \"small\", \"medium\", \"large\", \"xlarge\". Null for providers/scenarios with no tier concept."
+    },
+    "bound_type": {
+      "type": "string",
+      "description": "What the scenario is designed to bottleneck on. Known values today: \"cache-fit\", \"cache-exceeding\". Free-form string (not an enum) so future scenario types don't require a schema change.",
+      "examples": ["cache-fit", "cache-exceeding"]
+    },
+    "variant": {
+      "type": ["string", "null"],
+      "description": "Distinguishes multiple configs within the same tier+bound_type (e.g. \"cost-optimized\" vs \"performance-optimized\" -- the same compute tier at two disk configurations). Null when there's only one config for this tier+bound_type.",
+      "default": null
+    },
+    "instance": {
+      "type": "object",
+      "description": "Hardware/deployment configuration under test. Generic across workloads; workload-specific sizing knobs go in each sweep point's workload_parameters instead.",
+      "additionalProperties": false,
+      "properties": {
+        "instance_type": {
+          "type": ["string", "null"],
+          "description": "Provider-specific instance/compute-tier identifier, e.g. \"db.t4g.small\" or \"small\"."
+        },
+        "vcpu": { "type": ["number", "null"] },
+        "ram_gb": { "type": ["number", "null"] },
+        "disk_gb": { "type": ["number", "null"] },
+        "iops": { "type": ["number", "null"] },
+        "throughput_mbps": { "type": ["number", "null"] },
+        "disk_type": {
+          "type": ["string", "null"],
+          "description": "Provider-specific disk/volume type selected for this configuration, e.g. \"gp3\", \"io2\", \"HYPERDISK_BALANCED\", \"PD_SSD\". Null for providers/tiers with no disk-type concept."
+        },
+        "cpu_arch": {
+          "type": ["string", "null"],
+          "description": "e.g. \"aarch64\", \"x86_64\". Providers on burstable/shared-tenancy tiers may not pin architecture across runs -- record what was actually observed for this run.",
+          "examples": ["aarch64", "x86_64"]
+        },
+        "engine_version": {
+          "type": ["string", "null"],
+          "description": "Full version string of the database engine observed during this run, e.g. Postgres's `SELECT version()` output."
+        },
+        "pg_settings": {
+          "type": ["string", "null"],
+          "description": "Flattened snapshot of relevant pg_settings values captured during this run as a raw comma-separated string."
+        },
+        "orioledb_version": {
+          "type": ["string", "null"],
+          "description": "OrioleDB extension version observed during this run. Present only when the engine under test is OrioleDB."
+        }
+      }
+    },
+    "measured_from": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Start timestamp of the earliest iteration across the whole sweep (UTC, ISO 8601)."
+    },
+    "measured_to": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Completion timestamp of the latest iteration across the whole sweep (UTC, ISO 8601)."
+    },
+    "reproducibility": {
+      "type": "object",
+      "description": "Everything needed to reproduce this run. Fields may be null for historical runs that predate structured provenance capture.",
+      "additionalProperties": false,
+      "required": ["benchctl_version", "dbarenactl_version", "load_generator", "command"],
+      "properties": {
+        "benchctl_version": {
+          "type": ["string", "null"],
+          "description": "benchctl's own build version, e.g. \"1.2.0+20260727-abc1234\" (version+date+short git SHA, per its build ldflags)."
+        },
+        "dbarenactl_version": {
+          "type": ["string", "null"],
+          "description": "dbarenactl's own build version (dbarenactl --version), e.g. \"dev+20260906-abc1234\" or \"1.4.0\"."
+        },
+        "load_generator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": { "type": ["string", "null"], "description": "e.g. \"go-tpc (supabase fork)\"." },
+            "version": { "type": ["string", "null"], "description": "Git commit or tag of the load-generator dependency actually used." }
+          }
+        },
+        "command": {
+          "type": ["string", "null"],
+          "description": "The dbarenactl invocation that reproduces this exact test point, e.g. \"dbarenactl run --candidate candidates/aws/rds/tpcc/manifest.yaml --test-point 2xlarge/cache-fit/performance-optimized\". Not a raw benchctl command, and it omits --set overrides -- every value those would carry (warehouses, disk sizing, ...) is already reported in instance and sweep[].workload_parameters."
+        }
+      }
+    },
+    "pricing": {
+      "type": ["object", "null"],
+      "description": "Null when the provider's terms don't allow publishing pricing. Itemized in components: monthly_usd is exactly the sum of every component's amount_usd (discounts/credits are components with a negative amount_usd).",
+      "additionalProperties": false,
+      "required": ["monthly_usd", "hours_per_month", "pricing_model", "fetched_at", "components"],
+      "properties": {
+        "monthly_usd": { "type": "number", "description": "Total estimated monthly cost in USD for the instance configuration under test." },
+        "hours_per_month": { "type": "number", "description": "Hours-per-month assumption used to annualize/monthly-ize hourly rates, e.g. 730.", "default": 730 },
+        "pricing_model": {
+          "type": "string",
+          "description": "e.g. \"on-demand-list-price\" -- publicly stated list price, no negotiated discounts or reserved-instance terms.",
+          "examples": ["on-demand-list-price"]
+        },
+        "fetched_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "UTC timestamp when the pricing snapshot used to compute monthly_usd was fetched. Null only if pricing itself is null."
+        },
+        "components": {
+          "type": "array",
+          "description": "Itemized cost components that sum to monthly_usd, e.g. compute, storage, IOPS/throughput overage. A discount or credit is a component with a negative amount_usd (e.g. Supabase's Pro-plan compute credit).",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "amount_usd", "detail"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Component identifier, e.g. \"compute\", \"storage\", \"iops_overage\", \"compute_credit\". Provider-specific -- not an enum, since providers decompose cost differently.",
+                "examples": ["compute", "storage", "iops_overage", "throughput_overage", "compute_credit"]
+              },
+              "amount_usd": { "type": "number", "description": "This component's contribution to monthly_usd. Negative for discounts/credits." },
+              "detail": { "type": "string", "description": "Human-readable explanation of the rate/quantity used to compute amount_usd, e.g. the SKU, unit rate, and provisioned amount." }
+            }
+          }
+        }
+      }
+    },
+    "sweep": {
+      "type": "array",
+      "description": "One entry per concurrency level tested (e.g. client/thread count). A non-sweeping scenario is just an array of length 1.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["concurrency", "peak", "iterations"],
+        "properties": {
+          "concurrency": {
+            "type": "integer",
+            "description": "Number of concurrent clients/threads driving load at this sweep point.",
+            "minimum": 1
+          },
+          "peak": {
+            "type": "boolean",
+            "description": "True for exactly one sweep point: the one whose median iteration has the highest NEW_ORDER tpm. Ties go to the lower concurrency."
+          },
+          "workload_parameters": {
+            "type": "object",
+            "description": "Workload-specific sizing/config knobs for this sweep point.",
+            "additionalProperties": true
+          },
+          "iterations": {
+            "type": "array",
+            "description": "One entry per repeated run of this sweep point.",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["iteration", "median", "started_at", "completed_at", "workload_metrics", "metadata"],
+              "properties": {
+                "iteration": { "type": "integer", "minimum": 1 },
+                "median": {
+                  "type": "boolean",
+                  "description": "True for exactly one iteration per sweep point: the one with the median NEW_ORDER tpm (the lower median for an even count)."
+                },
+                "started_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Start of the measured benchmark step at this concurrency."
+                },
+                "completed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "End of the measured benchmark step at this concurrency."
+                },
+                "tpm_per_dollar_month": {
+                  "type": ["number", "null"],
+                  "description": "Precomputed NEW_ORDER tpm / pricing.monthly_usd. Null when pricing is null."
+                },
+                "workload_metrics": {
+                  "type": "object",
+                  "description": "Full workload-native metric breakdown for this iteration.",
+                  "additionalProperties": true
+                },
+                "metadata": {
+                  "type": "object",
+                  "description": "benchctl metadata records captured at this concurrency, keyed by record name.",
+                  "additionalProperties": true
+                },
+                "raw_metrics_file": {
+                  "type": ["string", "null"],
+                  "description": "Relative path to the CSV file holding a timeseries of raw samples for this iteration."
+                },
+                "notes": {
+                  "type": ["string", "null"],
+                  "description": "Free-text data-quality caveat about this specific iteration, e.g. a crashed/truncated run whose figures are reconstructed/approximated rather than a clean full-duration measurement."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

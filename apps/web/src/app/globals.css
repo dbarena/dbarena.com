@@ -1,0 +1,1012 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "./home-illustrations.css";
+
+@custom-variant dark (&:is(.dark *));
+@custom-variant fine-hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+  --paper: #e7e7e7;
+  --ink: #171717;
+  --cobalt: #2626ff;
+  --graphite: #666666;
+  --hairline: #c8c8c8;
+  /* Light is the twin of dark's navy-tinted near-black: a cool near-white,
+     hue 260, with the chroma dialed to what reads as "cool" and not "blue"
+     at this lightness. */
+  --background: oklch(0.977 0.003 260);
+  --foreground: oklch(0.2 0 0);
+  --card: oklch(0.992 0.002 260);
+  --card-foreground: oklch(0.2 0 0);
+  --popover: oklch(0.995 0.001 260);
+  --popover-foreground: oklch(0.2 0 0);
+  --primary: var(--cobalt);
+  --primary-solid: var(--cobalt);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.93 0 0);
+  --secondary-foreground: oklch(0.24 0 0);
+  --muted: oklch(0.938 0.006 262);
+  --muted-foreground: #5d5d5d;
+  /* sRGB equivalents of the rank-line mixes, safe in SVG stroke attributes. */
+  --rank-gray-1: #898989;
+  --rank-gray-2: #959595;
+  --rank-gray-3: #a1a1a2;
+  --rank-gray-4: #adadae;
+  --rank-gray-5: #bababb;
+  --rank-gray-6: #c6c6c8;
+  --accent: oklch(0.92 0 0);
+  --accent-foreground: oklch(0.24 0 0);
+  --destructive: #c72323;
+  --border: oklch(0.888 0.007 262);
+  --input: oklch(0.86 0 0);
+  --ring: var(--cobalt);
+  --radius: 0.125rem;
+  --text-section: clamp(26px, 2.2vw, 30px);
+  --text-hero: clamp(38px, 3.6vw, 48px);
+  --text-section--line-height: 1.2;
+  --text-subhead: 1.25rem;
+  --text-subhead--line-height: 1.4;
+  --text-note: 0.75rem;
+  --text-note--line-height: 1.125rem;
+  --reading-color: color-mix(in srgb, var(--foreground) 85%, transparent);
+  /* The panel sheet. Dark lifts its panels a step lighter than the page in
+     the page's own hue; light can't lift toward white without becoming a
+     card, so it steps a breath *darker* in the same hue — a veil, not a
+     fill. The hairline and the corner ticks carry the frame; the fill only
+     whispers that there is a sheet. One shared tone for every panel site-
+     wide (charts, ranking cards, protocol cards, the generic Panel). */
+  --surface-subtle: oklch(0.969 0.005 262);
+  /* The frosted ranking figures fade almost half way back toward the page,
+     so they read lighter than the cards rather than denser. */
+  --home-panel-frost: color-mix(in oklab, var(--surface-subtle) 55%, var(--background));
+  /* A hairline a touch cooler and darker than the sheet, with the same
+     lightness jump dark's border makes, so the frame keeps its bite on a
+     fill this faint. */
+  --panel-border: oklch(0.862 0.011 262);
+  /* A sheet lies flat: no shadow. Depth comes from the frame. */
+  --panel-shadow: none;
+  /* Corner ticks in soft ink, one step darker than the hairline, so they sit
+     on the frame as a firmer corner instead of reading as a separate mark.
+     Dark's ticks are brighter (below) because its frame is. `--panel-tick-
+     rest` is the ranking cards' resting tick opacity, lifted to hover in
+     home-illustrations.css. */
+  --panel-tick: color-mix(in srgb, var(--foreground) 30%, transparent);
+  --panel-tick-rest: 0.9;
+  /* The 1px inner highlight along a panel's top edge, and the rule under a
+     protocol card's illustration. */
+  --panel-inset: white;
+  --panel-art-rule: var(--panel-border);
+  /* The machine drawings (home-illustrations.css): how much ink the plate
+     edges take, how tinted the cobalt plate's face is, and how far its stroke
+     leans toward cobalt. Light needs more of each than dark to hold on a
+     pale sheet and read as blue rather than lavender. */
+  --diagram-ink: 64%;
+  --diagram-accent-tint: 14%;
+  --diagram-accent-stroke: 82%;
+  --leader-wash: color-mix(in oklab, var(--primary) 6.5%, transparent);
+  --leader-chip: var(--primary);
+  /* Column drag chrome. The well is opaque so the row stripes it covers read
+     as "this slot is empty" rather than as a translucent smear. */
+  --drop-well: color-mix(in oklab, var(--background), var(--foreground) 6%);
+  --drag-edge: var(--border);
+  --drag-slab-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 12px 28px -10px rgb(0 0 0 / 0.22);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --page-gutter: 0.75rem;
+  --site-header-h: calc(5.75rem + 1px + max(0.25rem, env(safe-area-inset-top, 0px)));
+  --compare-dock-h: 0px;
+  --method-jump-h: 2.75rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --cobalt: oklch(0.66 0.245 267);
+  --background: oklch(0.115 0.014 260);
+  --foreground: oklch(0.985 0.003 260);
+  --card: oklch(0.16 0.017 260);
+  --card-foreground: oklch(0.985 0.003 260);
+  --popover: oklch(0.18 0.018 260);
+  --popover-foreground: oklch(0.985 0.003 260);
+  --primary: oklch(0.66 0.245 267);
+  --primary-solid: oklch(0.56 0.24 267);
+  --primary-foreground: oklch(0.995 0.002 260);
+  --secondary: oklch(0.18 0.017 260);
+  --secondary-foreground: oklch(0.96 0.004 260);
+  --muted: oklch(0.175 0.016 260);
+  --muted-foreground: #9fa5ae;
+  --rank-gray-1: #6a6f77;
+  --rank-gray-2: #5c6169;
+  --rank-gray-3: #4e535b;
+  --rank-gray-4: #42464e;
+  --rank-gray-5: #353941;
+  --rank-gray-6: #292d34;
+  --accent: oklch(0.215 0.02 260);
+  --accent-foreground: oklch(0.985 0.003 260);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(0.255 0.02 260);
+  --input: oklch(0.31 0.025 260);
+  --ring: oklch(0.66 0.245 267);
+  --leader-wash: oklch(0.66 0.245 267 / 0.11);
+  --leader-chip: oklch(0.79 0.155 267);
+  --drop-well: color-mix(in oklab, var(--background), black 45%);
+  --drag-edge: oklch(0.36 0.025 260);
+  --drag-slab-shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 16px 36px -12px rgb(0 0 0 / 0.7);
+  /* The standard panel fill is the raw card tone faded toward the page,
+     rather than the flat tone itself — every panel site-wide (charts,
+     ranking cards, protocol cards, the generic Panel component) reads as the
+     same softened material instead of one flat fill. */
+  --surface-subtle: color-mix(in oklab, oklch(0.155 0.017 260) 65%, var(--background));
+  --home-panel-frost: color-mix(in oklab, var(--surface-subtle) 72%, transparent);
+  /* Dark already reads correctly with the ambient border, so panels reuse it
+     rather than defining a second value that could drift out of sync. */
+  --panel-border: var(--border);
+  --panel-shadow: none;
+  --panel-tick: color-mix(in srgb, var(--foreground) 55%, transparent);
+  --panel-tick-rest: 0.78;
+  --panel-inset: color-mix(in oklab, var(--foreground) 3%, transparent);
+  --panel-art-rule: color-mix(in oklab, var(--border) 65%, transparent);
+  --diagram-ink: 55%;
+  --diagram-accent-tint: 12%;
+  --diagram-accent-stroke: 65%;
+}
+
+/* Older iOS web views can reject oklch tokens at use sites, leaving links in
+   browser blue and SVG marks without a paint. These are the same colors in
+   sRGB; modern browsers keep the palette above. */
+@supports not (color: oklch(0.5 0 0)) {
+  :root {
+    --background: #f6f7f9;
+    --foreground: #161616;
+    --card: #fcfcfe;
+    --card-foreground: #161616;
+    --popover: #fdfdfe;
+    --popover-foreground: #161616;
+    --primary-foreground: #fcfcfc;
+    --secondary: #e8e8e8;
+    --secondary-foreground: #1f1f1f;
+    --muted: #e8ebef;
+    --muted-foreground: #5d5d5d;
+    --accent: #e4e4e4;
+    --accent-foreground: #1f1f1f;
+    --border: #d7dadf;
+    --input: #d1d1d1;
+    --surface-subtle: #f3f5f8;
+    --panel-border: #ced2d9;
+    --reading-color: rgb(22 22 22 / 85%);
+    --home-panel-frost: #f4f6f8;
+    --panel-tick: rgb(22 22 22 / 30%);
+    --leader-wash: rgb(38 38 255 / 6.5%);
+    --drop-well: #ecedf0;
+  }
+
+  .dark {
+    --cobalt: #4f80ff;
+    --background: #03050a;
+    --foreground: #f9fafc;
+    --card: #090d15;
+    --card-foreground: #f9fafc;
+    --popover: #0d121a;
+    --popover-foreground: #f9fafc;
+    --primary: #4f80ff;
+    --primary-solid: #375ffe;
+    --primary-foreground: #fdfdff;
+    --secondary: #0d1219;
+    --secondary-foreground: #f0f2f4;
+    --muted: #0c1118;
+    --muted-foreground: #9fa5ae;
+    --accent: #141a23;
+    --accent-foreground: #f9fafc;
+    --destructive: #ff6367;
+    --border: #1d232d;
+    --input: #29313d;
+    --ring: #4f80ff;
+    --leader-wash: rgb(79 128 255 / 11%);
+    --leader-chip: #8eb6ff;
+    --drop-well: #020307;
+    --drag-edge: #353e4b;
+    --surface-subtle: #060910;
+    --reading-color: rgb(249 250 252 / 85%);
+    --home-panel-frost: rgb(6 9 16 / 72%);
+    --panel-tick: rgb(249 250 252 / 55%);
+    --panel-inset: rgb(249 250 252 / 3%);
+    --panel-art-rule: rgb(29 35 45 / 65%);
+  }
+}
+
+/* Not `inline`: this must reach :root so Tailwind still generates the
+   duration-base utility. --duration-draw stays only because the hero rank
+   chart's per-segment line draw (rank-chart.tsx) still uses DRAW_DURATION;
+   WP7 removes both when it rebuilds that into the single-path signature. */
+@theme {
+  --duration-base: 240ms;
+  --duration-draw: 900ms;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-cobalt: var(--cobalt);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-graphite: var(--graphite);
+  --color-hairline: var(--hairline);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-geist-sans);
+  --ease-exit: var(--ease-out);
+  --duration-fast: 120ms;
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 1rem;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.25rem;
+  --text-note: 0.75rem;
+  --text-note--line-height: 1.125rem;
+  --text-subhead: 1.25rem;
+  --text-subhead--line-height: 1.4;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.5rem;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-solid: var(--primary-solid);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  /* Two steps, not nine. `.home-panel` is square with 6px corner ticks, so
+     everything in the page plane is effectively square too: 2px is enough
+     corner to read as a control, never enough to read as a card, and it sits
+     below the ticks so the ticks stay the loudest corner on the page. The
+     only radius that carries information is xl — floating layers that detach
+     from the grid. Literals, not calc: a 2px seed sends the old
+     `calc(var(--radius) - 4px)` negative. */
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 4px;
+  --radius-4xl: 2px;
+  --spacing-page: var(--page-gutter);
+  --breakpoint-compact: 23.75rem;
+  --breakpoint-bar: 46.3125rem;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --page-gutter: 1.25rem;
+  }
+}
+
+@media (min-width: 46.3125rem) {
+  :root {
+    --site-header-h: calc(3.5rem + 1px);
+  }
+}
+
+@media (width < 48rem) {
+  :root {
+    --compare-dock-h: calc(1px + 0.625rem + 2.75rem + max(0.625rem, env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --method-jump-h: 0px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Compare scrolls the document in both axes: the column stack widens the page
+   so the browser's own scrollbars handle it, while the header, toolbar, and
+   chart stay pinned to the viewport width via body's container size. */
+html:has(.arena-canvas) body {
+  container-type: inline-size;
+}
+
+/* Phones keep the column rail as the scroller: a document wider than the
+   viewport makes mobile browsers zoom out to fit it. */
+@media (min-width: 48rem) {
+  /* The bar is hidden; wheel, trackpad, and the toolbar's ‹ › buttons still
+     scroll. scrollbar-width has no per-axis form, so the vertical bar goes too. */
+  html:has(.arena-canvas) {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  html:has(.arena-canvas) body {
+    overflow-x: visible;
+  }
+
+  html:has(.arena-canvas) .site-shell {
+    min-width: max-content;
+  }
+
+  html:has(.arena-canvas) [data-slot="site-header"],
+  html:has(.arena-canvas) .compare-pinned {
+    position: sticky;
+    left: 0;
+    width: 100cqi;
+  }
+}
+
+/* Compare owns the sponsor line in its header and fills the viewport with the
+   chart, so the site footer would only push the chart off-screen. */
+html:has(.arena-canvas) [data-slot="site-footer"] {
+  display: none;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+button, a, summary, input, select, textarea {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* One interaction treatment for buttons and links rendered as buttons.
+   Pointer press is 100ms; release settles in 160ms. Keyboard stays instant. */
+.ui-button {
+  transition: transform 160ms var(--ease-out);
+}
+.ui-button:active:not(:focus-visible):not(:disabled):not([aria-haspopup]) {
+  transform: scale(.97);
+  transition-duration: 100ms;
+}
+
+/* Keep centered dialogs pixel-stable; the backdrop carries their entrance.
+   Base UI popovers still scale from their trigger and can reverse mid-flight. */
+.ui-popover {
+  transform: scale(1);
+  transition: transform 180ms var(--ease-out), opacity 180ms var(--ease-out);
+}
+.ui-popover[data-starting-style], .ui-popover[data-ending-style] {
+  transform: scale(.97);
+  opacity: 0;
+}
+.ui-popover[data-ending-style] {
+  transition-duration: 120ms;
+}
+
+html[data-input-mode="keyboard"] { scroll-behavior: auto; }
+/* Pressing a key means "answer me now": every response to an action — a
+   press, a swap, a marker, a FLIP, the seg pill — lands on its end state with
+   no travel. It does not mean "the page is dead". The exclusions are the
+   ambient and explanatory illustrations, which nobody triggered and which are
+   the content rather than feedback: the machines' levitate and LEDs, and the
+   protocol explainer's four stations plus its track. Those answer to
+   `prefers-reduced-motion` (below, and in `home-illustrations.css`), not to
+   the keyboard. */
+html[data-input-mode="keyboard"] *:not(
+    .machine-layer,
+    .machine-layer-art,
+    .machine-led-accent,
+    .protocol-illustration,
+    .protocol-illustration *,
+    .protocol-track i,
+    .protocol-card,
+    .protocol-step
+  ),
+html[data-input-mode="keyboard"] *::before,
+html[data-input-mode="keyboard"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+::selection {
+  background: var(--cobalt);
+  color: var(--primary-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Zero every remaining transition and animation — Tailwind's
+     transition-* utilities included — the same way the keyboard-mode rule
+     above does. Feedback still happens, it just no longer moves. */
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* A changed reading still fades in — opacity only, no blur. The global
+     zeroing above would otherwise make it a hard cut. The leaving copy is
+     aria-hidden and already at opacity 0, so dropping its animation simply
+     removes it with nothing overlapping. */
+  .swap-in {
+    animation: swap-fade-in 140ms var(--ease-out) !important;
+  }
+  .swap-out {
+    animation: none !important;
+  }
+
+  /* The zeroing above cuts the chart's entrance to a single frame but leaves
+     its delays, which would hold each line, dot and name invisible
+     (`animation-fill-mode: both`) for up to its delay. Drop them so the
+     finished chart is simply there. */
+  .rank-draw,
+  .rank-dot,
+  .rank-label,
+  .rank-guide-in {
+    animation-delay: 0ms !important;
+  }
+
+  /* Keep visual state feedback without moving controls or overlays. */
+  .ui-button {
+    transition: none;
+  }
+  .ui-popover {
+    transition-property: opacity;
+  }
+  .ui-button:active, .ui-popover { transform: none !important; }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@layer utilities {
+  .font-mono {
+    text-transform: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .label-caps {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  .home-sticky-col {
+    position: static;
+    z-index: 1;
+    background: var(--background);
+  }
+
+  .home-row:hover .home-sticky-col {
+    background: color-mix(in oklch, var(--background), var(--muted) 35%);
+  }
+
+  .home-sticky-col::after {
+    display: none;
+  }
+
+  @media (min-width: 64rem) {
+    .home-sticky-col {
+      position: sticky;
+      left: 0;
+    }
+
+    .home-sticky-col::after {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: -1px;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+      content: "";
+    }
+  }
+
+  .seg {
+    position: relative;
+    display: inline-grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    gap: 0.25rem;
+    padding: 3px;
+    border-radius: 3px;
+    background: var(--muted);
+  }
+
+  .seg > a,
+  .seg > button {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.75rem;
+    height: 2.75rem;
+    padding: 0 0.85rem;
+    border-radius: 2px;
+    color: var(--muted-foreground);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color 120ms var(--ease-out);
+  }
+
+  .seg-fill {
+    display: grid;
+    width: 100%;
+  }
+
+  .seg-fill > a,
+  .seg-fill > button {
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  @media (width < 23.75rem) {
+    .seg-fill {
+      gap: 2px;
+      padding: 2px;
+    }
+
+    .seg-fill > a,
+    .seg-fill > button {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .seg > a,
+    .seg > button {
+      min-width: 0;
+      height: 2rem;
+      padding: 0 0.75rem;
+    }
+
+    .seg-fill > a,
+    .seg-fill > button {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  .seg > [aria-current="true"],
+  .seg > [aria-pressed="true"] {
+    color: var(--foreground);
+    background: var(--background);
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--foreground) 8%, transparent),
+      0 1px 2px color-mix(in oklch, var(--foreground) 10%, transparent);
+  }
+
+  /* A sliding pill is rendering the active fill instead; keep only the color
+     so the two treatments never stack. */
+  .seg[data-slide="on"] > [aria-pressed="true"] {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* One pill for the whole group, translated to the active column. Equal
+     grid columns make this exact without measuring anything. */
+  .seg-pill {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    z-index: 0;
+    width: calc((100% - 6px - var(--seg-gap) * (var(--size-count) - 1)) / var(--size-count));
+    height: calc(100% - 6px);
+    border-radius: 2px;
+    background: var(--background);
+    box-shadow:
+      0 0 0 1px color-mix(in oklch, var(--foreground) 8%, transparent),
+      0 1px 2px color-mix(in oklch, var(--foreground) 10%, transparent);
+    transform: translateX(calc((100% + var(--seg-gap)) * var(--size-index)));
+    transition: transform 180ms var(--ease-out);
+    --seg-gap: 0.25rem;
+  }
+
+  @media (width < 23.75rem) {
+    .seg-fill > .seg-pill {
+      top: 2px;
+      left: 2px;
+      width: calc((100% - 4px - var(--seg-gap) * (var(--size-count) - 1)) / var(--size-count));
+      height: calc(100% - 4px);
+      --seg-gap: 2px;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .seg > a:not([aria-current="true"]):hover,
+    .seg > button:not([aria-pressed="true"]):hover {
+      color: var(--foreground);
+    }
+  }
+
+  /* ── The change beat ─────────────────────────────────────────────────
+     One vocabulary for "the reader picked another size or I/O setup" —
+     every homepage figure speaks it, nothing plays on mount:
+       · what moved glides on `transform`     ([data-flip], 240ms)
+       · what re-read crosses through 2px blur (.swap, 180ms in / 140ms out)
+       · the tab rule slides to the tab        (.tab-marker, 240ms)
+       · the matrix column highlight slides    (.matrix-marker, 240ms)
+       · a share bar settles to its new length (.share-bar, 240ms)
+       · the hero guide line tracks the picker (.rank-guide, 180ms)
+     Same --ease-out as the seg pill and the press feedback, so a click
+     reads as one beat. Keyboard mode and reduced motion zero all of it via
+     the global rules above; the end states below hold on their own. */
+  .swap {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .swap-glide {
+    overflow: hidden;
+    transition: width 200ms var(--ease-out);
+  }
+
+  .swap-in {
+    animation: swap-in 180ms var(--ease-out);
+  }
+
+  .swap-out {
+    position: absolute;
+    top: 0;
+    width: max-content;
+    opacity: 0;
+    filter: blur(2px);
+    pointer-events: none;
+    animation: swap-out 140ms var(--ease-out);
+  }
+
+  @keyframes swap-in {
+    from {
+      opacity: 0;
+      filter: blur(2px);
+    }
+  }
+
+  @keyframes swap-out {
+    from {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  /* Opacity-only variant, for the reduced-motion rule above. */
+  @keyframes swap-fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+
+  [data-flip] {
+    transition: transform 240ms var(--ease-out);
+  }
+
+  /* A ranked row's progress bar, rendered at its true share on every pass
+     and eased — never sprung — to the next one. */
+  .share-bar {
+    transition: transform 240ms var(--ease-out);
+  }
+
+  /* The hero chart's dashed guide line, translated to the selected column.
+     180ms, the seg pill's clock, because it tracks the pill. */
+  .rank-guide {
+    transition: transform 180ms var(--ease-out);
+  }
+
+  /* The chart reserves a strip on its right for the end labels, and the
+     picker and caption beneath have to reserve the same one or they run past
+     the plot. `hero/rank-chart-layout.ts` writes that inset as a calc() of
+     this element's own width, which is why the element is a container: the
+     percentage has to resolve against the chart, not the page.
+
+     Below END_LABEL_MIN_WIDTH (hero/rank-chart.tsx) the labels are not drawn,
+     so there is nothing to reserve — and the formula only grows as the chart
+     narrows, so it has to be switched off rather than left to reach zero. */
+  .rank-frame {
+    container-type: inline-size;
+  }
+
+  .rank-gutter {
+    margin-right: var(--rank-label-gutter, 0px);
+  }
+
+  @container (max-width: 639.98px) {
+    .rank-gutter {
+      margin-right: 0;
+    }
+  }
+
+  /* The chart's ink — lines, dots, names, guide — waits for the frame to be
+     measured. Before that every column sits on the axis, so the server's
+     markup is a crushed sliver; the grid and the rank labels are already at
+     their final positions, so what the reader sees first is the empty chart,
+     not a wrong one. No transition: the layer is revealed on the same frame
+     the draw starts, and everything inside it is already at opacity 0. */
+  .rank-ink[data-ready="false"] {
+    opacity: 0;
+  }
+
+  /* Without scripting the width is never measured, so reveal it anyway —
+     a crushed chart still carries the numbers; a blank one carries nothing. */
+  @media (scripting: none) {
+    .rank-ink[data-ready="false"] {
+      opacity: 1;
+    }
+  }
+
+  /* Moment 1, the one thing on this page that plays on mount: each rank line
+     draws itself in, staggered per product (`hero/rank-chart.tsx` passes the
+     durations and delays it derives from `home/home-motion.ts`). Paths carry
+     `pathLength="1000"`, so the offset is a plain fraction of the line
+     regardless of its real geometric length.
+
+     `linear`, not `--ease-out`: this is a pen moving, not an element
+     arriving. A strong ease-out threw 80% of the line out in the first
+     150ms and then crawled — and it broke the one thing the rest of this
+     block depends on, that the tip's position is its share of the elapsed
+     time. At constant speed a dot's delay is simply its share of the line's
+     length. */
+  @keyframes rank-draw {
+    from {
+      stroke-dashoffset: 1000;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .rank-draw {
+    animation: rank-draw var(--draw-ms, 450ms) linear both;
+    animation-delay: var(--draw-delay, 0ms);
+  }
+
+  /* A dot lights up under the pen as it passes. Tiny and quick — 140ms from
+     half size, so it reads as the stroke landing rather than as a bounce.
+     The wrapper carries it; the circle's own transform is the selection. */
+  @keyframes rank-dot {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  }
+
+  .rank-dot {
+    animation: rank-dot 140ms var(--ease-out) both;
+    animation-delay: var(--dot-delay, 0ms);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* The product's name arrives where the pen stopped, drifting the last 4px
+     in behind it rather than being there all along waiting for its line. */
+  @keyframes rank-label {
+    from {
+      opacity: 0;
+      transform: translateX(-4px);
+    }
+  }
+
+  .rank-label {
+    animation: rank-label 200ms var(--ease-out) both;
+    animation-delay: var(--label-delay, 0ms);
+  }
+
+  /* The guide line annotates the selection, so it has nothing to point at
+     until every line has settled. Opacity only — the transform above is its
+     tracking of the picker, and the two must not fight. */
+  @keyframes rank-guide-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .rank-guide-in {
+    animation: rank-guide-in 180ms var(--ease-out) both;
+    animation-delay: var(--guide-delay, 0ms);
+  }
+
+  /* Touch WebKit can leave an animated SVG dash partially painted after the
+     page settles. Show complete rank lines and markers immediately on phones. */
+  @media (pointer: coarse) {
+    .rank-draw,
+    .rank-dot,
+    .rank-label,
+    .rank-guide-in {
+      animation: none;
+    }
+
+    .rank-draw {
+      stroke-dasharray: none;
+    }
+  }
+
+  /* One absolutely positioned 1px-wide box per group, translated to the
+     active item and scaled to its width — `transform` alone, so the group's
+     children never relayout mid-glide. */
+  .tab-marker,
+  .matrix-marker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transform-origin: left top;
+    transition: transform 240ms var(--ease-out);
+  }
+
+  .tab-marker {
+    height: 1px;
+    background: var(--foreground);
+  }
+
+  .matrix-marker {
+    bottom: 0;
+    z-index: -1;
+    border-top: 2px solid var(--foreground);
+    background: color-mix(in srgb, var(--muted) 40%, transparent);
+  }
+
+  .tab-marker[data-ready="true"],
+  .matrix-marker[data-ready="true"] {
+    opacity: 1;
+  }
+
+  /* The marker is the underline now; the button keeps its border only for
+     no-JS and the first paint before measurement. */
+  [data-marker="on"] > button[aria-pressed="true"] {
+    border-color: transparent;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 60;
+    padding: 0.5rem 0.75rem;
+    border-radius: 2px;
+    background: var(--foreground);
+    color: var(--background);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  .arena-canvas {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    background-color: var(--background);
+  }
+
+  [data-slot="card"].arena-chart {
+    /* `--card` lifts *toward* white in light mode, which vanishes against an
+       already-near-white page — the same bug the panel fill had. `--surface-
+       subtle` steps the same direction as every other panel in both themes. */
+    background-color: color-mix(in oklch, var(--surface-subtle) 70%, transparent);
+    backdrop-filter: blur(8px);
+  }
+
+  /* ---- Panel system (corner ticks + bleeding hairlines) ---------------- */
+
+  .home-panel {
+    position: relative;
+    background: var(--surface-subtle);
+    border: 1px solid var(--panel-border);
+    box-shadow: var(--panel-shadow);
+  }
+
+  /* Four 6px L-shapes, one per corner, drawn with a single background set.
+     Shared by every box on the page — the Panel system, the ranking cards,
+     and the protocol-sequence cards — so the corner language stays one thing. */
+  .home-panel-ticks::before,
+  .ranking-card::after,
+  .protocol-card::after {
+    position: absolute;
+    /* -1px, not 0: `inset: 0` sits on the padding edge, one border-width
+       inside the frame — the tick then reads as a separate accent floating
+       off the corner instead of marking it. Pulling out by the border width
+       lands the tick on the border itself. */
+    inset: -1px;
+    z-index: 2;
+    background:
+      linear-gradient(var(--tick) 0 0) 0 0 / 1px 7px,
+      linear-gradient(var(--tick) 0 0) 0 0 / 7px 1px,
+      linear-gradient(var(--tick) 0 0) 100% 0 / 1px 7px,
+      linear-gradient(var(--tick) 0 0) 100% 0 / 7px 1px,
+      linear-gradient(var(--tick) 0 0) 0 100% / 1px 7px,
+      linear-gradient(var(--tick) 0 0) 0 100% / 7px 1px,
+      linear-gradient(var(--tick) 0 0) 100% 100% / 1px 7px,
+      linear-gradient(var(--tick) 0 0) 100% 100% / 7px 1px;
+    background-repeat: no-repeat;
+    --tick: var(--panel-tick);
+    content: "";
+    pointer-events: none;
+  }
+
+  /* Ranking figures sit on the page, not as a second solid sheet.
+     Mix ratio is theme-specific (`--home-panel-frost`) so light does not
+     frost into paper-white the way a 72% lift toward 0.99 would. */
+  .home-panel-frost {
+    background: var(--home-panel-frost);
+    backdrop-filter: blur(18px) saturate(1.15);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .home-panel-frost {
+      background: var(--surface-subtle);
+      backdrop-filter: none;
+    }
+  }
+}
+
+/* Chart colors keep the same identity across themes and product filters. */
+.compare-chart {
+  --compare-series-1: #2563eb;
+  --compare-series-2: #14805e;
+  --compare-series-3: #b76c08;
+  --compare-series-4: #ce3b64;
+  --compare-series-5: #8154d0;
+  --compare-series-6: #0e8292;
+}
+
+.dark .compare-chart {
+  --compare-series-1: #7898ff;
+  --compare-series-2: #48dca1;
+  --compare-series-3: #f7b84b;
+  --compare-series-4: #ff7b99;
+  --compare-series-5: #b39aff;
+  --compare-series-6: #42d8cf;
+}

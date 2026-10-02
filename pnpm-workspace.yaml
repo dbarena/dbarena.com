@@ -1,0 +1,9 @@
+packages:
+  - apps/*
+  - packages/*
+
+allowBuilds:
+  unrs-resolver: true
+
+patchedDependencies:
+  next-themes@0.4.6: patches/next-themes@0.4.6.patch
