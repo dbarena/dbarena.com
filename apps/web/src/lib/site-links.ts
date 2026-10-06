@@ -1,7 +1,7 @@
 export const HOME_HREF = "/";
 export const COMPARE_HREF = "/compare";
 export const METHODOLOGY_HREF = "/methodology";
-export const GITHUB_HREF = "https://github.com/dbarena/dbarena";
+export const GITHUB_HREF = "https://github.com/dbarena/dbarena.com";
 export const GITHUB_RESULTS_HREF =
   "https://github.com/dbarena/dbarena.com/tree/main/results";
 const GITHUB_RESULT_BLOB_HREF =
