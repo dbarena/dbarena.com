@@ -99,7 +99,7 @@ export const NOT_MEASURED =
   "So far we use only a single workload derived from TPC-C. Other workloads will stress systems differently and we plan to expand our workloads to provide a more nuanced picture. See the methodology page for more info.";
 
 export const WHY_COPY = {
-  lead: "Selecting a suitable provider to host your database involves many factors, such performance or cost. We built these benchmarks to compare alternatives based on the resource requirements of your business.",
+  lead: "Selecting a suitable provider to host your database involves many factors, such as performance or cost. We built these benchmarks to compare alternatives based on the resource requirements of your business.",
 };
 
 export type BehindResultsItem = { flaw: string; approach: string };
