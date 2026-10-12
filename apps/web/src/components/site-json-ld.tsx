@@ -11,7 +11,7 @@ const graph = {
     },
     {
       "@type": "Dataset",
-      name: "DBARENA hosted Postgres benchmarks",
+      name: "DBArena hosted Postgres benchmarks",
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       measurementTechnique: "Derived from TPC-C",

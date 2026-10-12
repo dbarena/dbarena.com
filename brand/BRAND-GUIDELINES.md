@@ -1,14 +1,14 @@
-# DBARENA brand guidelines
+# DBArena brand guidelines
 
-DBARENA uses the supplied electric-blue, scanline, terminal-grid identity with
-the name changed from ORIOLE to DBARENA. This guide documents that retained
+DBArena uses the supplied electric-blue, scanline, terminal-grid identity with
+the name changed from ORIOLE to DBArena. This guide documents that retained
 system. It doesn't introduce a new symbol, palette, or brand metaphor.
 
-![DBARENA brand guidelines board](./assets/dbarena-concept-board.png)
+![DBArena brand guidelines board](./assets/dbarena-concept-board.png)
 
 ## Brand foundation
 
-DBARENA is an open database benchmark platform. It publishes comparable
+DBArena is an open database benchmark platform. It publishes comparable
 PostgreSQL performance and price results with the configurations and raw data
 needed to inspect each run.
 
@@ -31,12 +31,12 @@ Use short, technical messages that match the reference system:
 
 ## Name
 
-Write the brand as `DBARENA` in logos, navigation, labels, and prose. Don't use
+Write the brand as `DBArena` in logos, navigation, labels, and prose. Don't use
 “DB Arena,” “DB-Arena,” or “DBarena.”
 
 ## Logo system
 
-The primary logo is the italic, uppercase `DBARENA` wordmark. It directly
+The primary logo is the italic, uppercase `DBArena` wordmark. It directly
 replaces `ORIOLE` in the supplied references while retaining the same visual
 weight, slant, spacing, and electric-blue color.
 
@@ -95,7 +95,7 @@ neutral greys provide the technical report surface.
 
 | Token | Hex | Role |
 | --- | --- | --- |
-| DBARENA Blue | `#2626FF` | Wordmark, active data, rules, and UI focus |
+| DBArena Blue | `#2626FF` | Wordmark, active data, rules, and UI focus |
 | Paper | `#E7E7E7` | Primary background and brand-board surface |
 | White | `#F7F7F5` | Blue-panel text and bright application surface |
 | Ink | `#171717` | Primary copy and dark application background |
@@ -118,7 +118,7 @@ monospace. This pairing must remain consistent across brand and product work.
 ### Display type
 
 Use a heavy geometric sans at weight 800 or 900 with an italic or oblique
-treatment. Set `DBARENA` in uppercase with tight tracking. Geist Sans Black
+treatment. Set `DBArena` in uppercase with tight tracking. Geist Sans Black
 Italic or Arial Black Italic are acceptable prototype substitutes.
 
 ### Technical type
@@ -175,7 +175,7 @@ annotation. Keep these marks small and secondary to the content.
 Charts use the same blue and grey system as the brand. Data must remain more
 important than decoration.
 
-- Use DBARENA Blue for the active or primary series.
+- Use DBArena Blue for the active or primary series.
 - Use Graphite or Mid Grey for a comparison series.
 - Use white lines on full-blue panels.
 - Label metrics, units, workloads, and dates directly.
@@ -211,15 +211,15 @@ Avoid universal claims:
 ## Reference website
 
 The corrected website mockup preserves the supplied split-screen benchmark
-layout and changes the visible brand name to DBARENA.
+layout and changes the visible brand name to DBArena.
 
-![DBARENA website mockup](./assets/dbarena-website-mockup.png)
+![DBArena website mockup](./assets/dbarena-website-mockup.png)
 
 ## Production checklist
 
 Before publishing an application, confirm these requirements:
 
-- The name appears as `DBARENA`.
+- The name appears as `DBArena`.
 - The palette uses only blue, white, black, and neutral greys.
 - The logo uses the solid, scanline, or staggered reference treatment.
 - No new pictorial brand symbol has been introduced.

@@ -10,7 +10,7 @@ export function SiteFooter() {
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-baseline sm:gap-x-6">
         <p className="min-w-0 flex-1">
-          DBARENA is sponsored by{" "}
+          DBArena is sponsored by{" "}
           <a className={textLinkClass} href={SPONSOR_SIGNUP_HREF}>
             Supabase
           </a>

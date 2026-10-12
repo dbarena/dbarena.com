@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <StatusScreen
-      body="That URL is not a published page. Home is the front of DBARENA."
+      body="That URL is not a published page. Home is the front of DBArena."
       title="Page not found"
     />
   );

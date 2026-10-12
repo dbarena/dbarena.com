@@ -1,6 +1,6 @@
 # @dbarena/web
 
-Public site for [DBARENA](https://dbarena.com): Home, Comparison, and Methodology.
+Public site for [DBArena](https://dbarena.com): Home, Comparison, and Methodology.
 
 ```bash
 pnpm --filter @dbarena/web dev
