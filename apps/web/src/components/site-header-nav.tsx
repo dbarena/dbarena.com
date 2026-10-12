@@ -42,7 +42,7 @@ export function SiteHomeLink({ children }: { children: ReactNode }) {
   return (
     <Link
       aria-current={onHome ? "page" : undefined}
-      aria-label="DBARENA home"
+      aria-label="DBArena home"
       className="col-start-1 row-start-1 mr-2 inline-flex h-11 shrink-0 items-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring bar:h-10"
       href={HOME_HREF}
     >

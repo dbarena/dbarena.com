@@ -1,15 +1,15 @@
-# DBARENA
+# DBArena
 
-Public, comparable hosted-Postgres benchmark results, published as DBARENA.  
+Public, comparable hosted-Postgres benchmark results, published as DBArena.  
 
 ## Language
 
-**DBARENA**:
+**DBArena**:
 The public brand for the open Postgres benchmark site.
 _Avoid_: DB Arena, DB-Arena, DBarena, dashboard
 
 **dbarena.com**:
-The public website that publishes DBARENA Results: Home first, Comparison on drill-down.
+The public website that publishes DBArena Results: Home first, Comparison on drill-down.
 _Avoid_: the dashboard, the playground
 
 **Home**:
@@ -61,7 +61,7 @@ A comparable column is an `index.json` `product` (fallback: the Result’s `prod
 _Avoid_: hardcoded provider union, coming-soon card
 
 **Sponsor disclosure**:
-The persistent header lockup next to the DBARENA wordmark that names Supabase as sponsor, plus a methodology sentence. It is ownership made obvious, not a claim of independence.
+The persistent header lockup next to the DBArena wordmark that names Supabase as sponsor, plus a methodology sentence. It is ownership made obvious, not a claim of independence.
 _Avoid_: independent benchmark, unbiased (we do not claim either)
 
 **Signup attribution**:
@@ -77,5 +77,5 @@ The public `/methodology` page. Copy lives in repo markdown; leftover notes are 
 _Avoid_: field report
 
 **Newsletter**:
-The public-launch email list for DBARENA updates. Subscribe is email capture in the footer (compare and `/methodology`); Marketing owns the list and sender. No form on stealth. Not Supabase login.
+The public-launch email list for DBArena updates. Subscribe is email capture in the footer (compare and `/methodology`); Marketing owns the list and sender. No form on stealth. Not Supabase login.
 _Avoid_: changelog, blog, auth-gated subscribe

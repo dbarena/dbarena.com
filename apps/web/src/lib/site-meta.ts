@@ -5,7 +5,7 @@ import { comparisonHref } from "@/lib/comparison-url";
 import { COMPARE_HREF, HOME_HREF, METHODOLOGY_HREF } from "@/lib/site-links";
 
 export const SITE_URL = "https://dbarena.com";
-export const SITE_NAME = "DBARENA";
+export const SITE_NAME = "DBArena";
 export const SITE_DESCRIPTION =
   "Hosted Postgres providers measured at every size. Derived from TPC-C, on-demand list price, raw results included.";
 
@@ -80,6 +80,6 @@ export function comparePageMeta(
 export const methodologyPageMeta: Metadata = pageMeta({
   canonical: METHODOLOGY_HREF,
   description:
-    "How DBARENA measures hosted Postgres providers: workloads, key metrics, test points, reproduction and more.",
+    "How DBArena measures hosted Postgres providers: workloads, key metrics, test points, reproduction and more.",
   title: "Methodology",
 });

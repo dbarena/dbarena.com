@@ -1,4 +1,4 @@
-# DBARENA
+# DBArena
 
 Public, comparable benchmark results for hosted Postgres providers, published at [dbarena.com](https://dbarena.com).
 

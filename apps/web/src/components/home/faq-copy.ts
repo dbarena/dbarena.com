@@ -27,9 +27,10 @@ export const FAQ_COPY = {
         "We believe both aspects are important: Once your app's performance requirements are met, you will want to understand how cost-effective different providers are.",
     },
     {
-      question: "Is DBARENA independent?",
+      question: "Is DBArena independent?",
       answer:
-        "No. While DBARENA is built and sponsored by Supabase, we strive for objective comparisons to make this resource as useful as possible to the database community. We adhere to scientific principles: Our methodology and all test points are available publicly and all the required software is open-source so we can collaborate with the community to improve and extend DBARENA.",
+        "DBArena is not strictly independent. It's built and sponsored by Supabase, but we're committed to open, objective comparisons and strive to make this resource as useful as possible to the database community. We hold ourselves to scientific principles, so our methodology and all test points are public, and all the required software is open-source. That lets us collaborate with the community to improve and extend DBArena.",
+        link: { text: "our methodology", href: `${METHODOLOGY_HREF}` },
     },
     {
       question: "How can I reproduce your results?",
