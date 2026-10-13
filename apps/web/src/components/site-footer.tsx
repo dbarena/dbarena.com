@@ -14,7 +14,7 @@ export function SiteFooter() {
           <a className={textLinkClass} href={SPONSOR_SIGNUP_HREF}>
             Supabase
           </a>
-          . That is ownership, not a claim of independence.
+          .
         </p>
         <FooterSubscribeSlot />
       </div>
