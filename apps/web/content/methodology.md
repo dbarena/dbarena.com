@@ -86,7 +86,7 @@ We target two scenarios: one where the data set fits into the Postgres buffer ca
 
 ### Cache Fit
 
-We size the data set from calibration runs, measuring cache hit ratio from Postgres' perspective: `blks_hit / (blks_hit + blks_read)` from `pg_stat_database`. A miss in shared buffers may still hit the filesystem page cache. Calibration varied warehouses from 2 to 8 per GiB of RAM. For example: a 16 GiB machine ran 32 to 128 warehouses, or 3.2 GB to 12.8 GB on disk. We load the data set, do a 30 minute warmup. For cache fit we target at least 99% hits during a 5 minute calibration run (after the 30 minute warmup), which we treat as a signal that the active set is being served from memory. Based on these calibration results, we settled on the formula:
+We size the data set from calibration runs, measuring cache hit ratio from Postgres' perspective: `blks_hit / (blks_hit + blks_read)` from `pg_stat_database`. A miss in shared buffers may still hit the filesystem page cache. Calibration varied warehouses from 2 to 8 per GiB of RAM. For example: a 16 GiB machine ran 32 to 128 warehouses, or 3.2 GB to 12.8 GB on disk. For cache fit we target at least 99% hits during a 5 minute calibration run (after loading the data set and a 30 minute warmup), which we treat as a signal that the active set is being served from memory. Based on these calibration results, we settled on the formula:
 
 `warehouses = 2 * RAM in GiB`
 
@@ -179,7 +179,7 @@ After the initial data load, we run a 30-minute warmup (discarded), and then mea
 
 Each benchmark is repeated, in a fresh environment, until there are 3 successful runs. If any part of a run aborts with an error (e.g. network issue), the whole run is discarded and repeated. In each run we increase client count (see above). For reporting metrics we first take the median tpm of the three runs at each client count. The client count with the highest median tpm is the peak concurrency of the test point. We pick the run with the median tpm at peak concurrency.
 
-Runs do not always reach their highest tpm at the same client count. Taking the median at each client count first means that all reported figures us a consistent client count.
+Runs do not always reach their highest tpm at the same client count. Taking the median at each client count first means that all reported figures use a consistent client count.
 
 Example:
 
@@ -218,11 +218,11 @@ On AWS and GCP we place the load generator in the same zone and subnet as the da
 
 ## Limitations {#limitations}
 
-We want to callout the limitations of this benchmark in one place although you may find this information in various places of this page:
+We want to call out the limitations of this benchmark in one place although you may find this information in various places of this page:
 
 * **Single workload:** We only run a workload derived from TPC-C but support for more workloads is planned.
 * **Throughput-oriented benchmark:** We disable client think time to generate enough load for modern systems with a reasonable number of clients (see Workload Parameters above), which makes this a throughput-oriented benchmark.
-* **Single region per cloud.** AWS results are measured in us-east-1, GCP results in us-east1. We do not test cross-region latency, scenarios with replicas, or any other region.
+* **Single region per cloud:** AWS results are measured in us-east-1, GCP results in us-east1. We do not test cross-region latency, scenarios with replicas, or any other region.
 * **List price only:** As a lowest common denominator we use each provider's public on-demand list price to calculate price-performance. Depending on your own discounts, the ranking of providers might change.
 * **vCPU:RAM ratio:** We match vCPU count across providers, not RAM (see Benchmark candidates above). Providers offering a 1:8 vCPU:RAM ratio will have an edge.
 * **Load generator placement:** On AWS and GCP the load generator runs in the same zone as the database. On Supabase the zone is not selectable, so it only shares the region. We measure network round-trip latency at the start of each run to gauge the impact.
@@ -245,7 +245,7 @@ To reproduce a single test point, e.g. `cache-exceeding` for the `xlarge` tier, 
 dbarenactl run --candidate candidates/aws/rds/tpcc/manifest.yaml \
                --test-point xlarge/cache-exceeding
 # optional, only needed once if pricing data are needed
-dbarenactl pricing fetch --candidate candidates/aws-rds-tpcc.yaml
+dbarenactl pricing fetch --candidate candidates/aws/rds/tpcc/manifest.yaml
 # use `--force` if you ran less than 3 iterations to still write results
 dbarenactl results $SWEEP_ID --force --dest=~/my-test-results
 ```
@@ -266,7 +266,7 @@ dbarenactl run --candidate candidates/aws/rds/tpcc/manifest.yaml \
                --iterations=3 \
                --max-concurrency=15
 # fetch most recent price list, only needed once, not for every new sweep
-dbarenactl pricing fetch --candidate candidates/aws-rds-tpcc.yaml
+dbarenactl pricing fetch --candidate candidates/aws/rds/tpcc/manifest.yaml
 # if you did not run with --iterations=3, add --force.
 dbarenactl results $SWEEP_ID --dest=~/my-test-results
 ```
