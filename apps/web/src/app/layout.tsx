@@ -79,7 +79,7 @@ export default function RootLayout({
         <InteractionMode />
         <SiteJsonLd />
         {process.env.VERCEL_ENV !== "production" && (
-          <Script src="https://greenroom-tawny-zeta.vercel.app/widget.js" />
+          <Script src="https://greenroom-git-room-matching-web0-team.vercel.app/widget.js" />
         )}
         <ThemeProvider
           attribute="class"
