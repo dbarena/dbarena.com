@@ -4,11 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from "lucide-react";
 import { useReducedMotion } from "motion/react";
 import type { CSSProperties } from "react";
 
-import {
-  formatBoundType,
-  TIER_OPTIONS,
-  type BoundType,
-} from "@/lib/catalog";
+import { formatBoundType, TIER_OPTIONS, type BoundType } from "@/lib/catalog";
 import { boundCopy } from "@/components/comparison-row/comparison-metrics";
 import { LockSizesToggle } from "@/components/comparison-row/lock-sizes-toggle";
 import { Button } from "@/components/ui/button";
@@ -20,9 +16,15 @@ import type { ResolvedColumn } from "./use-comparison-columns";
 
 type Pager = ReturnType<typeof useColumnPager>;
 
-function summary(columns: ResolvedColumn[], synced: boolean, boundType: BoundType) {
+function summary(
+  columns: ResolvedColumn[],
+  synced: boolean,
+  boundType: BoundType,
+) {
   const count = `${columns.length} ${columns.length === 1 ? "configuration" : "configurations"}`;
-  const tierLabel = TIER_OPTIONS.find((tier) => tier.id === columns[0]?.tier)?.label;
+  const tierLabel = TIER_OPTIONS.find(
+    (tier) => tier.id === columns[0]?.tier,
+  )?.label;
   const size = synced && tierLabel ? `all ${tierLabel}` : "mixed sizes";
   return `${count} · ${size} · ${formatBoundType(boundType).toLowerCase()}`;
 }
@@ -40,7 +42,9 @@ function CompareIdentity({
 }) {
   return (
     <div className={className}>
-      <h1 className="text-[15px] font-medium tracking-tight">Compare</h1>
+      <p aria-hidden="true" className="text-[15px] font-medium tracking-tight">
+        Compare providers
+      </p>
       <p className="truncate text-[13px] text-muted-foreground">
         {summary(columns, synced, boundType)}
       </p>
@@ -80,7 +84,11 @@ export function CompareToolbar({
 
   return (
     <>
-      <CompareIdentity className="border-b border-border px-page py-3 md:hidden" {...identity} />
+      <h1 className="sr-only">Compare providers</h1>
+      <CompareIdentity
+        className="border-b border-border px-page py-3 md:hidden"
+        {...identity}
+      />
       <div
         className={cn(
           "compare-pinned z-30 shrink-0 bg-background/90 px-page backdrop-blur-md",
@@ -91,16 +99,26 @@ export function CompareToolbar({
         aria-hidden={dialogOpen || undefined}
       >
         <div className="flex flex-nowrap items-center gap-2 overflow-x-auto [scrollbar-width:none] md:flex-wrap md:gap-x-4 md:gap-y-2 md:overflow-visible md:py-3">
-          <CompareIdentity className="hidden min-w-0 flex-1 basis-[14rem] md:block" {...identity} />
+          <CompareIdentity
+            className="hidden min-w-0 flex-1 basis-[14rem] md:block"
+            {...identity}
+          />
           <div className="flex shrink-0 items-center gap-2">
             <div
               aria-label="Load"
               className="seg h-11 p-[3px] [&>button]:h-full! [&>button]:min-h-0! max-sm:[&>button]:min-w-0! max-sm:[&>button]:px-2.5! sm:h-9"
               data-slide={slideEnabled ? "on" : undefined}
               role="group"
-              style={{ "--size-count": LOAD_INTENTS.length, "--size-index": LOAD_INTENTS.indexOf(boundType) } as CSSProperties}
+              style={
+                {
+                  "--size-count": LOAD_INTENTS.length,
+                  "--size-index": LOAD_INTENTS.indexOf(boundType),
+                } as CSSProperties
+              }
             >
-              {slideEnabled ? <span aria-hidden="true" className="seg-pill" /> : null}
+              {slideEnabled ? (
+                <span aria-hidden="true" className="seg-pill" />
+              ) : null}
               {LOAD_INTENTS.map((option) => {
                 const copy = boundCopy(option);
                 return (
@@ -128,11 +146,17 @@ export function CompareToolbar({
               variant="outline"
             >
               <PlusIcon aria-hidden="true" data-icon="inline-start" />
-              <span aria-hidden="true" className="hidden sm:inline">Add</span>
+              <span aria-hidden="true" className="hidden sm:inline">
+                Add
+              </span>
             </Button>
           </div>
           {pager.overflows ? (
-            <div aria-label="Scroll columns" className="ml-auto flex shrink-0 gap-1" role="group">
+            <div
+              aria-label="Scroll columns"
+              className="ml-auto flex shrink-0 gap-1"
+              role="group"
+            >
               <Button
                 aria-label="Previous column"
                 className="size-11 sm:size-9"
