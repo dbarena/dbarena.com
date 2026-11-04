@@ -11,7 +11,6 @@ export function githubResultHref(resultPath: string) {
   return `${GITHUB_RESULT_BLOB_HREF}/${resultPath}`;
 }
 
-export const SUPABASE_HREF = "https://supabase.com";
 export const SPONSOR_SIGNUP_HREF =
   "https://supabase.com/dashboard/sign-up?utm_source=dbarena&utm_medium=referral&utm_campaign=dbarena";
 
