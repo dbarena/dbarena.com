@@ -27,11 +27,6 @@ function summary(columns: ResolvedColumn[], synced: boolean, boundType: BoundTyp
   return `${count} · ${size} · ${formatBoundType(boundType).toLowerCase()}`;
 }
 
-/** The identity block is rendered twice (below the header on mobile, inside
-    the sticky bar from `md`), with CSS hiding one. The visible "Compare
-    providers" title is therefore decorative; the page's single `<h1>` is the
-    screen-reader-only one in `CompareToolbar`, so the document has exactly
-    one. Keep the two texts in sync. */
 function CompareIdentity({
   boundType,
   className,
