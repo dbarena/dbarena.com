@@ -344,7 +344,8 @@ html:has(.arena-canvas) body {
   }
 
   html:has(.arena-canvas) [data-slot="site-header"],
-  html:has(.arena-canvas) .compare-pinned {
+  html:has(.arena-canvas) .compare-pinned,
+  html:has(.arena-canvas) .compare-pair-links {
     position: sticky;
     left: 0;
     width: 100cqi;

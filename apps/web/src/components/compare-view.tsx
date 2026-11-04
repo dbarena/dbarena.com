@@ -63,11 +63,13 @@ export function CompareView({
   initialBoundType,
   initialColumns,
   providerNotes,
+  title,
 }: {
   benchmarks: BenchmarkSummary[];
   initialBoundType: BoundType;
   initialColumns: ColumnIdentity[];
   providerNotes: Record<string, string>;
+  title?: string;
 }) {
   const {
     append,
@@ -147,6 +149,7 @@ export function CompareView({
             onLockSizesChange={setLockSizes}
             pager={pager}
             synced={synced}
+            title={title}
           />
 
           {columns.length === 0 ? (

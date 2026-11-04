@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
   },
   outputFileTracingIncludes: {
     "/compare": ["./content/notes/*.md"],
+    "/compare/[pair]": ["./content/notes/*.md"],
     "/methodology": ["./content/methodology.md"],
   },
   async redirects() {
