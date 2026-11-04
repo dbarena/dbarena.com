@@ -15,11 +15,8 @@ export async function generateMetadata({
   }>;
 }): Promise<Metadata> {
   const benchmarks = await getBenchmarks();
-  const { boundType, columns } = readComparisonState(
-    await searchParams,
-    benchmarks,
-  );
-  return comparePageMeta(boundType, columns);
+  const { columns } = readComparisonState(await searchParams, benchmarks);
+  return comparePageMeta(columns);
 }
 
 export default async function ComparePage({
