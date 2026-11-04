@@ -2,14 +2,14 @@ import "./source-loader.mjs";
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const { buildNarrative, NARRATIVE_TIE_THRESHOLD } = await import("../src/lib/compare-narrative.ts");
+const { buildNarrative, NARRATIVE_TIE_THRESHOLD, NARRATIVE_PRICE_TIE_THRESHOLD } = await import("../src/lib/compare-narrative.ts");
 
-function column(id, provider, tier, { value, tpm, p95, variant = null }) {
+function column(id, provider, tier, { value, tpm, p95, usd, variant = null }) {
   return {
     id, provider, tier, variant,
     benchmark: {
       provider, host: provider, tier, variant, boundType: "cache-exceeding", scenario: "tpcc",
-      terminalThroughputPerDollar: value, terminalThroughput: tpm, terminalP95LatencyMs: p95,
+      terminalThroughputPerDollar: value, terminalThroughput: tpm, terminalP95LatencyMs: p95, monthlyUsd: usd,
     },
   };
 }
@@ -100,4 +100,121 @@ test("the narrative source names no product", () => {
       }
     });
   });
+});
+
+// --- cost ---------------------------------------------------------------
+
+const LEVEL = { value: 100, tpm: 1000, p95: 50 };
+
+test("price tolerance is much tighter than the measurement tolerance", () => {
+  assert.equal(NARRATIVE_PRICE_TIE_THRESHOLD, 0.01);
+  assert.ok(NARRATIVE_PRICE_TIE_THRESHOLD < NARRATIVE_TIE_THRESHOLD);
+});
+
+test("the cheapest column that also leads gets the cost on its own sentence", () => {
+  const [text, ...rest] = buildNarrative([sup({ usd: 41.5 }), rds({ usd: 113.26 })], "cache-exceeding");
+  assert.equal(rest.length, 0);
+  assert.match(text, /^Compared to Amazon RDS, Supabase Postgres leads on /);
+  assert.match(text, /, and costs less per month \(\$41\.50 vs \$113\.26\)\.$/);
+});
+
+test("cost never says leads", () => {
+  const text = buildNarrative([sup({ usd: 41.5 }), rds({ usd: 113.26 })], "cache-exceeding").join(" ");
+  assert.ok(!/leads on (monthly list price|cost|price)(?![-\w])/.test(text), text);
+});
+
+test("with three columns the cost figure is against the next best", () => {
+  const [text] = buildNarrative(
+    [sup({ usd: 41.5 }), rds({ usd: 88 }), gcp({ usd: 155.62 })],
+    "cache-exceeding",
+  );
+  assert.match(text, /costs less per month \(\$41\.50, next best \$88\.00\)\.$/);
+});
+
+test("a cheapest column with no performance lead gets its own sentence", () => {
+  const paragraphs = buildNarrative(
+    [sup({ ...LEVEL, usd: 90 }), rds({ ...LEVEL, usd: 40 })],
+    "cache-exceeding",
+  );
+  assert.match(paragraphs[0], /are within 3% of each other on price-performance, throughput and p95 latency at Medium size/);
+  assert.equal(paragraphs[1], "Amazon RDS costs less per month ($40.00 vs $90.00).");
+  assert.ok(!paragraphs.some((p) => /leads/.test(p)));
+});
+
+test("tradeoff: faster column is not the cheapest one, and the cheaper one leads on price-performance", () => {
+  const paragraphs = buildNarrative(
+    [sup({ value: 40, tpm: 5000, p95: 50, usd: 125 }), rds({ value: 80, tpm: 4000, p95: 50, usd: 50 })],
+    "cache-exceeding",
+  );
+  assert.ok(
+    paragraphs.includes(
+      "Supabase Postgres has the higher throughput, while Amazon RDS costs less per month ($50.00 vs $125.00) and leads on price-performance.",
+    ),
+    paragraphs.join(" | "),
+  );
+  // The cost is said once, in the tradeoff sentence, not again on the leader's.
+  assert.equal(paragraphs.join(" ").match(/costs less per month/g).length, 1);
+});
+
+test("tradeoff: faster column also leads on price-performance despite costing more", () => {
+  const paragraphs = buildNarrative(
+    [sup({ value: 90, tpm: 5000, p95: 50, usd: 60 }), rds({ value: 40, tpm: 4000, p95: 50, usd: 50 })],
+    "cache-exceeding",
+  );
+  assert.ok(
+    paragraphs.includes(
+      "Supabase Postgres has the higher throughput and leads on price-performance, even though Amazon RDS costs less per month ($50.00 vs $60.00).",
+    ),
+    paragraphs.join(" | "),
+  );
+});
+
+test("with three columns the tradeoff says highest", () => {
+  const paragraphs = buildNarrative(
+    [
+      sup({ value: 40, tpm: 5000, p95: 50, usd: 125 }),
+      rds({ value: 80, tpm: 4000, p95: 50, usd: 50 }),
+      gcp({ value: 20, tpm: 3000, p95: 80, usd: 150 }),
+    ],
+    "cache-exceeding",
+  );
+  assert.ok(paragraphs.some((p) => /has the highest throughput, while Amazon RDS costs less per month \(\$50\.00, next best \$125\.00\)/.test(p)), paragraphs.join(" | "));
+});
+
+test("equal prices are priced the same, near prices are within 1%", () => {
+  const same = buildNarrative([sup({ usd: 50 }), rds({ usd: 50 })], "cache-exceeding");
+  assert.ok(same.includes("These configurations are priced the same."));
+  assert.ok(!same.join(" ").includes("costs less"));
+
+  const near = buildNarrative([sup({ usd: 50 }), rds({ usd: 50.2 })], "cache-exceeding");
+  assert.ok(near.includes("Monthly list price is within 1% across these configurations."));
+  assert.ok(!near.join(" ").includes("costs less"));
+
+  // 5% apart is a real difference.
+  const apart = buildNarrative([sup({ usd: 50 }), rds({ usd: 52.5 })], "cache-exceeding").join(" ");
+  assert.match(apart, /costs less per month/);
+});
+
+test("mixed sizes leave cost out", () => {
+  const paragraphs = buildNarrative([sup({ usd: 41.5 }, "large"), rds({ usd: 113.26 }, "small")], "cache-exceeding");
+  assert.ok(!paragraphs.join(" ").includes("per month"));
+  assert.ok(!paragraphs.join(" ").includes("priced"));
+  assert.equal(paragraphs.at(-1), "These configurations are different sizes, so the comparison is not like for like.");
+});
+
+test("missing prices are skipped", () => {
+  const paragraphs = buildNarrative([sup({ usd: null }), rds({ usd: 113.26 })], "cache-exceeding");
+  assert.ok(!paragraphs.join(" ").includes("per month"));
+});
+
+test("when only the top two are level the note says so", () => {
+  const paragraphs = buildNarrative(
+    [sup({ tpm: 5000 }), rds({ tpm: 4950 }), gcp({ tpm: 3000 })],
+    "cache-exceeding",
+  );
+  assert.ok(
+    paragraphs.some((p) => /Throughput is within 3% between the top two\./.test(p)),
+    paragraphs.join(" | "),
+  );
+  assert.ok(!paragraphs.some((p) => /Throughput is within 3% across/.test(p)));
 });
