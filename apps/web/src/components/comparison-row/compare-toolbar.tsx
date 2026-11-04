@@ -32,15 +32,17 @@ function CompareIdentity({
   className,
   columns,
   synced,
+  title,
 }: {
   boundType: BoundType;
   className?: string;
   columns: ResolvedColumn[];
   synced: boolean;
+  title: string;
 }) {
   return (
     <div className={className}>
-      <h1 className="text-[15px] font-medium tracking-tight">Compare</h1>
+      <h1 className="text-[15px] font-medium tracking-tight">{title}</h1>
       <p className="truncate text-[13px] text-muted-foreground">
         {summary(columns, synced, boundType)}
       </p>
@@ -59,6 +61,7 @@ export function CompareToolbar({
   onLockSizesChange,
   pager,
   synced,
+  title = "Compare",
 }: {
   boundType: BoundType;
   canAdd: boolean;
@@ -70,11 +73,14 @@ export function CompareToolbar({
   onLockSizesChange: (lockSizes: boolean) => void;
   pager: Pager;
   synced: boolean;
+  /** Page heading; the curated pair pages pass their own. */
+  title?: string;
 }) {
   const identity = {
     boundType,
     columns,
     synced,
+    title,
   };
   const slideEnabled = !useReducedMotion();
 

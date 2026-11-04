@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ComparePairLinks } from "@/components/compare-pair-links";
 import { CompareView } from "@/components/compare-view";
 import { getBenchmarks } from "@/lib/benchmarks";
 import { readComparisonState } from "@/lib/comparison-url";
@@ -40,11 +41,14 @@ export default async function ComparePage({
   );
 
   return (
-    <CompareView
-      benchmarks={benchmarks}
-      initialBoundType={boundType}
-      initialColumns={columns}
-      providerNotes={providerNotes}
-    />
+    <>
+      <CompareView
+        benchmarks={benchmarks}
+        initialBoundType={boundType}
+        initialColumns={columns}
+        providerNotes={providerNotes}
+      />
+      <ComparePairLinks />
+    </>
   );
 }

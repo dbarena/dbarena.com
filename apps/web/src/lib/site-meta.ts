@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { providerName, TIER_OPTIONS, type BoundType } from "@/lib/catalog";
+import { comparePairHref, comparePairTitle, type ComparePair } from "@/lib/compare-pairs";
 import { comparisonHref } from "@/lib/comparison-url";
 import { COMPARE_HREF, HOME_HREF, METHODOLOGY_HREF } from "@/lib/site-links";
 
@@ -75,6 +76,19 @@ export function comparePageMeta(
       : "Compare Postgres providers side by side across cost, throughput, and latency.";
 
   return pageMeta({ canonical, description, title: "Compare" });
+}
+
+/** Metadata for a curated `/compare/<pair>` page. The provider names come from
+    the catalog, so each pair gets its own description. */
+export function comparePairPageMeta(pair: ComparePair): Metadata {
+  const [first, second] = pair.providers.map((provider) => providerName(provider));
+  const description = `Compare ${first} and ${second} on absolute and price performance for Postgres.`;
+
+  return pageMeta({
+    canonical: comparePairHref(pair),
+    description,
+    title: `${comparePairTitle(pair)} benchmarks`,
+  });
 }
 
 export const methodologyPageMeta: Metadata = pageMeta({

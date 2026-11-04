@@ -6,6 +6,7 @@ import * as m from "motion/react-m";
 
 import { NewOrderOverlay } from "@/components/comparison-charts/new-order-overlay";
 import { ColumnHeader } from "@/components/comparison-row/column-header";
+import { CompareNarrative } from "@/components/comparison-row/compare-narrative";
 import { CompareToolbar } from "@/components/comparison-row/compare-toolbar";
 import { ConfigurationChooserDialog } from "@/components/comparison-row/configuration-chooser";
 import {
@@ -63,11 +64,13 @@ export function CompareView({
   initialBoundType,
   initialColumns,
   providerNotes,
+  title,
 }: {
   benchmarks: BenchmarkSummary[];
   initialBoundType: BoundType;
   initialColumns: ColumnIdentity[];
   providerNotes: Record<string, string>;
+  title?: string;
 }) {
   const {
     append,
@@ -147,6 +150,7 @@ export function CompareView({
             onLockSizesChange={setLockSizes}
             pager={pager}
             synced={synced}
+            title={title}
           />
 
           {columns.length === 0 ? (
@@ -278,6 +282,8 @@ export function CompareView({
                   .sort()
                   .join(",")}`}
               />
+
+              <CompareNarrative boundType={boundType} columns={columns} />
             </>
           )}
         </main>
