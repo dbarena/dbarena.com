@@ -1,9 +1,5 @@
-"use client";
-
-import { Accordion } from "@base-ui/react/accordion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
 
 import { METHODOLOGY_HREF } from "@/lib/site-links";
 import { ActionLink } from "@/components/ui/action-link";
@@ -35,19 +31,19 @@ function renderFaqAnswer(item: FaqItem) {
 /**
  * Two-column FAQ (26:222).
  *
- * Base UI's Accordion carries the aria-expanded wiring and the height
- * transition reads its own --accordion-panel-height variable so nothing here
- * measures in JS. Triggers are reached with Tab: Base UI dropped roving
- * arrow-key focus to follow the ARIA APG update, so arrow keys are
- * intentionally unbound.
+ * Native `<details>`/`<summary>`: a server component with no client JS, and
+ * the answers are in the HTML whether or not scripts run. Open/close and
+ * keyboard (Tab, then Enter/Space) come from the browser; the height
+ * transition lives in `globals.css` (`.faq-item`) and degrades to an instant
+ * toggle where `::details-content` is unsupported.
  *
- * Renders its own `FaqJsonLd` alongside the accordion — both read the same
+ * Renders its own `FaqJsonLd` alongside the list — both read the same
  * `buildFaqItems(data)` list, so the visible answers and the JSON-LD schema
  * (including the derived "how often do results update" answer) cannot
  * drift apart.
  */
 export function Faq({ data }: { data: HomeData }) {
-  const items = useMemo(() => buildFaqItems(data), [data]);
+  const items = buildFaqItems(data);
   return (
     <section aria-labelledby="faq-title" className={editorialSectionClass} id="faq">
       <FaqJsonLd items={items} />
@@ -66,27 +62,23 @@ export function Faq({ data }: { data: HomeData }) {
         </div>
 
         <Panel as="div" className="home-panel-frost min-w-0">
-          <Accordion.Root className="divide-y divide-border">
+          <div className="divide-y divide-border">
             {items.map((item) => (
-              <Accordion.Item key={item.question}>
-                  <Accordion.Header className="m-0 text-body font-semibold">
-                    <Accordion.Trigger className="group flex w-full items-center justify-between gap-4 px-4 py-4 text-left text-body font-semibold tracking-[-0.01em] fine-hover:text-foreground focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring">
-                      {item.question}
-                      <ChevronDown
-                        aria-hidden="true"
-                        className="shrink-0 text-muted-foreground transition-transform duration-150 ease-exit group-data-panel-open:rotate-180"
-                        size={16}
-                      />
-                    </Accordion.Trigger>
-                  </Accordion.Header>
-                  <Accordion.Panel className="group h-[var(--accordion-panel-height)] overflow-hidden transition-[height] duration-200 ease-exit data-ending-style:h-0 data-starting-style:h-0">
-                    <p className="px-4 pb-4 text-caption leading-[1.7] text-[color:var(--reading-color)] transition-opacity duration-200 ease-exit group-data-starting-style:opacity-0 group-data-ending-style:opacity-0">
-                      {renderFaqAnswer(item)}
-                    </p>
-                  </Accordion.Panel>
-              </Accordion.Item>
+              <details className="faq-item group" key={item.question}>
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-4 text-left text-body font-semibold tracking-[-0.01em] fine-hover:text-foreground focus-visible:rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring [&::-webkit-details-marker]:hidden">
+                  {item.question}
+                  <ChevronDown
+                    aria-hidden="true"
+                    className="shrink-0 text-muted-foreground transition-transform duration-150 ease-exit group-open:rotate-180"
+                    size={16}
+                  />
+                </summary>
+                <p className="px-4 pb-4 text-caption leading-[1.7] text-[color:var(--reading-color)]">
+                  {renderFaqAnswer(item)}
+                </p>
+              </details>
             ))}
-          </Accordion.Root>
+          </div>
         </Panel>
         <div className="mt-2 lg:hidden">
           <ActionLink href={METHODOLOGY_HREF}>Read the method</ActionLink>

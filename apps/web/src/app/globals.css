@@ -1010,3 +1010,37 @@ html[data-input-mode="keyboard"] *::after {
   --compare-series-5: #b39aff;
   --compare-series-6: #42d8cf;
 }
+
+/* FAQ disclosure: animate the native <details> height. `::details-content`
+   and `interpolate-size` are progressive enhancement — where unsupported the
+   answer simply toggles instantly. The global reduced-motion and
+   keyboard-mode rules target `*`, `::before` and `::after`, none of which
+   match `::details-content`, so both are repeated here. */
+.faq-item {
+  interpolate-size: allow-keywords;
+}
+
+.faq-item::details-content {
+  height: 0;
+  overflow: clip;
+  opacity: 0;
+  transition:
+    height 200ms var(--ease-exit),
+    opacity 200ms var(--ease-exit),
+    content-visibility 200ms allow-discrete;
+}
+
+.faq-item[open]::details-content {
+  height: auto;
+  opacity: 1;
+}
+
+html[data-input-mode="keyboard"] .faq-item::details-content {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-item::details-content {
+    transition: none;
+  }
+}
