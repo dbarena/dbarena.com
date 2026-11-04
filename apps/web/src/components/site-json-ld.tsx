@@ -1,12 +1,4 @@
-import { GITHUB_RESULTS_HREF, SUPABASE_HREF } from "@/lib/site-links";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site-meta";
-
-/** DBArena is built and sponsored by Supabase (see the FAQ). */
-const supabase = {
-  "@type": "Organization",
-  name: "Supabase",
-  url: SUPABASE_HREF,
-};
 
 const graph = {
   "@context": "https://schema.org",
@@ -16,7 +8,6 @@ const graph = {
       name: SITE_NAME,
       url: SITE_URL,
       description: SITE_DESCRIPTION,
-      publisher: supabase,
     },
     {
       "@type": "Dataset",
@@ -24,12 +15,7 @@ const graph = {
       url: SITE_URL,
       description: SITE_DESCRIPTION,
       measurementTechnique: "Derived from TPC-C",
-      creator: supabase,
-      distribution: {
-        "@type": "DataDownload",
-        contentUrl: GITHUB_RESULTS_HREF,
-        encodingFormat: ["text/csv", "application/json"],
-      },
+      creator: { "@type": "Organization", name: SITE_NAME },
     },
   ],
 };

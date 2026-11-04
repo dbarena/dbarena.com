@@ -14,39 +14,40 @@ Our methodology in detail.
 
 Common Parameters
 
-| Label      | Value              |
-| ---------- | ------------------ |
-| Workload   | Derived from TPC-C |
-| Version    | Postgres 17        |
-| Connection | Direct TLS         |
-| Database   | Platform Defaults  |
-| Iterations | 3                  |
-| Duration   | 30 + 60 min        |
+| Label | Value |
+| --- | --- |
+| Workload | Derived from TPC-C |
+| Version | Postgres 17 |
+| Connection | Direct TLS |
+| Database | Platform Defaults |
+| Iterations | 3 |
+| Duration | 30 + 60 min |
 
 ## Benchmark candidates {#candidates}
 
 We currently benchmark the following providers:
 
-- [**Supabase**](https://supabase.com)
-- [**OrioleDB (Beta)**](https://www.orioledb.com/)
-- [**Amazon RDS**](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html)
-- [**Google Cloud SQL, Enterprise edition**](https://cloud.google.com/sql)
+* [**Supabase**](https://supabase.com)
+* [**OrioleDB (Beta)**](https://www.orioledb.com/)
+* [**Amazon RDS**](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html)
+* [**Google Cloud SQL, Enterprise edition**](https://cloud.google.com/sql)
 
 We match hardware as closely as possible and use vCPU as the unit of scale. The vCPU:RAM ratio differs across providers; 1:4 and 1:8 are common. Specifically, we benchmark the combinations below.
 
-| Tier    | vCPU | RAM [GiB] | Supabase | RDS instance   | GCP Cloud SQL instance |
-| ------- | ---: | --------: | -------- | -------------- | ---------------------- |
-| small   |    2 |         2 | Small    | db.t4g.small   | N/A                    |
-| medium  |    2 |         4 | Medium   | db.t4g.medium  | db-custom-N4-2-4096    |
-| large   |    2 |         8 | Large    | db.m9g.large   | db-custom-N4-2-8192    |
-| xlarge  |    4 |        16 | XL       | db.m9g.xlarge  | db-custom-N4-4-16384   |
-| 2xlarge |    8 |        32 | 2XL      | db.m9g.2xlarge | db-custom-N4-8-32768   |
-| 4xlarge |   16 |        64 | 4XL      | db.m9g.4xlarge | db-custom-N4-16-65536  |
-| 8xlarge |   32 |       128 | 8XL      | db.m9g.8xlarge | db-custom-N4-32-131072 |
+| Tier | vCPU | RAM [GiB] | Supabase | RDS instance | GCP Cloud SQL instance |
+| --- | ---: | ---: | --- | --- | --- |
+| small | 2 | 2 | Small | db.t4g.small | N/A |
+| medium | 2 | 4 | Medium | db.t4g.medium | db-custom-N4-2-4096 |
+| large | 2 | 8 | Large | db.m9g.large | db-custom-N4-2-8192 |
+| xlarge | 4 | 16 | XL | db.m9g.xlarge | db-custom-N4-4-16384 |
+| 2xlarge | 8 | 32 | 2XL | db.m9g.2xlarge | db-custom-N4-8-32768 |
+| 4xlarge | 16 | 64 | 4XL | db.m9g.4xlarge | db-custom-N4-16-65536 |
+| 8xlarge | 32 | 128 | 8XL | db.m9g.8xlarge | db-custom-N4-32-131072 |
 
 > [!NOTE] Amazon RDS
 >
 > On the `small` and `medium` tiers, AWS RDS only [supports burstable instance types](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.Support.html), which we run in its default [Unlimited mode](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances-unlimited-mode.html) configuration.
+
 
 > [!NOTE] OrioleDB (Beta)
 >
@@ -58,8 +59,8 @@ Because this benchmark compares providers rather than Postgres versions, we matc
 
 Benchmarks use each provider's default configuration except where explicitly stated. Clients connect directly to the database over TLS (`sslmode=require`) rather than through a pooler such as pgbouncer, because:
 
-- The benchmark opens few enough connections that a pooler adds no value.
-- TPC-C is a closed-loop benchmark and thus very sensitive to latency. Every extra component in the data path adds latency, shifts bottlenecks, and reduces achieved throughput. Keeping the setup simple removes noise and makes results simpler to interpret.
+* The benchmark opens few enough connections that a pooler adds no value.
+* TPC-C is a closed-loop benchmark and thus very sensitive to latency. Every extra component in the data path adds latency, shifts bottlenecks, and reduces achieved throughput. Keeping the setup simple removes noise and makes results simpler to interpret.
 
 Future work may extend to more complex scenarios, such as introducing connection poolers and high availability components.
 
@@ -68,7 +69,7 @@ Where possible, we retain backups for at least seven days, as any production ser
 ## Workloads {#workloads}
 
 > [!NOTE] Disclaimer
->
+> 
 > This workload is derived from the TPC-C Benchmark and is not comparable to published TPC-C Benchmark results, as this implementation does not comply with all requirements of the TPC-C Benchmark.
 
 We only use a workload derived from [TPC-C](https://www.tpc.org/tpcc/) for now but plan to add more workloads, such as workload derived from [TPC-E](https://www.tpc.org/tpce/).
@@ -77,9 +78,9 @@ We only use a workload derived from [TPC-C](https://www.tpc.org/tpcc/) for now b
 
 There are a few key parameters in a workload derived from TPC-C:
 
-- `warehouses`, which controls the size of the data set (each warehouse occupies roughly 100 MB of disk space).
-- `clients`, which controls concurrency and therefore the amount of load generated.
-- think time: The TPC-C specification requires think times by default. In practice this leads to unrealistically high client counts (several tens of thousands of clients) so we run unthrottled.
+* `warehouses`, which controls the size of the data set (each warehouse occupies roughly 100 MB of disk space).
+* `clients`, which controls concurrency and therefore the amount of load generated.
+* think time: The TPC-C specification requires think times by default. In practice this leads to unrealistically high client counts (several tens of thousands of clients) so we run unthrottled.
 
 We target two scenarios: one where the data set fits into the Postgres buffer cache (`cache fit`), and one where it does not (`cache exceeding`). The sizing of each follows below.
 
@@ -95,13 +96,13 @@ The storage settings below apply to `cache fit` only.
 
 The following parameters deviate from the providers' defaults:
 
-- **Disk size:** we grow the disk size with the expected database size (+ headroom).
-- **IOPS and disk throughput:** WAL is I/O intensive, so provider defaults would artificially limit the results so we raise both.
+* **Disk size:** we grow the disk size with the expected database size (+ headroom).
+* **IOPS and disk throughput:** WAL is I/O intensive, so provider defaults would artificially limit the results so we raise both.
 
 Especially on larger tiers we observed significant performance differences between providers. Instead of forcing one disk configuration, we have benchmarked two variations so users can pick whatever scenario serves their purposes:
 
-- **Performance-optimized:** we provision higher IOPS and disk throughput at the expense of incurring higher costs. This allows us to gauge what the provider can achieve at this tier when given enough resources.
-- **Cost-optimized:** we provision lower IOPS and disk throughput at the expense of leaving some performance on the table. This allows us to gauge what the provider can achieve in a more disk-constrained scenario.
+* **Performance-optimized:** we provision higher IOPS and disk throughput at the expense of incurring higher costs. This allows us to gauge what the provider can achieve at this tier when given enough resources.
+* **Cost-optimized:** we provision lower IOPS and disk throughput at the expense of leaving some performance on the table. This allows us to gauge what the provider can achieve in a more disk-constrained scenario.
 
 Where one aligned configuration was practical, we ran only that. We align configurations across providers as far as the platforms allow. The exceptions are listed under Storage Constraints below.
 
@@ -113,16 +114,16 @@ We size the number of warehouses so the data set takes up 4 times the size of RA
 
 Two platform constraints prevent exact alignment in some scenarios:
 
-- **GCP:** [the lowest disk throughput Cloud SQL accepts is 140 MiB/s](https://docs.cloud.google.com/sql/docs/postgres/storage-options-overview), slightly above the 125 MiB/s gp3 default elsewhere.
-- **AWS RDS:** [gp3 volumes below 400 GiB are fixed at 3,000 IOPS and 125 MiB/s](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#gp3-storage). At 400 GiB and above, RDS stripes across four volumes and the baseline becomes 12,000 IOPS and 500 MiB/s, which is also the minimum that can be provisioned at that size. Configurations between those two points do not exist on RDS.
+* **GCP:** [the lowest disk throughput Cloud SQL accepts is 140 MiB/s](https://docs.cloud.google.com/sql/docs/postgres/storage-options-overview), slightly above the 125 MiB/s gp3 default elsewhere.
+* **AWS RDS:** [gp3 volumes below 400 GiB are fixed at 3,000 IOPS and 125 MiB/s](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#gp3-storage). At 400 GiB and above, RDS stripes across four volumes and the baseline becomes 12,000 IOPS and 500 MiB/s, which is also the minimum that can be provisioned at that size. Configurations between those two points do not exist on RDS.
 
 Where a target configuration is not constructible on RDS, we run the nearest one that is:
 
-| Scenario                                      | All other providers                        | RDS                                 |
-| --------------------------------------------- | ------------------------------------------ | ----------------------------------- |
-| cache exceeding, xlarge                       | 128 GB, 12,000 IOPS, 149 MiB/s             | 400 GB, 12,000 IOPS, 500 MiB/s      |
-| cache exceeding, 2xlarge                      | 256 GB, 12,000 IOPS, 297 MiB/s             | 400 GB, 12,000 IOPS, 500 MiB/s      |
-| cache fit, 2xlarge                            | 64 GB, 12,000 IOPS, 300 MiB/s              | 400 GB, 12,000 IOPS, 500 MiB/s      |
+| Scenario | All other providers | RDS |
+| --- | --- | --- |
+| cache exceeding, xlarge | 128 GB, 12,000 IOPS, 149 MiB/s | 400 GB, 12,000 IOPS, 500 MiB/s |
+| cache exceeding, 2xlarge | 256 GB, 12,000 IOPS, 297 MiB/s | 400 GB, 12,000 IOPS, 500 MiB/s |
+| cache fit, 2xlarge | 64 GB, 12,000 IOPS, 300 MiB/s | 400 GB, 12,000 IOPS, 500 MiB/s |
 | cache fit, 4xlarge and 8xlarge, both variants | 128 or 256 GB, IOPS and throughput matched | 400 GB, IOPS and throughput matched |
 
 The published price of each test point reflects what was actually provisioned. Every test point's `result.json` records the exact configuration in its `instance` block.
@@ -152,14 +153,14 @@ We vary clients from 1 times up to 6 times, and on the two largest tiers up to 8
 
 We provide two key metrics:
 
-- `tpm`, average throughput in transactions per minute over the 60-minute measurement run; higher is better.
-- `tpm/$/month`, price-performance. Prices are the publicly stated list prices for on-demand instances per provider. No discounts are considered. One month is calculated as 730 hours.
+* `tpm`, average throughput in transactions per minute over the 60-minute measurement run; higher is better.
+* `tpm/$/month`, price-performance. Prices are the publicly stated list prices for on-demand instances per provider. No discounts are considered. One month is calculated as 730 hours.
 
 The `p95` appears as a supporting metric next to them on the Home and Compare pages. `p95` is the "New Order" transaction latency: 19 of 20 transactions complete at or below this value.
 
 ## Execution {#execution}
 
-**Definitions:** A _test point_ is one combination of tier, scenario, provider and disk configuration, for example `cache-fit-large`. An _environment_ is one freshly provisioned database together with its load generator.
+**Definitions:** A *test point* is one combination of tier, scenario, provider and disk configuration, for example `cache-fit-large`. An *environment* is one freshly provisioned database together with its load generator.
 
 ### Tooling
 
@@ -169,10 +170,10 @@ The `p95` appears as a supporting metric next to them on the Home and Compare pa
 
 Databases are created in the following regions:
 
-| Provider | Region    | Comment                                                                                     |
-| -------- | --------- | ------------------------------------------------------------------------------------------- |
-| AWS      | us-east-1 | AWS "default" region                                                                        |
-| GCP      | us-east1  | Common region in GCP with more available capacity than `us-central1` and identical pricing. |
+| Provider | Region | Comment |
+| --- | --- | --- |
+| AWS | us-east-1 | AWS "default" region |
+| GCP | us-east1 | Common region in GCP with more available capacity than `us-central1` and identical pricing. |
 
 After the initial data load, we run a 30-minute warmup (discarded), and then measure for 60 minutes.
 
@@ -199,15 +200,15 @@ This selection only determines what we present on this website. Each raw result,
 
 To keep the load generator from becoming the bottleneck, we match the target's vCPU count and never allocate fewer than 4 vCPU. Specifically:
 
-| Tier   | AWS Instance Type | GCP Instance Type |
-| ------ | ----------------- | ----------------- |
-| Small  | c8gd.xlarge       | c4a-standard-4    |
-| Medium | c8gd.xlarge       | c4a-standard-4    |
-| Large  | c8gd.xlarge       | c4a-standard-4    |
-| XL     | c8gd.xlarge       | c4a-standard-4    |
-| 2XL    | c8gd.2xlarge      | c4a-standard-8    |
-| 4XL    | c8gd.4xlarge      | c4a-standard-16   |
-| 8XL    | c8gd.8xlarge      | c4a-standard-32   |
+| Tier | AWS Instance Type | GCP Instance Type |
+| --- | --- | --- |
+| Small | c8gd.xlarge | c4a-standard-4 |
+| Medium | c8gd.xlarge | c4a-standard-4 |
+| Large | c8gd.xlarge | c4a-standard-4 |
+| XL | c8gd.xlarge | c4a-standard-4 |
+| 2XL | c8gd.2xlarge | c4a-standard-8 |
+| 4XL | c8gd.4xlarge | c4a-standard-16 |
+| 8XL | c8gd.8xlarge | c4a-standard-32 |
 
 When capacity is unavailable it is permissible to pick a larger instance from the same family (e.g. `c8gd.4xlarge` instead of `c8gd.2xlarge`). Other changes are not permitted.
 
@@ -219,21 +220,21 @@ On AWS and GCP we place the load generator in the same zone and subnet as the da
 
 We want to call out the limitations of this benchmark in one place although you may find this information in various places of this page:
 
-- **Single workload:** We only run a workload derived from TPC-C but support for more workloads is planned.
-- **Throughput-oriented benchmark:** We disable client think time to generate enough load for modern systems with a reasonable number of clients (see Workload Parameters above), which makes this a throughput-oriented benchmark.
-- **Single region per cloud:** AWS results are measured in us-east-1, GCP results in us-east1. We do not test cross-region latency, scenarios with replicas, or any other region.
-- **List price only:** As a lowest common denominator we use each provider's public on-demand list price to calculate price-performance. Depending on your own discounts, the ranking of providers might change.
-- **vCPU:RAM ratio:** We match vCPU count across providers, not RAM (see Benchmark candidates above). Providers offering a 1:8 vCPU:RAM ratio will have an edge.
-- **Load generator placement:** On AWS and GCP the load generator runs in the same zone as the database. On Supabase the zone is not selectable, so it only shares the region. We measure network round-trip latency at the start of each run to gauge the impact.
-- **Median of three runs:** We only publish detailed results for the run with the median tpm score at peak concurrency (see Execution above). The raw published data contain the tpm of every run at every client count. We use this restriction to keep benchmarking effort reasonable (all benchmarks across all currently supported providers result in more than 750 individual benchmarks).
+* **Single workload:** We only run a workload derived from TPC-C but support for more workloads is planned.
+* **Throughput-oriented benchmark:** We disable client think time to generate enough load for modern systems with a reasonable number of clients (see Workload Parameters above), which makes this a throughput-oriented benchmark.
+* **Single region per cloud:** AWS results are measured in us-east-1, GCP results in us-east1. We do not test cross-region latency, scenarios with replicas, or any other region.
+* **List price only:** As a lowest common denominator we use each provider's public on-demand list price to calculate price-performance. Depending on your own discounts, the ranking of providers might change.
+* **vCPU:RAM ratio:** We match vCPU count across providers, not RAM (see Benchmark candidates above). Providers offering a 1:8 vCPU:RAM ratio will have an edge.
+* **Load generator placement:** On AWS and GCP the load generator runs in the same zone as the database. On Supabase the zone is not selectable, so it only shares the region. We measure network round-trip latency at the start of each run to gauge the impact.
+* **Median of three runs:** We only publish detailed results for the run with the median tpm score at peak concurrency (see Execution above). The raw published data contain the tpm of every run at every client count. We use this restriction to keep benchmarking effort reasonable (all benchmarks across all currently supported providers result in more than 750 individual benchmarks).
 
 ## Reproduction {#reproduction}
 
 To reproduce the experiments, you need to meet the following prerequisites:
 
-- An account for the provider that you want to benchmark.
-- The [dbarenactl](https://github.com/dbarena/dbarenactl) and [benchctl](https://github.com/dbarena/benchctl) repositories checked out locally.
-- Both tools set up properly (see their respective README files).
+* An account for the provider that you want to benchmark.
+* The [dbarenactl](https://github.com/dbarena/dbarenactl) and [benchctl](https://github.com/dbarena/benchctl) repositories checked out locally.
+* Both tools set up properly (see their respective README files).
 
 ### Reproducing a single test point
 

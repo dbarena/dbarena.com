@@ -31,7 +31,8 @@ function pageMeta({
   title?: string;
   rootSegment?: boolean;
 }): Metadata {
-  const documentTitle = title && rootSegment ? brandedTitle(title) : title;
+  const documentTitle =
+    title && rootSegment ? brandedTitle(title) : title;
   const socialTitle = documentTitle ?? brandedTitle(DEFAULT_TITLE);
 
   return {
@@ -63,8 +64,7 @@ export function comparePageMeta(
   boundType: BoundType,
   columns: ColumnSpec[],
 ): Metadata {
-  const canonical =
-    columns.length > 0 ? comparisonHref(boundType, columns) : COMPARE_HREF;
+  const canonical = columns.length > 0 ? comparisonHref(boundType, columns) : COMPARE_HREF;
   const labels = columns.map((column) => {
     const tier = TIER_OPTIONS.find((option) => option.id === column.tier);
     return `${providerName(column.provider)} ${tier?.label ?? column.tier}`;
