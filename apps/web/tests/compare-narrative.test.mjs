@@ -111,11 +111,21 @@ test("price tolerance is much tighter than the measurement tolerance", () => {
   assert.ok(NARRATIVE_PRICE_TIE_THRESHOLD < NARRATIVE_TIE_THRESHOLD);
 });
 
-test("the cheapest column that also leads gets the cost on its own sentence", () => {
-  const [text, ...rest] = buildNarrative([sup({ usd: 41.5 }), rds({ usd: 113.26 })], "cache-exceeding");
+test("cost is its own sentence, even when the cheapest column also leads", () => {
+  const [lead, cost, ...rest] = buildNarrative([sup({ usd: 41.5 }), rds({ usd: 113.26 })], "cache-exceeding");
   assert.equal(rest.length, 0);
-  assert.match(text, /^Compared to Amazon RDS, Supabase Postgres leads on /);
-  assert.match(text, /, and costs less per month \(\$41\.50 vs \$113\.26\)\.$/);
+  assert.match(lead, /^Compared to Amazon RDS, Supabase Postgres leads on /);
+  assert.ok(!lead.includes("per month"), "the leader's sentence carries no cost");
+  assert.equal(cost, "Supabase Postgres costs less per month ($41.50 vs $113.26).");
+});
+
+test("cost does not depend on who leads: the faster column can cost more", () => {
+  const paragraphs = buildNarrative(
+    [sup({ value: 40, tpm: 5000, p95: 50, usd: 125 }), rds({ value: 80, tpm: 4000, p95: 50, usd: 50 })],
+    "cache-exceeding",
+  );
+  assert.ok(paragraphs.includes("Amazon RDS costs less per month ($50.00 vs $125.00)."), paragraphs.join(" | "));
+  assert.ok(paragraphs.some((p) => /Supabase Postgres leads on .*throughput/.test(p)), paragraphs.join(" | "));
 });
 
 test("cost never says leads", () => {
@@ -124,11 +134,14 @@ test("cost never says leads", () => {
 });
 
 test("with three columns the cost figure is against the next best", () => {
-  const [text] = buildNarrative(
+  const paragraphs = buildNarrative(
     [sup({ usd: 41.5 }), rds({ usd: 88 }), gcp({ usd: 155.62 })],
     "cache-exceeding",
   );
-  assert.match(text, /costs less per month \(\$41\.50, next best \$88\.00\)\.$/);
+  assert.ok(
+    paragraphs.includes("Supabase Postgres costs less per month ($41.50, next best $88.00)."),
+    paragraphs.join(" | "),
+  );
 });
 
 test("a cheapest column with no performance lead gets its own sentence", () => {
@@ -139,46 +152,6 @@ test("a cheapest column with no performance lead gets its own sentence", () => {
   assert.match(paragraphs[0], /are within 3% of each other on price-performance, throughput and p95 latency at Medium size/);
   assert.equal(paragraphs[1], "Amazon RDS costs less per month ($40.00 vs $90.00).");
   assert.ok(!paragraphs.some((p) => /leads/.test(p)));
-});
-
-test("tradeoff: faster column is not the cheapest one, and the cheaper one leads on price-performance", () => {
-  const paragraphs = buildNarrative(
-    [sup({ value: 40, tpm: 5000, p95: 50, usd: 125 }), rds({ value: 80, tpm: 4000, p95: 50, usd: 50 })],
-    "cache-exceeding",
-  );
-  assert.ok(
-    paragraphs.includes(
-      "Supabase Postgres has the higher throughput, while Amazon RDS costs less per month ($50.00 vs $125.00) and leads on price-performance.",
-    ),
-    paragraphs.join(" | "),
-  );
-  // The cost is said once, in the tradeoff sentence, not again on the leader's.
-  assert.equal(paragraphs.join(" ").match(/costs less per month/g).length, 1);
-});
-
-test("tradeoff: faster column also leads on price-performance despite costing more", () => {
-  const paragraphs = buildNarrative(
-    [sup({ value: 90, tpm: 5000, p95: 50, usd: 60 }), rds({ value: 40, tpm: 4000, p95: 50, usd: 50 })],
-    "cache-exceeding",
-  );
-  assert.ok(
-    paragraphs.includes(
-      "Supabase Postgres has the higher throughput and leads on price-performance, even though Amazon RDS costs less per month ($50.00 vs $60.00).",
-    ),
-    paragraphs.join(" | "),
-  );
-});
-
-test("with three columns the tradeoff says highest", () => {
-  const paragraphs = buildNarrative(
-    [
-      sup({ value: 40, tpm: 5000, p95: 50, usd: 125 }),
-      rds({ value: 80, tpm: 4000, p95: 50, usd: 50 }),
-      gcp({ value: 20, tpm: 3000, p95: 80, usd: 150 }),
-    ],
-    "cache-exceeding",
-  );
-  assert.ok(paragraphs.some((p) => /has the highest throughput, while Amazon RDS costs less per month \(\$50\.00, next best \$125\.00\)/.test(p)), paragraphs.join(" | "));
 });
 
 test("equal prices are priced the same, near prices are within 1%", () => {

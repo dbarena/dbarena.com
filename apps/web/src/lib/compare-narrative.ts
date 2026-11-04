@@ -214,13 +214,6 @@ export function buildNarrative(
   const costLead = costContest?.kind === "lead" ? costContest : null;
   const costLevel = costContest?.kind === "level" ? costContest : null;
 
-  const throughputLead = leads.find((entry) => entry.metric.id === "throughput");
-  const valueLead = leads.find((entry) => entry.metric.id === "value");
-  // The throughput leader is not the cheapest: say so in one sentence rather
-  // than as two unrelated clauses.
-  const tradeoff = Boolean(costLead && throughputLead && throughputLead.winner !== costLead.winner);
-  const costFigures = costLead ? COST_METRIC.figures(costLead.leaderValue, costLead.nextValue, versus) : "";
-
   const paragraphs: string[] = [];
   const everythingLevel =
     leads.length === 0 && levels.length > 0 && levels.every((entry) => entry.scope === "all");
@@ -242,27 +235,17 @@ export function buildNarrative(
     const detail = byWinner
       .get(winner)!
       .map((entry) => `${entry.metric.phrase} (${entry.metric.figures(entry.leaderValue, entry.nextValue, versus)})`);
-    const withCost = costLead && !tradeoff && costLead.winner === winner ? `, and costs less per month (${costFigures})` : "";
     if (position === 0) {
       const others = labels.filter((_, index) => index !== winner);
-      paragraphs.push(`Compared to ${joinAnd(others)}, ${labels[winner]} leads on ${joinAnd(detail)} at ${conditions}${withCost}.`);
+      paragraphs.push(`Compared to ${joinAnd(others)}, ${labels[winner]} leads on ${joinAnd(detail)} at ${conditions}.`);
     } else {
-      paragraphs.push(`${labels[winner]} leads on ${joinAnd(detail)}${withCost}.`);
+      paragraphs.push(`${labels[winner]} leads on ${joinAnd(detail)}.`);
     }
   });
 
-  if (costLead && throughputLead && tradeoff) {
-    const fastest = labels[throughputLead.winner];
-    const cheapest = labels[costLead.winner];
-    const most = columns.length === 2 ? "higher" : "highest";
-    if (valueLead?.winner === costLead.winner) {
-      paragraphs.push(`${fastest} has the ${most} throughput, while ${cheapest} costs less per month (${costFigures}) and leads on price-performance.`);
-    } else if (valueLead?.winner === throughputLead.winner) {
-      paragraphs.push(`${fastest} has the ${most} throughput and leads on price-performance, even though ${cheapest} costs less per month (${costFigures}).`);
-    } else {
-      paragraphs.push(`${fastest} has the ${most} throughput, while ${cheapest} costs less per month (${costFigures}).`);
-    }
-  } else if (costLead && !byWinner.has(costLead.winner)) {
+  // Price is its own sentence, independent of who leads on performance.
+  if (costLead) {
+    const costFigures = COST_METRIC.figures(costLead.leaderValue, costLead.nextValue, versus);
     paragraphs.push(`${labels[costLead.winner]} costs less per month (${costFigures}).`);
   }
 
