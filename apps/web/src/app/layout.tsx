@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -77,6 +78,9 @@ export default function RootLayout({
       <body className="flex min-h-full max-w-full flex-col overflow-x-clip">
         <InteractionMode />
         <SiteJsonLd />
+        {process.env.VERCEL_ENV !== "production" && (
+          <Script src="https://greenroom-tawny-zeta.vercel.app/widget.js" />
+        )}
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
