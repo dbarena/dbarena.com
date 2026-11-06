@@ -27,10 +27,10 @@ Common Parameters
 
 We currently benchmark the following providers:
 
-* **Supabase**
-* **OrioleDB (Beta)**
-* **Amazon RDS**
-* **Google Cloud SQL, Enterprise edition**
+* [**Supabase**](https://supabase.com)
+* [**OrioleDB (Beta)**](https://www.orioledb.com/)
+* [**Amazon RDS**](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html)
+* [**Google Cloud SQL, Enterprise edition**](https://cloud.google.com/sql)
 
 We match hardware as closely as possible and use vCPU as the unit of scale. The vCPU:RAM ratio differs across providers; 1:4 and 1:8 are common. Specifically, we benchmark the combinations below.
 

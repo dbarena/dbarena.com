@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-import { providerName, TIER_OPTIONS, type BoundType } from "@/lib/catalog";
-import { comparisonHref } from "@/lib/comparison-url";
+import { providerName, TIER_OPTIONS } from "@/lib/catalog";
 import { COMPARE_HREF, HOME_HREF, METHODOLOGY_HREF } from "@/lib/site-links";
 
 export const SITE_URL = "https://dbarena.com";
@@ -60,11 +59,9 @@ export function homePageMeta(): Metadata {
   });
 }
 
-export function comparePageMeta(
-  boundType: BoundType,
-  columns: ColumnSpec[],
-): Metadata {
-  const canonical = columns.length > 0 ? comparisonHref(boundType, columns) : COMPARE_HREF;
+/** Every `?bound=…&cols=…` variant canonicalises to bare `/compare`, so the
+    interactive tool is one indexable page rather than one per combination. */
+export function comparePageMeta(columns: ColumnSpec[]): Metadata {
   const labels = columns.map((column) => {
     const tier = TIER_OPTIONS.find((option) => option.id === column.tier);
     return `${providerName(column.provider)} ${tier?.label ?? column.tier}`;
@@ -74,7 +71,7 @@ export function comparePageMeta(
       ? `Compare ${labels.join(", ")} across cost, throughput, and latency.`
       : "Compare Postgres providers side by side across cost, throughput, and latency.";
 
-  return pageMeta({ canonical, description, title: "Compare" });
+  return pageMeta({ canonical: COMPARE_HREF, description, title: "Compare providers" });
 }
 
 export const methodologyPageMeta: Metadata = pageMeta({

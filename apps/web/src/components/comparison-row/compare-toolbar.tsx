@@ -40,7 +40,7 @@ function CompareIdentity({
 }) {
   return (
     <div className={className}>
-      <h1 className="text-[15px] font-medium tracking-tight">Compare</h1>
+      <p aria-hidden="true" className="text-[15px] font-medium tracking-tight">Compare providers</p>
       <p className="truncate text-[13px] text-muted-foreground">
         {summary(columns, synced, boundType)}
       </p>
@@ -80,6 +80,7 @@ export function CompareToolbar({
 
   return (
     <>
+      <h1 className="sr-only">Compare providers</h1>
       <CompareIdentity className="border-b border-border px-page py-3 md:hidden" {...identity} />
       <div
         className={cn(
